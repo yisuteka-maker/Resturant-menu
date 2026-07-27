@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="am">
 <head>
@@ -272,8 +273,8 @@
                 <div onclick="openDetail(${item.id})" class="bg-gray-50 rounded-2xl p-2.5 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between border border-gray-100">
                     <div>
                         <img src="${item.image}" alt="" class="w-full h-28 object-cover rounded-xl mb-2">
-                        <h4 class="font-bold text-xs text-gray-900 truncate">${item.name[currentLang]}</h4>
-                        <div class="text-yellow-500 text-[10px] my-1">★★★★★</div>
+                        <h4 class="font-bold text-xs text-gray-900 line-clamp-1">${item.name[currentLang]}</h4>
+                        <div class="text-yellow-500 text-[10px] my-0.5">★★★★★</div>
                     </div>
                     <div class="flex justify-between items-center mt-2">
                         <span class="text-emerald-900 font-extrabold text-xs">${item.price.toFixed(2)} ETB</span>
@@ -373,15 +374,6 @@
             message += `\n---------------------\n`;
             message += `Table Number / የጠረጴዛ ቁጥር: ${tableNum}\n`;
             message += `${translations[currentLang].totalText} ${total.toFixed(2)} ETB`;
-
-            // Auto-Copy to Clipboard
-            navigator.clipboard.writeText(message).then(() => {
-                alert(currentLang === 'am' 
-                    ? "ትዕዛዝዎ ኮፒ ተደርጓል! ቴሌግራም ሲከፈት በቻቱ ላይ (Paste) በማድረግ መላክ ይችላሉ።" 
-                    : "Order copied! Paste it in Telegram to send.");
-            }).catch(err => {
-                console.error('Failed to copy: ', err);
-            });
 
             const telegramUrl = `https://t.me/${telegramUsername}?text=${encodeURIComponent(message)}`;
             window.open(telegramUrl, '_blank');
