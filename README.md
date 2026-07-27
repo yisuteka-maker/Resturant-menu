@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="am">
 <head>
@@ -9,18 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #f3f4f6; }
+        * { box-sizing: border-box; }
+        body { background-color: #f3f4f6; margin: 0; padding: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="font-sans text-gray-800 flex justify-center items-center min-h-screen p-0 sm:p-4">
+<body class="font-sans text-gray-800 flex justify-center items-center min-h-screen">
 
     <!-- Mobile Full Screen / App Container -->
     <div class="w-full max-w-md bg-white shadow-xl overflow-hidden relative flex flex-col h-screen sm:h-[90vh] sm:rounded-[35px]">
         
         <!-- Header -->
-        <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100 z-10">
+        <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100 z-10 shrink-0">
             <h1 class="text-xl font-bold text-gray-900" id="header-title">Menu</h1>
             <div class="flex items-center gap-2">
                 <!-- Language Switcher Button -->
@@ -59,11 +59,11 @@
         </main>
 
         <!-- Bottom Navigation Bar -->
-        <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6 flex justify-around items-center text-gray-400 z-20">
-            <button class="text-emerald-900 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-utensils text-lg"></i><span id="nav-menu">Menu</span></button>
-            <button class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-heart text-lg"></i><span id="nav-fav">Favorite</span></button>
+        <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6 flex justify-around items-center text-gray-400 z-20 shrink-0">
+            <button onclick="filterMenu('all')" class="text-emerald-900 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-utensils text-lg"></i><span id="nav-menu">Menu</span></button>
+            <button onclick="alert(currentLang === 'am' ? 'ተወዳጅ ምግቦችዎ' : 'Your Favorites')" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-heart text-lg"></i><span id="nav-fav">Favorite</span></button>
             <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-file-lines text-lg"></i><span id="nav-orders">Orders</span></button>
-            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-user text-lg"></i><span id="nav-profile">Profile</span></button>
+            <button onclick="alert(currentLang === 'am' ? 'የተጠቃሚ መለያ' : 'User Profile')" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-user text-lg"></i><span id="nav-profile">Profile</span></button>
         </nav>
     </div>
 
@@ -373,6 +373,15 @@
             message += `\n---------------------\n`;
             message += `Table Number / የጠረጴዛ ቁጥር: ${tableNum}\n`;
             message += `${translations[currentLang].totalText} ${total.toFixed(2)} ETB`;
+
+            // Auto-Copy to Clipboard
+            navigator.clipboard.writeText(message).then(() => {
+                alert(currentLang === 'am' 
+                    ? "ትዕዛዝዎ ኮፒ ተደርጓል! ቴሌግራም ሲከፈት በቻቱ ላይ (Paste) በማድረግ መላክ ይችላሉ።" 
+                    : "Order copied! Paste it in Telegram to send.");
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
 
             const telegramUrl = `https://t.me/${telegramUsername}?text=${encodeURIComponent(message)}`;
             window.open(telegramUrl, '_blank');
