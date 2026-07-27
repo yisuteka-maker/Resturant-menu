@@ -1,17 +1,16 @@
 
+<!DOCTYPE html>
 <html lang="am">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title> (Fikir Restaurant)</title>
+    <title>ፍቅር レストラン (Fikir Restaurant)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { background-color: #f3f4f6; }
-        /* Hide scrollbar for Chrome, Safari and Opera */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        /* Hide scrollbar for IE, Edge and Firefox */
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
@@ -21,7 +20,7 @@
     <div class="w-full max-w-md bg-white shadow-xl overflow-hidden relative flex flex-col h-screen sm:h-[90vh] sm:rounded-[35px]">
         
         <!-- Header -->
-        <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100 sticky top-z-10">
+        <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100 z-10">
             <h1 class="text-xl font-bold text-gray-900" id="header-title">Menu</h1>
             <div class="flex items-center gap-2">
                 <!-- Language Switcher Button -->
@@ -37,7 +36,7 @@
         </header>
 
         <!-- Main Scrollable Area -->
-        <main class="flex-grow overflow-y-auto p-4 space-y-4 pb-20">
+        <main class="flex-grow overflow-y-auto p-4 space-y-4 pb-24">
             <!-- Search Bar -->
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-400"></i>
@@ -64,7 +63,7 @@
             <button class="text-emerald-900 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-utensils text-lg"></i><span id="nav-menu">Menu</span></button>
             <button class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-heart text-lg"></i><span id="nav-fav">Favorite</span></button>
             <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-file-lines text-lg"></i><span id="nav-orders">Orders</span></button>
-            <button class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-user text-lg"></i><span id="nav-profile">Profile</span></button>
+            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-user text-lg"></i><span id="nav-profile">Profile</span></button>
         </nav>
     </div>
 
@@ -97,11 +96,11 @@
         </div>
     </div>
 
-    <!-- Shopping Cart Sidebar -->
-    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl p-5 transform translate-x-full transition-transform duration-300 z-50 flex flex-col border-l border-gray-200">
+    <!-- Shopping Cart & Orders Sidebar -->
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full sm:w-80 bg-white shadow-2xl p-5 transform translate-x-full transition-transform duration-300 z-50 flex flex-col border-l border-gray-200">
         <div class="flex justify-between items-center mb-4 border-b pb-3">
             <h3 class="text-lg font-bold text-gray-900" id="cart-sidebar-title">Your Cart</h3>
-            <button onclick="toggleCart()" class="text-gray-400 hover:text-black font-bold text-lg">✕</button>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-black font-bold text-xl px-2">✕</button>
         </div>
 
         <!-- Table Number Input -->
@@ -127,7 +126,7 @@
 
     <!-- JavaScript Logic -->
     <script>
-        let currentLang = 'am'; // ነባሪ አማርኛ
+        let currentLang = 'am';
 
         const translations = {
             en: {
