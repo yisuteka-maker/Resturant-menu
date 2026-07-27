@@ -128,7 +128,6 @@
     <script>
         let currentLang = 'am';
         
-        // Telegram Bot Credentials (Configured with your Chat ID)
         const BOT_TOKEN = "8752629354:AAHcNjUDff1NTP-_3RNUPqWAX1eFatfznKuU";
         const CHAT_ID = "8181485452"; 
 
@@ -319,7 +318,6 @@
             message += `---------------------\n`;
             message += `💰 አጠቃላይ ዋጋ / Total: ${total.toFixed(2)} ETB`;
 
-            // Send via Telegram Bot API
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
             
             try {
@@ -339,10 +337,12 @@
                     updateCartUI();
                     toggleCart();
                 } else {
-                    alert("ትዕዛዙን መላክ አልተቻለም።");
+                    throw new Error("API Error");
                 }
             } catch (error) {
-                alert("የኔትወርክ ስህተት አጋጥሟል።");
+                // Fallback: If network fails or fetch is blocked, open Telegram share/chat directly with prefilled message
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://t.me/share/url?url=${encodedMessage}`, '_blank');
             }
         }
 
