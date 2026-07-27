@@ -137,6 +137,7 @@
                 navOrders: "Orders",
                 navProfile: "Profile",
                 addToCart: "Add to cart",
+                orderBtnLabel: "Order",
                 cartTitle: "Your Cart",
                 tableLabel: "Table Number:",
                 totalText: "Total:",
@@ -152,6 +153,7 @@
                 navOrders: "ትዕዛዞች",
                 navProfile: "መለያ",
                 addToCart: "ወደ ጋሪ ጨምር",
+                orderBtnLabel: "አዝዝ",
                 cartTitle: "የመረጧቸው እቃዎች",
                 tableLabel: "የጠረጴዛ ቁጥር (Table Number):",
                 totalText: "አጠቃላይ ዋጋ:",
@@ -273,12 +275,11 @@
                     <div>
                         <img src="${item.image}" alt="" class="w-full h-28 object-cover rounded-xl mb-2">
                         <h4 class="font-bold text-xs text-gray-900 line-clamp-1">${item.name[currentLang]}</h4>
-                        <div class="text-yellow-500 text-[10px] my-0.5">★★★★★</div>
+                        <div class="text-emerald-900 font-extrabold text-xs my-1">${item.price.toFixed(2)} ETB</div>
                     </div>
-                    <div class="flex justify-between items-center mt-2">
-                        <span class="text-emerald-900 font-extrabold text-xs">${item.price.toFixed(2)} ETB</span>
-                        <button onclick="event.stopPropagation(); addToCart(${item.id})" class="w-6 h-6 bg-emerald-900 text-white rounded-full flex items-center justify-center text-[10px] shadow hover:bg-emerald-800"><i class="fa-solid fa-plus"></i></button>
-                    </div>
+                    <button onclick="event.stopPropagation(); addToCart(${item.id})" class="w-full bg-[#114b3e] text-white py-1.5 rounded-xl font-bold text-[11px] shadow hover:bg-emerald-950 transition mt-2">
+                        ${translations[currentLang].orderBtnLabel}
+                    </button>
                 </div>
             `).join('');
         }
