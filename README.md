@@ -3,197 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> (Fikir Restaurant) - Menu</title>
+    <title> (Fikir Restaurant)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #f4f7f6; }
+        body { background-color: #e6f0ee; }
     </style>
 </head>
-<body class="font-sans text-gray-800">
+<body class="font-sans text-gray-800 flex justify-center items-center min-h-screen p-2 md:p-6">
 
-    <!-- Header / Navigation (Dark Green Theme) -->
-    <header class="bg-emerald-900 text-white p-4 shadow-md sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 id="site-title" class="text-xl md:text-2xl font-bold">
-                <i class="fa-solid fa-heart text-red-400"></i> ፍቅር レストラン (Fikir Restaurant)
-            </h1>
-            <div class="flex items-center gap-4">
+    <!-- Phone Frame Container -->
+    <div class="w-full max-w-md bg-white rounded-[40px] shadow-2xl overflow-hidden border-8 border-gray-900 relative flex flex-col h-[90vh]">
+        
+        <!-- Header -->
+        <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100">
+            <h1 class="text-2xl font-bold text-gray-900" id="header-title">Menu</h1>
+            <div class="flex items-center gap-3">
                 <!-- Language Switcher Button -->
-                <button onclick="toggleLanguage()" class="bg-emerald-800 text-white px-3 py-1.5 rounded-lg text-sm font-semibold border border-emerald-700 hover:bg-emerald-700 transition">
-                    🌐 <span id="lang-btn-text">English</span>
+                <button onclick="toggleLanguage()" class="bg-emerald-800 text-white px-3 py-1 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition">
+                    🌐 <span id="lang-btn-text">አማርኛ</span>
                 </button>
                 <!-- Cart Button -->
-                <button onclick="toggleCart()" class="bg-white text-emerald-900 px-4 py-2 rounded-lg font-semibold shadow hover:bg-gray-100 transition">
-                    🛒 <span id="cart-text">ጋሪ</span> (<span id="cart-count">0</span>)
+                <button onclick="toggleCart()" class="bg-emerald-800 text-white p-2.5 rounded-full shadow hover:bg-emerald-700 transition relative">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <main class="flex-grow overflow-y-auto p-4 space-y-4">
+            <!-- Search Bar -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-400"></i>
+                <input type="text" id="search-input" oninput="searchMenu()" placeholder="Search..." class="w-full bg-gray-100 pl-10 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+            </div>
+
+            <!-- Categories -->
+            <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                <button onclick="filterMenu('all')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-900 text-white whitespace-nowrap shadow" data-am="ሁሉም" data-en="All">All</button>
+                <button onclick="filterMenu('breakfast')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="ቁርስ" data-en="Breakfast">Breakfast</button>
+                <button onclick="filterMenu('lunch')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="ምሳ" data-en="Lunch">Lunch</button>
+                <button onclick="filterMenu('treats')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="መክሰስ" data-en="Treats">Treats</button>
+                <button onclick="filterMenu('drink')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="መጠጥ" data-en="Drinks">Drinks</button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-container" class="grid grid-cols-2 gap-4">
+                <!-- JS በኩል ይሞላል -->
+            </div>
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bg-white border-t border-gray-200 py-3 px-6 flex justify-around items-center text-gray-400">
+            <button class="text-emerald-900 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-utensils text-lg"></i><span id="nav-menu">Menu</span></button>
+            <button class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-heart text-lg"></i><span id="nav-fav">Favorite</span></button>
+            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-file-lines text-lg"></i><span id="nav-orders">Orders</span></button>
+            <button class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-user text-lg"></i><span id="nav-profile">Profile</span></button>
+        </nav>
+    </div>
+
+    <!-- Food Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50 p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 relative shadow-2xl flex flex-col max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-3">
+                <button onclick="closeModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-bold"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="w-8 h-8 bg-emerald-50 text-emerald-900 rounded-full flex items-center justify-center"><i class="fa-solid fa-bag-shopping"></i></button>
+            </div>
+            <img id="modal-img" src="" alt="" class="w-full h-48 object-cover rounded-2xl mb-4 shadow-md">
+            
+            <div class="flex justify-between items-start mb-2">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-900"></h3>
+                <div class="text-emerald-800 font-bold text-lg" id="modal-price"></div>
+            </div>
+
+            <div class="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                <span><i class="fa-regular fa-clock text-emerald-800"></i> <span id="modal-time">20 min</span></span>
+                <span id="modal-stars" class="text-yellow-500">★★★★★</span>
+            </div>
+
+            <p id="modal-desc" class="text-xs text-gray-600 leading-relaxed mb-4 bg-gray-50 p-3 rounded-xl"></p>
+
+            <div class="mt-auto pt-2">
+                <button id="modal-add-btn" class="w-full bg-[#114b3e] text-white py-3 rounded-xl font-bold hover:bg-emerald-950 transition shadow-lg text-sm">
+                    Add to cart
                 </button>
             </div>
         </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto p-4 md:p-8">
-        <div class="text-center mb-8">
-            <h2 id="main-heading" class="text-3xl font-bold text-emerald-900">እንኳን ወደ ፍቅር ምግብ ቤት በደህና መጡ!</h2>
-            <p id="main-subheading" class="text-gray-600 mt-2">ጤናማ እና ጣፋጭ ምግቦችና መጠጦች</p>
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 bg-white shadow-2xl p-5 transform translate-x-full transition-transform duration-300 z-50 flex flex-col border-l border-gray-200">
+        <div class="flex justify-between items-center mb-4 border-b pb-3">
+            <h3 class="text-lg font-bold text-gray-900" id="cart-sidebar-title">Your Cart</h3>
+            <button onclick="toggleCart()" class="text-gray-400 hover:text-black font-bold text-lg">✕</button>
         </div>
 
-        <!-- Category Filter Buttons (Habesha, Ferenj, Hot, Cold) -->
-        <div class="flex flex-wrap justify-center gap-3 mb-8">
-            <button onclick="filterMenu('all')" class="category-btn bg-emerald-900 text-white px-5 py-2 rounded-full font-semibold shadow transition" data-am="ሁሉንም" data-en="All">ሁሉንም</button>
-            <button onclick="filterMenu('habesha')" class="category-btn bg-white text-emerald-900 border border-emerald-900 px-5 py-2 rounded-full font-semibold shadow hover:bg-emerald-50 transition" data-am="ሀባሻ (Habesha)" data-en="Habesha">ሀባሻ (Habesha)</button>
-            <button onclick="filterMenu('ferenj')" class="category-btn bg-white text-emerald-900 border border-emerald-900 px-5 py-2 rounded-full font-semibold shadow hover:bg-emerald-50 transition" data-am="ፈረንጅ (Ferenj)" data-en="Ferenj">ፈረንጅ (Ferenj)</button>
-            <button onclick="filterMenu('hot')" class="category-btn bg-white text-emerald-900 border border-emerald-900 px-5 py-2 rounded-full font-semibold shadow hover:bg-emerald-50 transition" data-am="ሙቅ (Hot)" data-en="Hot">ሙቅ (Hot)</button>
-            <button onclick="filterMenu('cold')" class="category-btn bg-white text-emerald-900 border border-emerald-900 px-5 py-2 rounded-full font-semibold shadow hover:bg-emerald-50 transition" data-am="ቀዝቃዛ (Cold)" data-en="Cold">ቀዝቃዛ (Cold)</button>
+        <!-- Table Number Input -->
+        <div class="mb-3">
+            <label class="block text-xs font-semibold text-gray-600 mb-1" id="table-label">የጠረጴዛ ቁጥር (Table Number):</label>
+            <input type="number" id="table-number" placeholder="ምሳሌ: 4" class="w-full bg-gray-100 border border-gray-200 px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
         </div>
 
-        <!-- Menu Grid -->
-        <div id="menu-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- የምግብ ካርዶች በ JavaScript ይሞላሉ -->
+        <div id="cart-items" class="flex-grow overflow-y-auto space-y-3 pr-1">
+            <!-- እቃዎች እዚህ ይገባሉ -->
         </div>
-    </main>
 
-    <!-- Food Detail Modal -->
-    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50 p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative shadow-2xl border-t-4 border-emerald-900">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-black text-xl font-bold">✕</button>
-            <img id="modal-img" src="" alt="" class="w-full h-56 object-cover rounded-xl mb-4">
-            <h3 id="modal-title" class="text-2xl font-bold text-gray-800 mb-2"></h3>
-            <div id="modal-stars" class="text-yellow-500 mb-2"></div>
-            <p id="modal-price" class="text-emerald-900 font-bold text-xl mb-4"></p>
-            
-            <div class="bg-emerald-50 p-4 rounded-xl mb-4 space-y-2 border border-emerald-100">
-                <p><strong><i class="fa-solid fa-list-check text-emerald-900"></i> <span class="ing-label">ግብዓቶች</span>:</strong> <span id="modal-ingredients" class="text-gray-700"></span></p>
-                <p><strong><i class="fa-solid fa-shield-heart text-green-700"></i> <span class="health-label">ለጤና ያለው ጥቅም</span>:</strong> <span id="modal-health" class="text-gray-700"></span></p>
-                <p><strong><i class="fa-solid fa-eye text-blue-600"></i> <span class="views-label">የታየበት ብዛት</span>:</strong> <span id="modal-views" class="text-gray-700"></span></p>
+        <div class="border-t pt-4 mt-2">
+            <div class="flex justify-between font-bold text-base mb-4">
+                <span id="total-text">Total:</span>
+                <span id="total-price" class="text-emerald-900">0.00$</span>
             </div>
-
-            <button id="modal-add-btn" class="w-full bg-emerald-900 text-white py-3 rounded-xl font-bold hover:bg-emerald-800 transition">
-                ወደ ጋሪ ጨምር
+            <button onclick="checkout()" class="w-full bg-[#114b3e] text-white py-3 rounded-xl font-bold hover:bg-emerald-950 shadow transition text-sm">
+                <span id="order-btn-text">Send Order via Email</span>
             </button>
         </div>
     </div>
 
-    <!-- Shopping Cart Sidebar (Dark Green Accents) -->
-    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-80 md:w-96 bg-white shadow-2xl p-6 transform translate-x-full transition-transform duration-300 z-50 flex flex-col border-l border-gray-200">
-        <div class="flex justify-between items-center mb-4 border-b pb-2">
-            <h3 id="cart-title" class="text-xl font-bold text-emerald-900">የመረጧቸው ትዕዛዞች</h3>
-            <button onclick="toggleCart()" class="text-gray-500 hover:text-black text-xl font-bold">✕</button>
-        </div>
-
-        <div id="cart-items" class="flex-grow overflow-y-auto space-y-4">
-            <!-- የተመረጡ ምግቦች እዚህ ይገባሉ -->
-        </div>
-        <div class="border-t pt-4 mt-4">
-            <div class="flex justify-between font-bold text-lg mb-4">
-                <span id="total-text">አጠቃላይ ዋጋ:</span>
-                <span id="total-price" class="text-emerald-900">0 ብር</span>
-            </div>
-            <!-- አሁን አዝዝ (Start Order) - በቀጥታ ወደ ጂሜይል ይልካል -->
-            <button onclick="checkout()" class="w-full bg-emerald-900 text-white py-3 rounded-lg font-bold hover:bg-emerald-800 shadow transition">
-                <span id="order-btn-text">አሁን አዝዝ (Start Order)</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- JavaScript ሎጂክ (ቋንቋ እና ሲስተም) -->
+    <!-- JavaScript Logic -->
     <script>
-        let currentLang = 'am'; // ነባሪ ቋንቋ አማርኛ
+        let currentLang = 'am'; // ነባሪ አማርኛ
 
         const translations = {
-            am: {
-                title: "ፍቅር レストラン (Fikir Restaurant)",
-                welcome: "እንኳን ወደ ፍቅር ምግብ ቤት በደህና መጡ!",
-                sub: "ጤናማ እና ጣፋጭ ምግቦችና መጠጦች",
-                cart: "ጋሪ",
-                cartTitle: "የመረጧቸው ትዕዛዞች",
-                total: "አጠቃላይ ዋጋ:",
-                orderBtn: "አሁን አዝዝ (Start Order)",
-                details: "ዝርዝር ማየት",
-                add: "አዝዝ",
-                addToCart: "ወደ ጋሪ ጨምር",
-                emptyCart: "ጋሪዎ ባዶ ነው",
-                ingredients: "ግብዓቶች",
-                health: "ለጤና ያለው ጥቅም",
-                views: "የታየበት ብዛት",
-                times: "ጊዜ",
-                birr: "ብር"
-            },
             en: {
-                title: "Fikir Restaurant",
-                welcome: "Welcome to Fikir Restaurant!",
-                sub: "Healthy and Delicious Foods & Drinks",
-                cart: "Cart",
-                cartTitle: "Your Ordered Items",
-                total: "Total Price:",
-                orderBtn: "Start Order",
-                details: "View Details",
-                add: "Order",
-                addToCart: "Add to Cart",
+                headerTitle: "Menu",
+                searchPlaceholder: "Search...",
+                navMenu: "Menu",
+                navFav: "Favorite",
+                navOrders: "Orders",
+                navProfile: "Profile",
+                addToCart: "Add to cart",
+                cartTitle: "Your Cart",
+                tableLabel: "Table Number:",
+                totalText: "Total:",
+                orderBtn: "Send Order via Email",
                 emptyCart: "Your cart is empty",
-                ingredients: "Ingredients",
-                health: "Health Benefits",
-                views: "Views",
-                times: "times",
-                birr: "ETB"
+                categories: { all: "All", breakfast: "Breakfast", lunch: "Lunch", treats: "Treats", drink: "Drinks" }
+            },
+            am: {
+                headerTitle: "ምግብ ዝርዝር",
+                searchPlaceholder: "ይፈልጉ...",
+                navMenu: "ሜኑ",
+                navFav: "ተወዳጅ",
+                navOrders: "ትዕዛዞች",
+                navProfile: "መለያ",
+                addToCart: "ወደ ጋሪ ጨምር",
+                cartTitle: "የመረጧቸው እቃዎች",
+                tableLabel: "የጠረጴዛ ቁጥር (Table Number):",
+                totalText: "አጠቃላይ ዋጋ:",
+                orderBtn: "ትዕዛዝ በኢሜይል ላክ",
+                emptyCart: "ጋሪዎ ባዶ ነው",
+                categories: { all: "ሁሉም", breakfast: "ቁርስ", lunch: "ምሳ", treats: "መክሰስ", drink: "መጠጥ" }
             }
         };
 
         const menuItems = [
             { 
                 id: 1, 
-                name: { am: "ዶሮ ወጥ", en: "Doro Wat" }, 
-                category: "habesha", 
-                price: 450, 
+                name: { am: "ፓር & ኦሬንጅ", en: "Pear & Orange" }, 
+                category: "breakfast", 
+                price: 25.00, 
                 rating: 5, 
-                views: 342, 
-                ingredients: { am: "ዶሮ፣ ቀይ ሽንኩርት፣ በርበሬ፣ ንጹህ ቅቤ፣ እንቁላል", en: "Chicken, red onion, berbere, purified butter, egg" }, 
-                health: { am: "ለሰውነት ከፍተኛ ፕሮቲን ይሰጣል፤ ጉልበትን ያጠናክራል።", en: "Provides high protein and boosts energy." },
+                time: "20 min",
+                desc: { 
+                    am: "በጣፋጭ ሾርባዎች፣ ቸኮሌት እና ፍራፍሬዎች የተዘጋጀ ጣፋጭ የቁርስ ፓንኬክ።", 
+                    en: "As a rule, pancakes are served for breakfast with various sweet sauces, chocolate, berries, maple syrup." 
+                },
                 image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500" 
             },
             { 
                 id: 2, 
-                name: { am: "ክትፎ", en: "Kitfo" }, 
-                category: "habesha", 
-                price: 500, 
-                rating: 4.8, 
-                views: 512, 
-                ingredients: { am: "ጥሬ ስጋ (የተቀጠቀጠ)፣ ሚጥሚጣ፣ ንጹህ ቅቤ", en: "Minced raw beef, mitmita, spiced butter" }, 
-                health: { am: "ብረት (Iron) በውስጡ ስለያዘ ለደም ማነስ ጠቃሚ ነው።", en: "Rich in iron, helpful for blood health." },
+                name: { am: "ስጋ &  मशरूम", en: "Meat & Mashrooms" }, 
+                category: "lunch", 
+                price: 37.00, 
+                rating: 5, 
+                time: "30 min",
+                desc: { 
+                    am: "በልዩ ቅመማ ቅመሞች የተዘጋጀ የስጋ እና የማሽሩም ምግብ።", 
+                    en: "Delicious meat served with fresh mushrooms and special sauces." 
+                },
                 image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" 
             },
             { 
                 id: 3, 
-                name: { am: "ፒዛ (Pizza)", en: "Classic Pizza" }, 
-                category: "ferenj", 
-                price: 600, 
-                rating: 4.9, 
-                views: 410, 
-                ingredients: { am: "ዱቄት፣ ቺዝ፣ トマト ሾርባ፣ ስጋ ወይም አትክልት", en: "Flour, cheese, tomato sauce, meat or vegetables" }, 
-                health: { am: "ፈጣን ጉልበት ይሰጣል፣ በካልሲየም የበለፀገ ነው።", en: "Provides quick energy, rich in calcium." },
-                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" 
+                name: { am: "እንቁላል & ዳቦ", en: "Egg & Bread" }, 
+                category: "breakfast", 
+                price: 25.00, 
+                rating: 5, 
+                time: "10 min",
+                desc: { 
+                    am: "ትኩስ ዳቦ እና የተጠበሰ እንቁላል ለቀለል ያለ ቁርስ።", 
+                    en: "Fresh toasted bread served with fried egg and light butter." 
+                },
+                image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500" 
             },
             { 
                 id: 4, 
-                name: { am: "ሙቅ ሻይ (Hot Tea)", en: "Hot Tea" }, 
-                category: "hot", 
-                price: 30, 
-                rating: 4.7, 
-                views: 220, 
-                ingredients: { am: "ጥቁር ሻይ ቅጠል፣ ሩዝ ወይም ከርፋና ውሃ", en: "Black tea leaves, spices, hot water" }, 
-                health: { am: "አዕምሮን ያዝናናል፣ ሰውነትን ያሞቃል።", en: "Relaxes the mind, warms up the body." },
-                image: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500" 
+                name: { am: "ስዊት ፓንኬክ", en: "Sweet pancake" }, 
+                category: "treats", 
+                price: 13.00, 
+                rating: 5, 
+                time: "10 min",
+                desc: { 
+                    am: "በማር እና ለውዝ የተזገጀ ጣፋጭ ፓንኬክ።", 
+                    en: "Sweet pancake topped with honey and crushed nuts." 
+                },
+                image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500" 
             },
             { 
                 id: 5, 
-                name: { am: "ቀዝቃዛ ፍሩት ጁስ", en: "Cold Fruit Juice" }, 
-                category: "cold", 
-                price: 150, 
-                rating: 4.9, 
-                views: 280, 
-                ingredients: { am: "አቮካዶ፣ ማንጎ፣ ፓፓያ እና በረዶ", en: "Avocado, mango, papaya and ice" }, 
-                health: { am: "በተፈጥሮ ቫይታሚኖች የበለፀገ በመሆኑ ቆዳን ያጸዳል።", en: "Rich in natural vitamins, clears the skin." },
+                name: { am: "ቀዝቃዛ ጁስ", en: "Cold Juice" }, 
+                category: "drink", 
+                price: 15.00, 
+                rating: 5, 
+                time: "5 min",
+                desc: { 
+                    am: "ከተፈጥሮ ፍራፍሬዎች የተصرፈ ቀዝቃዛ እና ጣፋጭ ጁስ።", 
+                    en: "Freshly squeezed cold fruit juice." 
+                },
                 image: "https://images.unsplash.com/photo-1556881286-fc6915169721?w=500" 
             }
         ];
@@ -201,70 +229,66 @@
         let cart = [];
         let currentFilter = 'all';
 
-        // ቋንቋ መቀየሪያ ተግባር
         function toggleLanguage() {
             currentLang = currentLang === 'am' ? 'en' : 'am';
             document.getElementById('lang-btn-text').innerText = currentLang === 'am' ? 'English' : 'አማርኛ';
             
-            document.getElementById('main-heading').innerText = translations[currentLang].welcome;
-            document.getElementById('main-subheading').innerText = translations[currentLang].sub;
-            document.getElementById('cart-text').innerText = translations[currentLang].cart;
-            document.getElementById('cart-title').innerText = translations[currentLang].cartTitle;
-            document.getElementById('total-text').innerText = translations[currentLang].total;
+            document.getElementById('header-title').innerText = translations[currentLang].headerTitle;
+            document.getElementById('search-input').placeholder = translations[currentLang].searchPlaceholder;
+            document.getElementById('nav-menu').innerText = translations[currentLang].navMenu;
+            document.getElementById('nav-fav').innerText = translations[currentLang].navFav;
+            document.getElementById('nav-orders').innerText = translations[currentLang].navOrders;
+            document.getElementById('nav-profile').innerText = translations[currentLang].navProfile;
+            document.getElementById('cart-sidebar-title').innerText = translations[currentLang].cartTitle;
+            document.getElementById('table-label').innerText = translations[currentLang].tableLabel;
+            document.getElementById('total-text').innerText = translations[currentLang].totalText;
             document.getElementById('order-btn-text').innerText = translations[currentLang].orderBtn;
-            
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.innerText = btn.getAttribute(`data-${currentLang}`);
+            document.getElementById('modal-add-btn').innerText = translations[currentLang].addToCart;
+
+            // Categories update
+            const catButtons = document.querySelectorAll('.cat-btn');
+            catButtons.forEach(btn => {
+                const catKey = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+                btn.innerText = translations[currentLang].categories[catKey];
             });
 
             filterMenu(currentFilter);
             updateCartUI();
         }
 
-        function renderStars(rating) {
-            let starsHTML = "";
-            for (let i = 1; i <= 5; i++) {
-                if (i <= Math.floor(rating)) {
-                    starsHTML += '<i class="fa-solid fa-star"></i>';
-                } else {
-                    starsHTML += '<i class="fa-regular fa-star"></i>';
-                }
-            }
-            return `${starsHTML} <span class="text-sm text-gray-600 ml-1">(${rating})</span>`;
-        }
-
         function filterMenu(category) {
             currentFilter = category;
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('bg-emerald-900', 'text-white');
-                btn.classList.add('bg-white', 'text-emerald-900', 'border', 'border-emerald-900');
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-900', 'text-white', 'shadow');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
             });
-            event && event.target && event.target.classList.remove('bg-white', 'text-emerald-900');
-            event && event.target && event.target.classList.add('bg-emerald-900', 'text-white');
+            event && event.target.classList.remove('bg-gray-100', 'text-gray-600');
+            event && event.target.classList.add('bg-emerald-900', 'text-white', 'shadow');
 
             const filtered = category === 'all' ? menuItems : menuItems.filter(item => item.category === category);
+            renderGrid(filtered);
+        }
+
+        function searchMenu() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            const filtered = menuItems.filter(item => 
+                item.name.en.toLowerCase().includes(query) || item.name.am.toLowerCase().includes(query)
+            );
+            renderGrid(filtered);
+        }
+
+        function renderGrid(items) {
             const container = document.getElementById('menu-container');
-            
-            container.innerHTML = filtered.map(item => `
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition flex flex-col justify-between border border-gray-100">
+            container.innerHTML = items.map(item => `
+                <div onclick="openDetail(${item.id})" class="bg-gray-50 rounded-2xl p-3 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between border border-gray-100">
                     <div>
-                        <img src="${item.image}" alt="${item.name[currentLang]}" class="w-full h-48 object-cover cursor-pointer" onclick="openDetail(${item.id})">
-                        <div class="p-4">
-                            <div class="flex justify-between items-start mb-1">
-                                <h3 onclick="openDetail(${item.id})" class="text-xl font-semibold text-gray-800 cursor-pointer hover:text-emerald-900">${item.name[currentLang]}</h3>
-                                <span class="text-xs bg-emerald-50 text-emerald-800 px-2 py-1 rounded border border-emerald-200"><i class="fa-solid fa-eye"></i> ${item.views}</span>
-                            </div>
-                            <div class="mb-2">${renderStars(item.rating)}</div>
-                            <p class="text-emerald-900 font-bold text-lg">${item.price} ${translations[currentLang].birr}</p>
-                        </div>
+                        <img src="${item.image}" alt="" class="w-full h-28 object-cover rounded-xl mb-2">
+                        <h4 class="font-bold text-sm text-gray-900 truncate">${item.name[currentLang]}</h4>
+                        <div class="text-yellow-500 text-[10px] my-1">★★★★★</div>
                     </div>
-                    <div class="p-4 pt-0 flex gap-2">
-                        <button onclick="openDetail(${item.id})" class="w-1/2 bg-gray-100 text-gray-700 py-2 rounded-lg font-semibold hover:bg-gray-200 transition text-sm">
-                            ${translations[currentLang].details}
-                        </button>
-                        <button onclick="addToCart(${item.id})" class="w-1/2 bg-emerald-900 text-white py-2 rounded-lg font-semibold hover:bg-emerald-800 transition text-sm">
-                            ${translations[currentLang].add}
-                        </button>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-emerald-900 font-extrabold text-sm">${item.price.toFixed(2)}$</span>
+                        <button onclick="event.stopPropagation(); addToCart(${item.id})" class="w-7 h-7 bg-emerald-900 text-white rounded-full flex items-center justify-center text-xs shadow hover:bg-emerald-800"><i class="fa-solid fa-plus"></i></button>
                     </div>
                 </div>
             `).join('');
@@ -272,21 +296,12 @@
 
         function openDetail(id) {
             const item = menuItems.find(p => p.id === id);
-            item.views += 1;
-
             document.getElementById('modal-img').src = item.image;
             document.getElementById('modal-title').innerText = item.name[currentLang];
-            document.getElementById('modal-stars').innerHTML = renderStars(item.rating);
-            document.getElementById('modal-price').innerText = item.price + " " + translations[currentLang].birr;
-            document.getElementById('modal-ingredients').innerText = item.ingredients[currentLang];
-            document.getElementById('modal-health').innerText = item.health[currentLang];
-            document.getElementById('modal-views').innerText = item.views + " " + translations[currentLang].times;
+            document.getElementById('modal-price').innerText = item.price.toFixed(2) + "$";
+            document.getElementById('modal-time').innerText = item.time;
+            document.getElementById('modal-desc').innerText = item.desc[currentLang];
             
-            document.querySelector('.ing-label').innerText = currentLang === 'am' ? 'ግብዓቶች' : 'Ingredients';
-            document.querySelector('.health-label').innerText = currentLang === 'am' ? 'ለጤና ያለው ጥቅም' : 'Health Benefits';
-            document.querySelector('.views-label').innerText = currentLang === 'am' ? 'የታየበት ብዛት' : 'Total Views';
-            document.getElementById('modal-add-btn').innerText = translations[currentLang].addToCart;
-
             document.getElementById('modal-add-btn').onclick = function() {
                 addToCart(item.id);
                 closeModal();
@@ -294,7 +309,6 @@
 
             document.getElementById('detail-modal').classList.remove('hidden');
             document.getElementById('detail-modal').classList.add('flex');
-            filterMenu(currentFilter);
         }
 
         function closeModal() {
@@ -314,8 +328,8 @@
             const container = document.getElementById('cart-items');
             
             if (cart.length === 0) {
-                container.innerHTML = `<p class='text-gray-500 text-center py-8'>${translations[currentLang].emptyCart}</p>`;
-                document.getElementById('total-price').innerText = "0 " + translations[currentLang].birr;
+                container.innerHTML = `<p class='text-gray-400 text-center py-8 text-xs'>${translations[currentLang].emptyCart}</p>`;
+                document.getElementById('total-price').innerText = "0.00$";
                 return;
             }
 
@@ -323,17 +337,17 @@
             container.innerHTML = cart.map((item, index) => {
                 total += item.price;
                 return `
-                    <div class="flex justify-between items-center border-b pb-2">
+                    <div class="flex justify-between items-center bg-gray-50 p-2.5 rounded-xl border border-gray-100">
                         <div>
-                            <h4 class="font-semibold text-sm">${item.name[currentLang]}</h4>
-                            <p class="text-xs text-emerald-900 font-bold">${item.price} ${translations[currentLang].birr}</p>
+                            <h5 class="font-semibold text-xs text-gray-900">${item.name[currentLang]}</h5>
+                            <p class="text-[11px] text-emerald-900 font-bold">${item.price.toFixed(2)}$</p>
                         </div>
-                        <button onclick="removeFromCart(${index})" class="text-red-500 text-xs font-bold hover:underline">✕</button>
+                        <button onclick="removeFromCart(${index})" class="text-red-400 text-xs font-bold px-2 py-1 hover:text-red-600">✕</button>
                     </div>
                 `;
             }).join('');
 
-            document.getElementById('total-price').innerText = total + " " + translations[currentLang].birr;
+            document.getElementById('total-price').innerText = total.toFixed(2) + "$";
         }
 
         function removeFromCart(index) {
@@ -346,28 +360,35 @@
             sidebar.classList.toggle('translate-x-full');
         }
 
-        // ትዕዛዙን በቀጥታ ወደ ጂሜይል (yisuteka@gmail.com) መላኪያ ሎጂክ
+        // ትዕዛዙን በቀጥታ ወደ yisuteka@gmail.com መላኪያ ሎጂክ
         function checkout() {
             if (cart.length === 0) {
-                alert(currentLang === 'am' ? "እባክዎ መጀመሪያ ምግብ ወይም መጠጥ ይምረጡ!" : "Please select food or drinks first!");
+                alert(currentLang === 'am' ? "እባክዎ መጀመሪያ እቃ ይምረጡ!" : "Please select items first!");
+                return;
+            }
+
+            const tableNum = document.getElementById('table-number').value.trim();
+            if (!tableNum) {
+                alert(currentLang === 'am' ? "እባክዎ የጠረጴዛ ቁጥር ያስገቡ!" : "Please enter your table number!");
                 return;
             }
 
             const emailTo = "yisuteka@gmail.com";
-            const emailSubject = currentLang === 'am' ? "አዲስ የምግብ ትዕዛዝ - ፍቅር ምግብ ቤት" : "New Food Order - Fikir Restaurant";
+            const emailSubject = currentLang === 'am' ? `አዲስ የምግብ ትዕዛዝ - ጠረጴዛ ቁጥር ${tableNum}` : `New Order - Table #${tableNum}`;
             
-            let emailBody = currentLang === 'am' ? "ሰላም! የሚከተሉትን ምግቦች አዘዛለሁ:%0A%0A" : "Hello! I would like to order the following items:%0A%0A";
+            let emailBody = currentLang === 'am' ? `ሰላም! ከጠረጴዛ ቁጥር ${tableNum} የተላከ አዲስ ትዕዛዝ:\n\n` : `Hello! New order from Table #${tableNum}:\n\n`;
             let total = 0;
 
             cart.forEach((item, index) => {
-                emailBody += `${index + 1}. ${item.name[currentLang]} - ${item.price} ${translations[currentLang].birr}%0A`;
+                emailBody += `${index + 1}. ${item.name[currentLang]} - ${item.price.toFixed(2)}$\n`;
                 total += item.price;
             });
 
-            emailBody += `%0A---------------------------------%0A`;
-            emailBody += `${translations[currentLang].total} ${total} ${translations[currentLang].birr}`;
+            emailBody += `\n---------------------------------\n`;
+            emailBody += `Table Number / የጠረጴዛ ቁጥር: ${tableNum}\n`;
+            emailBody += `${translations[currentLang].total} ${total.toFixed(2)}$`;
 
-            const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(emailSubject)}&body=${emailBody}`;
+            const mailtoUrl = `mailto:${emailTo}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
             window.location.href = mailtoUrl;
 
             cart = [];
@@ -375,7 +396,7 @@
             toggleCart();
         }
 
-        // ሲጀምር ሁሉንም ማሳየት
+        // ሲጀምር
         filterMenu('all');
     </script>
 </body>
