@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ፍቅር 레ストラン (Fikir Restaurant)</title>
+    <title>ፍቅር ሬስቶራንት (Fikir Restaurant)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -16,7 +16,7 @@
 <body class="font-sans text-gray-800 flex justify-center items-center min-h-screen">
 
     <div class="w-full max-w-md bg-white shadow-xl overflow-hidden relative flex flex-col h-screen sm:h-[90vh] sm:rounded-[35px]">
-        
+
         <!-- Header -->
         <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100 z-10 shrink-0">
             <h1 class="text-xl font-bold text-gray-900" id="header-title">Menu</h1>
@@ -72,7 +72,7 @@
                 <button class="w-8 h-8 bg-emerald-50 text-emerald-900 rounded-full flex items-center justify-center"><i class="fa-solid fa-bag-shopping"></i></button>
             </div>
             <img id="modal-img" src="" alt="" class="w-full h-48 object-cover rounded-2xl mb-4 shadow-md">
-            
+
             <div class="flex justify-between items-start mb-2">
                 <h3 id="modal-title" class="text-xl font-bold text-gray-900"></h3>
                 <div class="text-emerald-800 font-bold text-lg" id="modal-price"></div>
@@ -117,19 +117,20 @@
                 <span id="total-text">Total:</span>
                 <span id="total-price" class="text-emerald-900">0.00 ETB</span>
             </div>
-            <button onclick="checkout()" class="w-full bg-[#114b3e] text-white py-3 rounded-xl font-bold hover:bg-emerald-950 shadow transition text-sm flex items-center justify-center gap-2">
+            <button id="checkout-btn" onclick="checkout()" class="w-full bg-[#114b3e] text-white py-3 rounded-xl font-bold hover:bg-emerald-950 shadow transition text-sm flex items-center justify-center gap-2">
                 <i class="fa-brands fa-telegram text-lg"></i>
                 <span id="order-btn-text">ትዕዛዝ በቦት ላክ (Send Order)</span>
             </button>
+            <p id="order-status" class="text-center text-xs mt-2 hidden"></p>
         </div>
     </div>
 
     <!-- JavaScript Logic -->
     <script>
         let currentLang = 'am';
-        
+
         const BOT_TOKEN = "8752629354:AAHcNjUDff1NTP-_3RNUPqWAX1eFatfznKuU";
-        const CHAT_ID = "8181485452"; 
+        const CHAT_ID = "8181485452";
 
         const translations = {
             en: {
@@ -137,6 +138,7 @@
                 addToCart: "Add to cart", orderBtnLabel: "Order", cartTitle: "Your Cart",
                 tableLabel: "Table Number:", noteLabel: "Special Note:", totalText: "Total:",
                 orderBtn: "Send Order via Bot", emptyCart: "Your cart is empty",
+                sending: "Sending your order...", sent: "Order sent! Check your Telegram.", failed: "Could not reach the bot. Opening Telegram instead...",
                 categories: { all: "All", fasting: "Fasting", "non-fasting": "Non-Fasting", breakfast: "Breakfast", drink: "Drinks" }
             },
             am: {
@@ -144,6 +146,7 @@
                 addToCart: "ወደ ጋሪ ጨምር", orderBtnLabel: "አዝዝ", cartTitle: "የመረጧቸው እቃዎች",
                 tableLabel: "የጠረጴዛ ቁጥር (Table Number):", noteLabel: "ልዩ ማስታወሻ (Special Note):", totalText: "አጠቃላይ ዋጋ:",
                 orderBtn: "ትዕዛዝ በቦት ላክ", emptyCart: "ጋሪዎ ባዶ ነው",
+                sending: "ትዕዛዝዎ በመላክ ላይ...", sent: "ትዕዛዝዎ ተልኳል! ቴሌግራምዎን ይመልከቱ።", failed: "ቦቱን ማግኘት አልተቻለም። ቴሌግራም በመክፈት ላይ...",
                 categories: { all: "ሁሉም", fasting: "ጾም", "non-fasting": "ፍስክ", breakfast: "ቁርስ", drink: "መጠጥ" }
             }
         };
@@ -155,7 +158,7 @@
             { id: 4, name: { am: "እንቁላል ሳንድዊች (ፍስክ)", en: "Egg Sandwich" }, category: "breakfast", price: 90.00, time: "10 min", desc: { am: "ትኩስ ዳቦ እና የተጠበሰ እንቁላል ለቁርስ።", en: "Fresh toasted bread served with fried egg." }, image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500" }
         ];
 
-        let cart = JSON.parse(localStorage.getItem('fikir_cart')) || [];
+        let cart = [];
         let currentFilter = 'all';
 
         function toggleLanguage() {
@@ -171,20 +174,29 @@
             document.getElementById('total-text').innerText = translations[currentLang].totalText;
             document.getElementById('order-btn-text').innerText = translations[currentLang].orderBtn;
             document.getElementById('modal-add-btn').innerText = translations[currentLang].addToCart;
-            
+
             filterMenu(currentFilter);
             updateCartUI();
         }
 
         function filterMenu(category) {
             currentFilter = category;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-900', 'text-white', 'shadow');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+            });
+            const activeBtn = document.querySelector(`.cat-btn[onclick="filterMenu('${category}')"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-emerald-900', 'text-white', 'shadow');
+                activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
+            }
             const filtered = category === 'all' ? menuItems : menuItems.filter(item => item.category === category);
             renderGrid(filtered);
         }
 
         function searchMenu() {
             const query = document.getElementById('search-input').value.toLowerCase();
-            const filtered = menuItems.filter(item => 
+            const filtered = menuItems.filter(item =>
                 item.name.en.toLowerCase().includes(query) || item.name.am.toLowerCase().includes(query)
             );
             renderGrid(filtered);
@@ -213,7 +225,7 @@
             document.getElementById('modal-price').innerText = item.price.toFixed(2) + " ETB";
             document.getElementById('modal-time').innerText = item.time;
             document.getElementById('modal-desc').innerText = item.desc[currentLang];
-            
+
             document.getElementById('modal-add-btn').onclick = function() {
                 addToCart(item.id);
                 closeModal();
@@ -235,7 +247,6 @@
             } else {
                 cart.push({ ...item, qty: 1 });
             }
-            saveCart();
             updateCartUI();
             toggleCart();
         }
@@ -245,19 +256,14 @@
             if (cart[index].qty <= 0) {
                 cart.splice(index, 1);
             }
-            saveCart();
             updateCartUI();
-        }
-
-        function saveCart() {
-            localStorage.setItem('fikir_cart', JSON.stringify(cart));
         }
 
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cart-count').innerText = totalCount;
             const container = document.getElementById('cart-items');
-            
+
             if (cart.length === 0) {
                 container.innerHTML = `<p class='text-gray-400 text-center py-8 text-xs'>${translations[currentLang].emptyCart}</p>`;
                 document.getElementById('total-price').innerText = "0.00 ETB";
@@ -289,6 +295,12 @@
             document.getElementById('cart-sidebar').classList.toggle('translate-x-full');
         }
 
+        function setStatus(text, colorClass) {
+            const el = document.getElementById('order-status');
+            el.innerText = text;
+            el.className = `text-center text-xs mt-2 ${colorClass}`;
+        }
+
         async function checkout() {
             if (cart.length === 0) {
                 alert(currentLang === 'am' ? "እባክዎ መጀመሪያ እቃ ይምረጡ!" : "Please select items first!");
@@ -318,8 +330,13 @@
             message += `---------------------\n`;
             message += `💰 አጠቃላይ ዋጋ / Total: ${total.toFixed(2)} ETB`;
 
+            const checkoutBtn = document.getElementById('checkout-btn');
+            checkoutBtn.disabled = true;
+            checkoutBtn.classList.add('opacity-60', 'cursor-not-allowed');
+            setStatus(translations[currentLang].sending, 'text-gray-500');
+
             const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            
+
             try {
                 let response = await fetch(url, {
                     method: 'POST',
@@ -330,19 +347,27 @@
                     })
                 });
 
-                if (response.ok) {
+                const data = await response.json();
+
+                if (response.ok && data.ok) {
+                    setStatus(translations[currentLang].sent, 'text-emerald-700');
                     alert(currentLang === 'am' ? "ትዕዛዝዎ በሳካ ሁኔታ ተልኳል!" : "Order sent successfully!");
                     cart = [];
-                    saveCart();
                     updateCartUI();
+                    document.getElementById('order-note').value = '';
+                    document.getElementById('table-number').value = '';
                     toggleCart();
                 } else {
-                    throw new Error("API Error");
+                    throw new Error(data.description || "Telegram API error");
                 }
             } catch (error) {
-                // Fallback: If network fails or fetch is blocked, open Telegram share/chat directly with prefilled message
+                console.error("Telegram send failed:", error);
+                setStatus(translations[currentLang].failed, 'text-red-600');
                 const encodedMessage = encodeURIComponent(message);
                 window.open(`https://t.me/share/url?url=${encodedMessage}`, '_blank');
+            } finally {
+                checkoutBtn.disabled = false;
+                checkoutBtn.classList.remove('opacity-60', 'cursor-not-allowed');
             }
         }
 
@@ -351,3 +376,4 @@
     </script>
 </body>
 </html>
+```[cite: 1]
