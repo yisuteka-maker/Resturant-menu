@@ -58,12 +58,16 @@
             </div>
         </main>
 
-        <!-- Bottom Navigation Bar -->
+        <!-- Bottom Navigation Bar (Profile & Favorite Removed) -->
         <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6 flex justify-around items-center text-gray-400 z-20 shrink-0">
-            <button onclick="filterMenu('all')" class="text-emerald-900 flex flex-col items-center text-xs font-bold"><i class="fa-solid fa-utensils text-lg"></i><span id="nav-menu">Menu</span></button>
-            <button onclick="alert(currentLang === 'am' ? 'ተወዳጅ ምግቦችዎ' : 'Your Favorites')" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-heart text-lg"></i><span id="nav-fav">Favorite</span></button>
-            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-file-lines text-lg"></i><span id="nav-orders">Orders</span></button>
-            <button onclick="alert(currentLang === 'am' ? 'የተጠቃሚ መለያ' : 'User Profile')" class="hover:text-emerald-900 flex flex-col items-center text-xs"><i class="fa-regular fa-user text-lg"></i><span id="nav-profile">Profile</span></button>
+            <button onclick="filterMenu('all')" class="text-emerald-900 flex flex-col items-center text-xs font-bold w-1/2">
+                <i class="fa-solid fa-utensils text-lg"></i>
+                <span id="nav-menu">Menu</span>
+            </button>
+            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs w-1/2">
+                <i class="fa-regular fa-file-lines text-lg"></i>
+                <span id="nav-orders">Orders</span>
+            </button>
         </nav>
     </div>
 
@@ -133,9 +137,7 @@
                 headerTitle: "Menu",
                 searchPlaceholder: "Search...",
                 navMenu: "Menu",
-                navFav: "Favorite",
                 navOrders: "Orders",
-                navProfile: "Profile",
                 addToCart: "Add to cart",
                 orderBtnLabel: "Order",
                 cartTitle: "Your Cart",
@@ -149,9 +151,7 @@
                 headerTitle: "ምግብ ዝርዝር",
                 searchPlaceholder: "ይፈልጉ...",
                 navMenu: "ሜኑ",
-                navFav: "ተወዳጅ",
                 navOrders: "ትዕዛዞች",
-                navProfile: "መለያ",
                 addToCart: "ወደ ጋሪ ጨምር",
                 orderBtnLabel: "አዝዝ",
                 cartTitle: "የመረጧቸው እቃዎች",
@@ -205,7 +205,7 @@
             },
             { 
                 id: 4, 
-                name: { am: "እንቁላል ሳዊች (ፍስክ)", en: "Egg Sandwich" }, 
+                name: { am: "እንቁላል ሳንድዊች (ፍስክ)", en: "Egg Sandwich" }, 
                 category: "breakfast", 
                 price: 90.00, 
                 rating: 5, 
@@ -228,9 +228,7 @@
             document.getElementById('header-title').innerText = translations[currentLang].headerTitle;
             document.getElementById('search-input').placeholder = translations[currentLang].searchPlaceholder;
             document.getElementById('nav-menu').innerText = translations[currentLang].navMenu;
-            document.getElementById('nav-fav').innerText = translations[currentLang].navFav;
             document.getElementById('nav-orders').innerText = translations[currentLang].navOrders;
-            document.getElementById('nav-profile').innerText = translations[currentLang].navProfile;
             document.getElementById('cart-sidebar-title').innerText = translations[currentLang].cartTitle;
             document.getElementById('table-label').innerText = translations[currentLang].tableLabel;
             document.getElementById('total-text').innerText = translations[currentLang].totalText;
@@ -362,7 +360,6 @@
                 return;
             }
 
-            const telegramUsername = "lanyisu";
             let message = currentLang === 'am' ? `ሰላም! ከጠረጴዛ ቁጥር ${tableNum} የተላከ አዲስ ትዕዛዝ:\n\n` : `Hello! New order from Table #${tableNum}:\n\n`;
             let total = 0;
 
@@ -375,7 +372,10 @@
             message += `Table Number / የጠረጴዛ ቁጥር: ${tableNum}\n`;
             message += `${translations[currentLang].totalText} ${total.toFixed(2)} ETB`;
 
-            const telegramUrl = `https://t.me/${telegramUsername}?text=${encodeURIComponent(message)}`;
+            // የሰጡትን የቴሌግራም ግሩፕ ሊንክ በማካተት መልዕክቱን ማጋራቻ (Share Link) በመጠቀም መላክ
+            const targetGroupUrl = "https://t.me/+R-WlmmEtCB03NzY8";
+            const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(targetGroupUrl)}&text=${encodeURIComponent(message)}`;
+            
             window.open(telegramUrl, '_blank');
 
             cart = [];
