@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="am">
 <head>
     <meta charset="UTF-8">
@@ -11,6 +11,16 @@
         body { background-color: #f3f4f6; margin: 0; padding: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="font-sans text-gray-800 flex justify-center items-center min-h-screen">
@@ -21,8 +31,9 @@
         <header class="p-4 bg-white flex justify-between items-center border-b border-gray-100 z-10 shrink-0">
             <h1 class="text-xl font-bold text-gray-900" id="header-title">ምግብ ዝርዝር</h1>
             <div class="flex items-center gap-2">
-                <button onclick="toggleLanguage()" class="bg-emerald-800 text-white px-2.5 py-1 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition">
-                    🌐 <span id="lang-btn-text">English</span>
+                <button onclick="toggleLanguage()" class="bg-emerald-800 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-emerald-700 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="lang-btn-text">English</span>
                 </button>
                 <button onclick="toggleCart()" class="bg-emerald-800 text-white p-2.5 rounded-full shadow hover:bg-emerald-700 transition relative">
                     <i class="fa-solid fa-bag-shopping"></i>
@@ -34,17 +45,17 @@
         <!-- Main Area -->
         <main class="flex-grow overflow-y-auto p-4 space-y-4 pb-24">
             <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-400"></i>
-                <input type="text" id="search-input" oninput="searchMenu()" placeholder="ይፈልጉ..." class="w-full bg-gray-100 pl-10 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400"></i>
+                <input type="text" id="search-input" oninput="searchMenu()" placeholder="ይፈልጉ..." class="w-full bg-gray-100 pl-10 pr-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-800 transition">
             </div>
 
             <!-- Categories -->
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-                <button onclick="filterMenu('all')" class="cat-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-900 text-white whitespace-nowrap shadow" data-am="ሁሉም" data-en="All">ሁሉም</button>
-                <button onclick="filterMenu('fasting')" class="cat-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="ጾም" data-en="Fasting">ጾም</button>
-                <button onclick="filterMenu('non-fasting')" class="cat-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="ፍስክ" data-en="Non-Fasting">ፍስክ</button>
-                <button onclick="filterMenu('breakfast')" class="cat-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="ቁርስ" data-en="Breakfast">ቁርስ</button>
-                <button onclick="filterMenu('drink')" class="cat-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="መጠጥ" data-en="Drinks">መጠጥ</button>
+                <button onclick="filterMenu('all')" data-cat="all" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-900 text-white whitespace-nowrap shadow transition">ሁሉም</button>
+                <button onclick="filterMenu('fasting')" data-cat="fasting" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200 transition">ጾም</button>
+                <button onclick="filterMenu('non-fasting')" data-cat="non-fasting" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200 transition">ፍስክ</button>
+                <button onclick="filterMenu('breakfast')" data-cat="breakfast" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200 transition">ቁርስ</button>
+                <button onclick="filterMenu('drink')" data-cat="drink" class="cat-btn px-3.5 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200 transition">መጠጥ</button>
             </div>
 
             <!-- Menu Vertical List -->
@@ -54,22 +65,22 @@
         <!-- Bottom Nav -->
         <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-3 px-6 flex justify-around items-center text-gray-400 z-20 shrink-0">
             <button onclick="filterMenu('all')" class="text-emerald-900 flex flex-col items-center text-xs font-bold w-1/2">
-                <i class="fa-solid fa-utensils text-lg"></i>
+                <i class="fa-solid fa-utensils text-lg mb-0.5"></i>
                 <span id="nav-menu">ሜኑ</span>
             </button>
-            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs w-1/2">
-                <i class="fa-regular fa-file-lines text-lg"></i>
+            <button onclick="toggleCart()" class="hover:text-emerald-900 flex flex-col items-center text-xs w-1/2 transition">
+                <i class="fa-regular fa-file-lines text-lg mb-0.5"></i>
                 <span id="nav-orders">ትዕዛዞች</span>
             </button>
         </nav>
     </div>
 
     <!-- Food Detail Modal -->
-    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden justify-center items-center z-50 p-4">
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 hidden justify-center items-center z-50 p-4 backdrop-blur-sm">
         <div class="bg-white rounded-3xl max-w-sm w-full p-5 relative shadow-2xl flex flex-col max-h-[85vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-3">
-                <button onclick="closeModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-bold"><i class="fa-solid fa-arrow-left"></i></button>
-                <button class="w-8 h-8 bg-emerald-50 text-emerald-900 rounded-full flex items-center justify-center"><i class="fa-solid fa-bag-shopping"></i></button>
+                <button onclick="closeModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-bold hover:bg-gray-200 transition"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="w-8 h-8 bg-emerald-50 text-emerald-900 rounded-full flex items-center justify-center"><i class="fa-solid fa-heart"></i></div>
             </div>
             <img id="modal-img" src="" alt="" class="w-full h-48 object-cover rounded-2xl mb-4 shadow-md">
 
@@ -83,11 +94,12 @@
                 <span id="modal-stars" class="text-yellow-500">★★★★★</span>
             </div>
 
-            <p id="modal-desc" class="text-xs text-gray-600 leading-relaxed mb-4 bg-gray-50 p-3 rounded-xl"></p>
+            <p id="modal-desc" class="text-xs text-gray-600 leading-relaxed mb-4 bg-gray-50 p-3 rounded-xl border border-gray-100"></p>
 
             <div class="mt-auto pt-2">
-                <button id="modal-add-btn" class="w-full bg-[#114b3e] text-white py-3 rounded-xl font-bold hover:bg-emerald-950 transition shadow-lg text-sm">
-                    ወደ ጋሪ ጨምር
+                <button id="modal-add-btn" class="w-full bg-[#114b3e] text-white py-3 rounded-xl font-bold hover:bg-emerald-950 transition shadow-lg text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    <span>ወደ ጋሪ ጨምር</span>
                 </button>
             </div>
         </div>
@@ -125,32 +137,31 @@
         </div>
     </div>
 
+    <!-- Script Section -->
     <script>
         let currentLang = 'am';
 
-        // 1. የቦት Token እና የGroup ID
+        // ቴሌግራም ቦት እና ግሩፕ
         const BOT_TOKEN = "8752629354:AAHcNjUDff1NTP-_3RNUPqWAX1eFatfznKuU";
-        const CHAT_ID = "-1004466655656"; // የርሶ የቴሌግራም ግሩፕ ID
-
-        // የBackend URL ካለዎት እዚህ ያስገቡ (ለምሳሌ: http://localhost:3000/api/order)
-        // ባዶ ከተወው በቀጥታ ወደ ቴሌግራም ግሩፕ ይልካል
-        const BACKEND_API_URL = ""; 
+        const CHAT_ID = "-1004466655656";
 
         const translations = {
             en: {
-                headerTitle: "Menu", searchPlaceholder: "Search...", navMenu: "Menu", navOrders: "Orders",
-                addToCart: "Add to cart", orderBtnLabel: "Order", cartTitle: "Your Cart",
+                headerTitle: "Menu", searchPlaceholder: "Search food...", navMenu: "Menu", navOrders: "Orders",
+                addToCart: "Add to cart", cartTitle: "Your Cart",
                 tableLabel: "Table Number:", noteLabel: "Special Note:", totalText: "Total:",
                 orderBtn: "Send Order via Bot", emptyCart: "Your cart is empty",
-                sending: "Sending your order...", sent: "Order sent to group!", failed: "Could not send. Opening Telegram instead...",
+                sending: "Sending order...", sent: "Order sent to group successfully! 🎉", failed: "Could not send. Check connection.",
+                enterTableAlert: "Please enter your Table Number!", selectItemsAlert: "Please select items first!",
                 categories: { all: "All", fasting: "Fasting", "non-fasting": "Non-Fasting", breakfast: "Breakfast", drink: "Drinks" }
             },
             am: {
                 headerTitle: "ምግብ ዝርዝር", searchPlaceholder: "ይፈልጉ...", navMenu: "ሜኑ", navOrders: "ትዕዛዞች",
-                addToCart: "ወደ ጋሪ ጨምር", orderBtnLabel: "አዝዝ", cartTitle: "የመረጧቸው እቃዎች",
+                addToCart: "ወደ ጋሪ ጨምር", cartTitle: "የመረጧቸው እቃዎች",
                 tableLabel: "የጠረጴዛ ቁጥር (Table Number):", noteLabel: "ልዩ ማስታወሻ (Special Note):", totalText: "አጠቃላይ ዋጋ:",
                 orderBtn: "ትዕዛዝ በቦት ላክ", emptyCart: "ጋሪዎ ባዶ ነው",
-                sending: "ትዕዛዝዎ በመላክ ላይ...", sent: "ትዕዛዝዎ ወደ ግሩፑ ተልኳል!", failed: "ትዕዛዙ አልተላከም። ቴሌግራም በመክፈት ላይ...",
+                sending: "ትዕዛዝዎ በመላክ ላይ...", sent: "ትዕዛዝዎ ወደ ግሩፑ በተሳካ ሁኔታ ተልኳል! 🎉", failed: "ትዕዛዙ አልተላከም። እባክዎ እንደገና ይሞክሩ።",
+                enterTableAlert: "እባክዎ የጠረጴዛ ቁጥር ያስገቡ!", selectItemsAlert: "እባክዎ መጀመሪያ ምግብ ይምረጡ!",
                 categories: { all: "ሁሉም", fasting: "ጾም", "non-fasting": "ፍስክ", breakfast: "ቁርስ", drink: "መጠጥ" }
             }
         };
@@ -177,6 +188,7 @@
 
         function toggleLanguage() {
             currentLang = currentLang === 'am' ? 'en' : 'am';
+            
             document.getElementById('lang-btn-text').innerText = currentLang === 'am' ? 'English' : 'አማርኛ';
             document.getElementById('header-title').innerText = translations[currentLang].headerTitle;
             document.getElementById('search-input').placeholder = translations[currentLang].searchPlaceholder;
@@ -187,7 +199,16 @@
             document.getElementById('note-label').innerText = translations[currentLang].noteLabel;
             document.getElementById('total-text').innerText = translations[currentLang].totalText;
             document.getElementById('order-btn-text').innerText = translations[currentLang].orderBtn;
-            document.getElementById('modal-add-btn').innerText = translations[currentLang].addToCart;
+            
+            const modalBtnSpan = document.querySelector('#modal-add-btn span');
+            if(modalBtnSpan) modalBtnSpan.innerText = translations[currentLang].addToCart;
+
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                const catKey = btn.getAttribute('data-cat');
+                if (catKey && translations[currentLang].categories[catKey]) {
+                    btn.innerText = translations[currentLang].categories[catKey];
+                }
+            });
 
             filterMenu(currentFilter);
             updateCartUI();
@@ -199,7 +220,7 @@
                 btn.classList.remove('bg-emerald-900', 'text-white', 'shadow');
                 btn.classList.add('bg-gray-100', 'text-gray-600');
             });
-            const activeBtn = document.querySelector(`.cat-btn[onclick="filterMenu('${category}')"]`);
+            const activeBtn = document.querySelector(`.cat-btn[data-cat="${category}"]`);
             if (activeBtn) {
                 activeBtn.classList.add('bg-emerald-900', 'text-white', 'shadow');
                 activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
@@ -219,14 +240,14 @@
         function renderGrid(items) {
             const container = document.getElementById('menu-container');
             container.innerHTML = items.map(item => `
-                <div onclick="openDetail(${item.id})" class="bg-gray-50 rounded-2xl p-3 shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3 border border-gray-100">
+                <div onclick="openDetail(${item.id})" class="bg-gray-50 rounded-2xl p-3 shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3 border border-gray-100 active:scale-[0.99]">
                     <img src="${item.image}" alt="" class="w-20 h-20 object-cover rounded-xl shrink-0">
                     <div class="flex-grow">
                         <h4 class="font-bold text-sm text-gray-900 line-clamp-1">${item.name[currentLang]}</h4>
                         <p class="text-[11px] text-gray-500 line-clamp-1 my-0.5">${item.desc[currentLang]}</p>
                         <div class="text-emerald-900 font-extrabold text-xs">${item.price.toFixed(2)} ETB</div>
                     </div>
-                    <button onclick="event.stopPropagation(); addToCart(${item.id})" class="bg-[#114b3e] text-white px-3.5 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-950 transition shrink-0 flex items-center justify-center">
+                    <button onclick="event.stopPropagation(); addToCart(${item.id})" class="bg-[#114b3e] text-white px-3.5 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-950 transition shrink-0 flex items-center justify-center active:scale-95">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
@@ -280,7 +301,7 @@
             const container = document.getElementById('cart-items');
 
             if (cart.length === 0) {
-                container.innerHTML = `<p class='text-gray-400 text-center py-8 text-xs'>${translations[currentLang].emptyCart}</p>`;
+                container.innerHTML = `<p class='text-gray-400 text-center py-8 text-xs font-medium'>${translations[currentLang].emptyCart}</p>`;
                 document.getElementById('total-price').innerText = "0.00 ETB";
                 return;
             }
@@ -295,9 +316,9 @@
                             <p class="text-[11px] text-emerald-900 font-bold">${(item.price * item.qty).toFixed(2)} ETB</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-gray-200 rounded-full font-bold text-xs flex items-center justify-center">-</button>
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 bg-gray-200 rounded-full font-bold text-xs flex items-center justify-center hover:bg-gray-300 transition">-</button>
                             <span class="text-xs font-bold">${item.qty}</span>
-                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-emerald-800 text-white rounded-full font-bold text-xs flex items-center justify-center">+</button>
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 bg-emerald-800 text-white rounded-full font-bold text-xs flex items-center justify-center hover:bg-emerald-900 transition">+</button>
                         </div>
                     </div>
                 `;
@@ -310,59 +331,30 @@
             document.getElementById('cart-sidebar').classList.toggle('translate-x-full');
         }
 
-        function setStatus(text, colorClass) {
+        function setStatus(text, colorClass, showSpinner = false) {
             const el = document.getElementById('order-status');
-            el.innerText = text;
+            el.innerHTML = showSpinner ? `<span class="spinner mr-1"></span> ${text}` : text;
             el.className = `text-center text-xs mt-2 ${colorClass}`;
             el.classList.remove('hidden');
         }
 
+        // 🔥 ቦቱ ወደ ቴሌግራም አውቶማቲክ እንዲልክ የተስተካከለው የCheckout function (CORS-Safe)
         async function checkout() {
             if (cart.length === 0) {
-                alert(currentLang === 'am' ? "እባክዎ መጀመሪያ እቃ ይምረጡ!" : "Please select items first!");
+                alert(translations[currentLang].selectItemsAlert);
                 return;
             }
 
             const tableNum = document.getElementById('table-number').value.trim();
             if (!tableNum) {
-                alert(currentLang === 'am' ? "እባክዎ የጠረጴዛ ቁጥር ያስገቡ!" : "Please enter your table number!");
+                alert(translations[currentLang].enterTableAlert);
                 return;
             }
 
             const note = document.getElementById('order-note').value.trim();
-            const orderId = Math.floor(1000 + Math.random() * 9000); // Random Order ID
+            const orderId = Math.floor(1000 + Math.random() * 9000);
 
-            let itemsSummary = cart.map(i => `${i.name.am} (${i.qty}x)`).join(", ");
-            let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-
-            const checkoutBtn = document.getElementById('checkout-btn');
-            checkoutBtn.disabled = true;
-            checkoutBtn.classList.add('opacity-60', 'cursor-not-allowed');
-            setStatus(translations[currentLang].sending, 'text-gray-500');
-
-            // Backend ካለ ወደ Backend ይልካል (15 Min Alert Timer እንዲሰራ)
-            if (BACKEND_API_URL) {
-                try {
-                    let res = await fetch(BACKEND_API_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            orderId: orderId,
-                            tableNumber: tableNum,
-                            items: itemsSummary + (note ? ` | ማስታወሻ: ${note}` : ''),
-                            alertMinutes: 15
-                        })
-                    });
-                    if (res.ok) {
-                        finishCheckout();
-                        return;
-                    }
-                } catch (e) {
-                    console.log("Backend offline, falling back to direct Telegram call...");
-                }
-            }
-
-            // Backend ከሌለ በቀጥታ በTelegram API ይልካል
+            let total = 0;
             let message = `🛒 <b>አዲስ ትዕዛዝ / NEW ORDER #${orderId}</b>\n\n`;
             message += `📍 <b>ጠረጴዛ / Table #:</b> ${tableNum}\n`;
             if (note) message += `📝 <b>ማስታወሻ / Note:</b> ${note}\n`;
@@ -370,53 +362,56 @@
 
             cart.forEach((item, index) => {
                 let itemTotal = item.price * item.qty;
+                total += itemTotal;
                 message += `${index + 1}. ${item.name.am} (${item.qty}x) - ${itemTotal.toFixed(2)} ETB\n`;
             });
 
             message += `-----------------------------\n`;
             message += `💰 <b>አጠቃላይ ዋጋ / Total:</b> ${total.toFixed(2)} ETB`;
 
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+            const checkoutBtn = document.getElementById('checkout-btn');
+            checkoutBtn.disabled = true;
+            checkoutBtn.classList.add('opacity-60', 'cursor-not-allowed');
+            setStatus(translations[currentLang].sending, 'text-gray-500 font-semibold', true);
+
+            // FormData በመጠቀም ከCORS እገዳ ነፃ ማድረግ (Direct Browser Fetch Fix)
+            const formData = new FormData();
+            formData.append('chat_id', CHAT_ID);
+            formData.append('text', message);
+            formData.append('parse_mode', 'HTML');
 
             try {
-                let response = await fetch(url, {
+                let response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text: message,
-                        parse_mode: 'HTML'
-                    })
+                    body: formData
                 });
 
-                const data = await response.json();
+                let data = await response.json();
 
-                if (response.ok && data.ok) {
-                    finishCheckout();
+                if (data.ok) {
+                    setStatus(translations[currentLang].sent, 'text-emerald-700 font-bold', false);
+                    alert(translations[currentLang].sent);
+                    cart = [];
+                    updateCartUI();
+                    document.getElementById('order-note').value = '';
+                    document.getElementById('table-number').value = '';
+                    setTimeout(() => toggleCart(), 1200);
                 } else {
-                    throw new Error(data.description || "Telegram API error");
+                    console.error("Telegram API Error:", data);
+                    setStatus(`እገዳ፡ ${data.description || 'ለግሩፑ መላክ አልተቻለም'}`, 'text-red-600 font-bold', false);
+                    alert(`የቴሌግራም ስህተት፡ ${data.description}`);
                 }
             } catch (error) {
-                console.error("Telegram send failed:", error);
-                setStatus(translations[currentLang].failed, 'text-red-600');
-                const encodedMessage = encodeURIComponent(message);
-                window.open(`https://t.me/share/url?url=${encodedMessage}`, '_blank');
+                console.error("Fetch Exception:", error);
+                setStatus(translations[currentLang].failed, 'text-red-600 font-bold', false);
+                alert("የኢንተርኔት ግንኙነት ችግር አጋጥሟል።");
             } finally {
                 checkoutBtn.disabled = false;
                 checkoutBtn.classList.remove('opacity-60', 'cursor-not-allowed');
             }
         }
 
-        function finishCheckout() {
-            setStatus(translations[currentLang].sent, 'text-emerald-700');
-            alert(currentLang === 'am' ? "ትዕዛዝዎ በተሳካ ሁኔታ ተልኳል!" : "Order sent successfully!");
-            cart = [];
-            updateCartUI();
-            document.getElementById('order-note').value = '';
-            document.getElementById('table-number').value = '';
-            toggleCart();
-        }
-
+        // Initialize
         filterMenu('all');
         updateCartUI();
     </script>
