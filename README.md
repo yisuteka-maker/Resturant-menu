@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="am">
 <head>
     <meta charset="UTF-8">
@@ -47,8 +47,8 @@
                 <button onclick="filterMenu('drink')" class="cat-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 whitespace-nowrap hover:bg-gray-200" data-am="መጠጥ" data-en="Drinks">Drinks</button>
             </div>
 
-            <!-- Menu Grid -->
-            <div id="menu-container" class="grid grid-cols-2 gap-3"></div>
+            <!-- Menu Vertical List -->
+            <div id="menu-container" class="grid grid-cols-1 gap-3"></div>
         </main>
 
         <!-- Bottom Nav -->
@@ -151,11 +151,22 @@
             }
         };
 
+        // Expanded Ethiopian and Foreign Menu Items[cite: 1]
         const menuItems = [
             { id: 1, name: { am: "የጾም ፍርፍር", en: "Fasting Firfir" }, category: "fasting", price: 150.00, time: "15 min", desc: { am: "በዘይት፣ ሽንኩርት እና በርበሬ የተዘጋጀ ጣፋጭ የጾም ፍርፍር።", en: "Delicious fasting firfir prepared with oil, onions, and berbere." }, image: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500" },
             { id: 2, name: { am: "ዶሮ ወጥ (ፍስክ)", en: "Doro Wat (Non-Fasting)" }, category: "non-fasting", price: 450.00, time: "30 min", desc: { am: "በንጹህ ቅቤ፣ ዶሮ እና እንቁላል የተዘጋጀ ባህላዊ የፍስክ ወጥ።", en: "Traditional non-fasting chicken stew prepared with spiced butter and eggs." }, image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" },
-            { id: 3, name: { am: "አቮካዶ ጁስ (ጾም)", en: "Avocado Juice (Fasting)" }, category: "fasting", price: 120.00, time: "10 min", desc: { am: "ከተፈጥሮ አቮካዶ የተሰራ ንጹህ የጾም ጁስ።", en: "Fresh and pure fasting avocado juice." }, image: "https://images.unsplash.com/photo-1556881286-fc6915169721?w=500" },
-            { id: 4, name: { am: "እንቁላል ሳንድዊች (ፍስክ)", en: "Egg Sandwich" }, category: "breakfast", price: 90.00, time: "10 min", desc: { am: "ትኩስ ዳቦ እና የተጠበሰ እንቁላል ለቁርስ።", en: "Fresh toasted bread served with fried egg." }, image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500" }
+            { id: 3, name: { am: "ክትፎ ስፔሻል", en: "Special Kitfo" }, category: "non-fasting", price: 500.00, time: "25 min", desc: { am: "የተፈጨ የቀቀለ ስጋ ከሚጥሚጣ እና ንጹህ ቅቤ ጋር።", en: "Minced raw/cooked lean beef seasoned with mitmita and spiced butter." }, image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500" },
+            { id: 4, name: { am: "የጾም በያይነት", en: "Fasting Beyaynetu" }, category: "fasting", price: 250.00, time: "20 min", desc: { am: "ልዩ ልዩ የጾም አትክልት ወጦች በምርጥ እንጀራ።", en: "Assorted vegetarian stews served on injera." }, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500" },
+            { id: 5, name: { am: "ጥብስ ፍርፍር", en: "Tibs Firfir" }, category: "non-fasting", price: 380.00, time: "20 min", desc: { am: "ከተጠበሰ ስጋ እና ከቀቀለ እንጀራ ጋር የሚዘጋጅ።", en: "Tender beef chunks sautéed and mixed with shredded injera." }, image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500" },
+            { id: 6, name: { am: "ሽሮ ወጥ", en: "Shiro Wat" }, category: "fasting", price: 130.00, time: "15 min", desc: { am: "በحضሬ የተፈጨ ሽሮ ከበርበሬ እና ቅመም ጋር።", en: "Traditional thick chickpea flour stew." }, image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500" },
+            { id: 7, name: { am: "ቺዝ በርገር (የውጭ)", en: "Cheese Burger" }, category: "non-fasting", price: 350.00, time: "15 min", desc: { am: "ጭማቂ የበሬ ስጋ ፓቲ ከቺዝ እና ሰላጣ ጋር።", en: "Juicy beef patty with melted cheese and fresh lettuce." }, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500" },
+            { id: 8, name: { am: "ፔፔሮኒ ፒዛ", en: "Pepperoni Pizza" }, category: "non-fasting", price: 650.00, time: "25 min", desc: { am: "ትኩስ ሞዞሬላ ቺዝ እና ፔፔሮኒ የተጨመረበት ጣፋጭ ፒዛ።", en: "Classic pizza topped with mozzarella cheese and pepperoni." }, image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" },
+            { id: 9, name: { am: "ስፓጌቲ ቦሎኛዝ", en: "Spaghetti Bolognese" }, category: "non-fasting", price: 320.00, time: "20 min", desc: { am: "ጣፋጭ የጣሊያን ስፓጌቲ ከስጋ σauce ጋር።", en: "Classic Italian pasta served with rich meat sauce." }, image: "https://images.unsplash.com/photo-1621996346565-e3d5d6281298?w=500" },
+            { id: 10, name: { am: "ክለብ ሳንድዊች", en: "Club Sandwich" }, category: "breakfast", price: 220.00, time: "10 min", desc: { am: "በዶሮ ስጋ፣ እንቁላል እና ቲማቲም የተሞላ ባለ ሶስት ሽፋን ሳንድዊች።", en: "Triple-layer sandwich with chicken, egg, and fresh veggies." }, image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500" },
+            { id: 11, name: { am: "እንቁላል ሳንድዊች (ፍስክ)", en: "Egg Sandwich" }, category: "breakfast", price: 90.00, time: "10 min", desc: { am: "ትኩስ ዳቦ እና የተጠበሰ እንቁላል ለቁርስ።", en: "Fresh toasted bread served with fried egg." }, image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500" },
+            { id: 12, name: { am: "አቮካዶ ጁስ (ጾም)", en: "Avocado Juice (Fasting)" }, category: "drink", price: 120.00, time: "10 min", desc: { am: "ከተፈጥሮ አቮካዶ የተሰራ ንጹህ የጾም ጁስ።", en: "Fresh and pure fasting avocado juice." }, image: "https://images.unsplash.com/photo-1556881286-fc6915169721?w=500" },
+            { id: 13, name: { am: "ማንጎ ጁስ", en: "Mango Juice" }, category: "drink", price: 110.00, time: "10 min", desc: { am: "ትኩስ የማንጎ ፍሬ የተصر ጤናማ መጠጥ።", en: "Freshly squeezed sweet mango juice." }, image: "https://images.unsplash.com/photo-1546173159-315724a31696?w=500" },
+            { id: 14, name: { am: "የተጠበሰ ድንች (ፈረንች ፍራይስ)", en: "French Fries" }, category: "fasting", price: 130.00, time: "10 min", desc: { am: "ወርቃማ እና ጥርት ያለ የተጠበሰ ድንች።", en: "Crispy golden french fries." }, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500" }
         ];
 
         let cart = [];
@@ -202,17 +213,19 @@
             renderGrid(filtered);
         }
 
+        // Render Vertical Scrollable List Layout[cite: 1]
         function renderGrid(items) {
             const container = document.getElementById('menu-container');
             container.innerHTML = items.map(item => `
-                <div onclick="openDetail(${item.id})" class="bg-gray-50 rounded-2xl p-2.5 shadow-sm hover:shadow-md transition cursor-pointer flex flex-col justify-between border border-gray-100">
-                    <div>
-                        <img src="${item.image}" alt="" class="w-full h-28 object-cover rounded-xl mb-2">
-                        <h4 class="font-bold text-xs text-gray-900 line-clamp-1">${item.name[currentLang]}</h4>
-                        <div class="text-emerald-900 font-extrabold text-xs my-1">${item.price.toFixed(2)} ETB</div>
+                <div onclick="openDetail(${item.id})" class="bg-gray-50 rounded-2xl p-3 shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3 border border-gray-100">
+                    <img src="${item.image}" alt="" class="w-20 h-20 object-cover rounded-xl shrink-0">
+                    <div class="flex-grow">
+                        <h4 class="font-bold text-sm text-gray-900 line-clamp-1">${item.name[currentLang]}</h4>
+                        <p class="text-[11px] text-gray-500 line-clamp-1 my-0.5">${item.desc[currentLang]}</p>
+                        <div class="text-emerald-900 font-extrabold text-xs">${item.price.toFixed(2)} ETB</div>
                     </div>
-                    <button onclick="event.stopPropagation(); addToCart(${item.id})" class="w-full bg-[#114b3e] text-white py-1.5 rounded-xl font-bold text-[11px] shadow hover:bg-emerald-950 transition mt-2">
-                        ${translations[currentLang].orderBtnLabel}
+                    <button onclick="event.stopPropagation(); addToCart(${item.id})" class="bg-[#114b3e] text-white px-3.5 py-2.5 rounded-xl font-bold text-xs shadow hover:bg-emerald-950 transition shrink-0 flex items-center justify-center">
+                        <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
             `).join('');
@@ -376,4 +389,3 @@
     </script>
 </body>
 </html>
-```[cite: 1]
