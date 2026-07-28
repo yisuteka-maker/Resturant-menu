@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="am">
 <head>
     <meta charset="UTF-8">
@@ -141,8 +141,8 @@
     <script>
         let currentLang = 'am';
 
-        // ቴሌግራም ቦት እና ግሩፕ
-        const BOT_TOKEN = "8752629354:AAHcNjUDff1NTP-_3RNUPqWAX1eFatfznKuU";
+        // የተዘመነው የቴሌግራም ቦት ቶከን እና የግሩፕ CHAT_ID
+        const BOT_TOKEN = "8752629354:AAEwRCOv5_SR4ynYGFZLgBD_b999E2SEpyA";
         const CHAT_ID = "-1004466655656";
 
         const translations = {
@@ -338,7 +338,6 @@
             el.classList.remove('hidden');
         }
 
-        // 🔥 ቦቱ ወደ ቴሌግራም አውቶማቲክ እንዲልክ የተስተካከለው የCheckout function (CORS-Safe)
         async function checkout() {
             if (cart.length === 0) {
                 alert(translations[currentLang].selectItemsAlert);
@@ -374,7 +373,6 @@
             checkoutBtn.classList.add('opacity-60', 'cursor-not-allowed');
             setStatus(translations[currentLang].sending, 'text-gray-500 font-semibold', true);
 
-            // FormData በመጠቀም ከCORS እገዳ ነፃ ማድረግ (Direct Browser Fetch Fix)
             const formData = new FormData();
             formData.append('chat_id', CHAT_ID);
             formData.append('text', message);
