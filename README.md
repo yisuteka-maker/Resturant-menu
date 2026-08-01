@@ -1,527 +1,891 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eroshake Juice - Digital Menu</title>
-  <!-- Google Fonts & FontAwesome Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ero Shake Juice | Premium Ethiopian Café & Juice House</title>
+    
+    <!-- PWA & SEO Meta Tags -->
+    <meta name="description" content="Experience the finest fresh juices, shakes, traditional breakfasts, and modern meals at Ero Shake Juice. Premium quality, instant QR menu access.">
+    <meta name="theme-color" content="#2196F3">
+    <link rel="manifest" href="data:application/manifest+json,{
+        &quot;name&quot;: &quot;Ero Shake Juice&quot;,
+        &quot;short_name&quot;: &quot;Ero Shake&quot;,
+        &quot;start_url&quot;: &quot;.&quot;,
+        &quot;display&quot;: &quot;standalone&quot;,
+        &quot;background_color&quot;: &quot;#FFFFFF&quot;,
+        &quot;theme_color&quot;: &quot;#2196F3&quot;,
+        &quot;icons&quot;: [{ &quot;src&quot;: &quot;https://images.unsplash.com/photo-1613478223719-2ab802602423?w=192&amp;auto=format&amp;fit=crop&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/png&quot; }]
+    }">
 
-  <style>
-    :root {
-      --primary: #1e88e5;
-      --primary-dark: #1565c0;
-      --accent: #00d2ff;
-      --bg: #f4f8fb;
-      --card-bg: #ffffff;
-      --text: #1e293b;
-      --text-muted: #64748b;
-    }
+    <!-- Tailwind CSS & Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            sky: '#2196F3',
+                            deep: '#1565C0',
+                            accent: '#0D47A1',
+                            light: '#E3F2FD'
+                        }
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', 'Noto Sans Ethiopic', sans-serif;
-    }
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      padding-bottom: 30px;
-    }
-
-    /* Header */
-    header {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-      color: white;
-      padding: 20px 15px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 4px 15px rgba(30, 136, 229, 0.3);
-    }
-
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 800px;
-      margin: 0 auto 15px auto;
-    }
-
-    .brand-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .lang-btn {
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.85rem;
-      transition: all 0.3s ease;
-    }
-
-    .lang-btn:hover {
-      background: white;
-      color: var(--primary-dark);
-    }
-
-    /* Search Box */
-    .search-box {
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .search-box input {
-      width: 100%;
-      padding: 12px 45px 12px 18px;
-      border-radius: 25px;
-      border: none;
-      font-size: 0.95rem;
-      outline: none;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-box i {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--primary);
-      font-size: 1.1rem;
-    }
-
-    /* Category Navigation Bar */
-    .categories-wrapper {
-      background: white;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      position: sticky;
-      top: 115px;
-      z-index: 99;
-    }
-
-    .categories-nav {
-      display: flex;
-      overflow-x: auto;
-      padding: 12px 15px;
-      gap: 10px;
-      max-width: 800px;
-      margin: 0 auto;
-      scrollbar-width: none;
-    }
-
-    .categories-nav::-webkit-scrollbar {
-      display: none;
-    }
-
-    .cat-pill {
-      white-space: nowrap;
-      padding: 8px 16px;
-      border-radius: 20px;
-      background: #e3f2fd;
-      color: var(--primary-dark);
-      font-weight: 600;
-      font-size: 0.85rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .cat-pill.active {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 3px 8px rgba(30, 136, 229, 0.4);
-    }
-
-    /* Main Container */
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 0 15px;
-    }
-
-    /* Menu Grid */
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 15px;
-    }
-
-    @media (min-width: 500px) {
-      .menu-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      }
-    }
-
-    /* Card Styling */
-    .card {
-      background: var(--card-bg);
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border: 1px solid #e2e8f0;
-      transition: transform 0.2s ease;
-    }
-
-    .card:active {
-      transform: scale(0.98);
-    }
-
-    .card-img-container {
-      width: 100%;
-      height: 130px;
-      background: #e2e8f0;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card-img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .card-body {
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      justify-content: space-between;
-    }
-
-    .card-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .card-price {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      background: #e3f2fd;
-      padding: 4px 8px;
-      border-radius: 8px;
-      display: inline-block;
-      width: max-content;
-    }
-
-    .no-results {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-muted);
-      grid-column: 1 / -1;
-    }
-  </style>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-300 pb-20 md:pb-0">
 
-  <!-- Header Section -->
-  <header>
-    <div class="header-top">
-      <div class="brand-title">
-        <i class="fa-solid fa-glass-water"></i> Eroshake Juice
-      </div>
-      <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">አማርኛ</button>
-    </div>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search menu..." oninput="filterMenu()">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
-  </header>
+    <!-- Sticky Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full glass shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-sky to-brand-deep flex items-center justify-center text-white shadow-md shadow-sky-500/30">
+                    <i class="fa-solid fa-blender text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight bg-gradient-to-r from-brand-sky to-brand-deep bg-clip-text text-transparent">ERO SHAKE</h1>
+                    <p class="text-[9px] tracking-widest uppercase font-semibold text-slate-400 -mt-1">Juice & Café</p>
+                </div>
+            </div>
 
-  <!-- Navigation Bar -->
-  <div class="categories-wrapper">
-    <div class="categories-nav" id="categoryNav">
-      <!-- Generated Dynamically -->
-    </div>
-  </div>
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm">
+                <button onclick="showPage('home')" class="nav-link hover:text-brand-sky transition" data-en="Home" data-am="መነሻ">Home</button>
+                <button onclick="showPage('menu')" class="nav-link hover:text-brand-sky transition" data-en="Menu" data-am="ሜኑ">Menu</button>
+                <button onclick="showPage('about')" class="nav-link hover:text-brand-sky transition" data-en="About Us" data-am="ስለ እኛ">About Us</button>
+                <button onclick="showPage('contact')" class="nav-link hover:text-brand-sky transition" data-en="Contact" data-am="ግንኙነት">Contact</button>
+            </nav>
 
-  <!-- Main Items Container -->
-  <div class="container">
-    <div class="menu-grid" id="menuGrid">
-      <!-- Menu Items Generated Dynamically -->
-    </div>
-  </div>
+            <!-- Utility Controls -->
+            <div class="flex items-center gap-2">
+                <!-- Search Button -->
+                <button onclick="showPage('menu'); focusSearch();" class="p-2.5 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800 transition text-slate-600 dark:text-slate-300" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                
+                <!-- Language Switcher -->
+                <button onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold border rounded-full border-brand-sky/40 text-brand-sky hover:bg-brand-sky hover:text-white transition">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="langLabel">AM</span>
+                </button>
 
-  <script>
-    // Language State ('en' for English, 'am' for Amharic) - Defaults to English
-    let currentLang = 'en';
-    let currentCategory = 'all';
+                <!-- Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-800 transition text-slate-600 dark:text-slate-300">
+                    <i id="themeIcon" class="fa-solid fa-moon text-lg"></i>
+                </button>
 
-    // Categories Data
-    const categories = [
-      { id: 'all', en: 'All Items', am: 'ሁሉም' },
-      { id: 'breakfast', en: 'Breakfast', am: 'ቁርስ' },
-      { id: 'salad', en: 'Salad / Fruit', am: 'ሰላጣ / ፍራፍሬ' },
-      { id: 'wrap', en: 'Wrap', am: 'ራፕ' },
-      { id: 'sandwich', en: 'Sandwich / Club', am: 'ሳንድዊች' },
-      { id: 'burger', en: 'Burger', am: 'በርገር' },
-      { id: 'pizza', en: 'Pizza', am: 'ፒዛ' },
-      { id: 'extra', en: 'Extra', am: 'ተጨማሪ' },
-      { id: 'juice', en: 'Juice', am: 'ጁስ' },
-      { id: 'shake', en: 'Shake', am: 'ሼክ' },
-      { id: 'milkshake', en: 'Milk Shake', am: 'ሚልካ ሼክ' },
-      { id: 'mojito', en: 'Mojito', am: 'ሞሂቶ' },
-      { id: 'iceorder', en: 'Ice Order', am: 'ቀዝቃዛ መጠጥ' },
-      { id: 'hotdrink', en: 'Hot Drink', am: 'የሞቀ መጠጥ' },
-      { id: 'yogurt', en: 'Yogurt', am: 'እርጎ' },
-      { id: 'frappuccino', en: 'Frappuccino', am: 'ፍራፑቺኖ' },
-      { id: 'other', en: 'Other', am: 'ሌሎች' }
-    ];
-
-    // Complete Menu Database with Relevant Images
-    const menuData = [
-      // BREAKFAST
-      { cat: 'breakfast', en: 'Avocado', am: 'አቮካዶ', price: '350 ETB', img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400' },
-      { cat: 'breakfast', en: 'Avocado w/ Egg', am: 'አቮካዶ በዕንዱላል', price: '370 ETB', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400' },
-      { cat: 'breakfast', en: 'Waffle', am: 'ዋፍል', price: '400 ETB', img: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=400' },
-      { cat: 'breakfast', en: 'Pancake', am: 'ፓንኬክ', price: '400 ETB', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400' },
-      { cat: 'breakfast', en: 'Chechebsa Normal', am: 'ጨጨብሳ መደበኛ', price: '330 ETB', img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400' },
-      { cat: 'breakfast', en: 'Chechebsa Special', am: 'ጨጨብሳ ስፔሻል', price: '400 ETB', img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400' },
-      { cat: 'breakfast', en: 'Avocado Toast', am: 'አቮካዶ ቶስት', price: '320 ETB', img: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=400' },
-      { cat: 'breakfast', en: 'Special Fetira', am: 'ስፔሻል ፈቲራ', price: '360 ETB', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=400' },
-      { cat: 'breakfast', en: 'Normal Fetira', am: 'መደበኛ ፈቲራ', price: '260 ETB', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=400' },
-      { cat: 'breakfast', en: 'Omelet w/ Cheese', am: 'እንቁላል በቺዝ', price: '430 ETB', img: 'https://images.unsplash.com/photo-1510693206972-df098062cb71?w=400' },
-      { cat: 'breakfast', en: 'Normal Omelet', am: 'መደበኛ እንቁላል', price: '350 ETB', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400' },
-
-      // SALAD / FRUIT
-      { cat: 'salad', en: 'Normal Salad', am: 'መደበኛ ሰላጣ', price: '400 ETB', img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400' },
-      { cat: 'salad', en: 'Special Salad', am: 'ስፔሻል ሰላጣ', price: '590 ETB', img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400' },
-      { cat: 'salad', en: 'Normal Fruit Punch', am: 'መደበኛ ፍሩት ፓንች', price: '350 ETB', img: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400' },
-      { cat: 'salad', en: 'Special Fruit Punch', am: 'ስፔሻል ፍሩት ፓንች', price: '450 ETB', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
-      { cat: 'salad', en: 'Four in One', am: 'ፎር ኢን ዋን', price: '580 ETB', img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400' },
-      { cat: 'salad', en: 'Waffle Fruit', am: 'ዋፍል ፍሩት', price: '450 ETB', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400' },
-
-      // WRAP
-      { cat: 'wrap', en: 'Chicken Wrap', am: 'ዶሮ ራፕ', price: '620 ETB', img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400' },
-      { cat: 'wrap', en: 'Beef Wrap', am: 'የበሬ ሥጋ ራፕ', price: '570 ETB', img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400' },
-      { cat: 'wrap', en: 'Veg Wrap', am: 'የአትክልት ራፕ', price: '450 ETB', img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400' },
-
-      // SANDWICH / CLUB
-      { cat: 'sandwich', en: 'Tuna Sandwich', am: 'ቱና ሳንድዊች', price: '580 ETB', img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400' },
-      { cat: 'sandwich', en: 'Egg Sandwich', am: 'እንቁላል ሳንድዊች', price: '400 ETB', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400' },
-      { cat: 'sandwich', en: 'Veg Sandwich', am: 'የአትክልት ሳንድዊች', price: '350 ETB', img: 'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=400' },
-      { cat: 'sandwich', en: 'Cheese Sandwich', am: 'ቺዝ ሳንድዊች', price: '460 ETB', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400' },
-      { cat: 'sandwich', en: 'Special Club', am: 'ስፔሻል ክለብ', price: '620 ETB', img: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=400' },
-      { cat: 'sandwich', en: 'Beef Club', am: 'ቢፍ ክለብ', price: '550 ETB', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=400' },
-      { cat: 'sandwich', en: 'Chicken Club', am: 'ቺከን ክለብ', price: '590 ETB', img: 'https://images.unsplash.com/photo-1603064752734-4c48eff53d05?w=400' },
-      { cat: 'sandwich', en: 'Egg w/ Cheese', am: 'እንቁላል በቺዝ', price: '500 ETB', img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400' },
-
-      // BURGER
-      { cat: 'burger', en: 'Special Double Burger', am: 'ስፔሻል ድርብ በርገር', price: '800 ETB', img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400' },
-      { cat: 'burger', en: 'Special Single Burger', am: 'ስፔሻል ነጠላ በርገር', price: '680 ETB', img: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400' },
-      { cat: 'burger', en: 'Beef Burger', am: 'ቢፍ በርገር', price: '630 ETB', img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=400' },
-      { cat: 'burger', en: 'Cheese Burger', am: 'ቺዝ በርገር', price: '650 ETB', img: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400' },
-      { cat: 'burger', en: 'Chicken Burger', am: 'ቺከን በርገር', price: '750 ETB', img: 'https://images.unsplash.com/photo-1615297928064-24977384d0da?w=400' },
-
-      // PIZZA
-      { cat: 'pizza', en: 'Tuna w/ Cheese Pizza', am: 'ቱና በቺዝ ፒዛ', price: '770 ETB', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
-      { cat: 'pizza', en: 'Margarita Pizza', am: 'ማርጋሪታ ፒዛ', price: '700 ETB', img: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400' },
-      { cat: 'pizza', en: 'Meat Lover Pizza', am: 'ሜት ላቨር ፒዛ', price: '770 ETB', img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=400' },
-      { cat: 'pizza', en: 'Special Pizza', am: 'ስፔሻል ፒዛ', price: '920 ETB', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400' },
-      { cat: 'pizza', en: 'Chicken Pizza', am: 'ቺከን ፒዛ', price: '890 ETB', img: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400' },
-      { cat: 'pizza', en: 'Veg Pizza', am: 'የአትክልት ፒዛ', price: '550 ETB', img: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400' },
-      { cat: 'pizza', en: 'Tuna w/ Veg Pizza', am: 'ቱና በአትክልት ፒዛ', price: '690 ETB', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
-      { cat: 'pizza', en: 'Fasting Tuna Pizza', am: 'የጾም ቱና ፒዛ', price: '650 ETB', img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400' },
-      { cat: 'pizza', en: 'Family Pizza', am: 'ፋሚሊ ፒዛ', price: '1470 ETB', img: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=400' },
-
-      // EXTRA
-      { cat: 'extra', en: 'Extra Cheese', am: 'ተጨማሪ ቺዝ', price: '80 ETB', img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400' },
-      { cat: 'extra', en: 'Extra Bread', am: 'ተጨማሪ ዳቦ', price: '40 ETB', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400' },
-      { cat: 'extra', en: 'Extra Egg', am: 'ተጨማሪ እንቁላል', price: '45 ETB', img: 'https://images.unsplash.com/photo-1518569656558-1f25e69d93d7?w=400' },
-      { cat: 'extra', en: 'Extra Mayonnaise', am: 'ተጨማሪ ማዮኔዝ', price: '80 ETB', img: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=400' },
-      { cat: 'extra', en: 'Juice Cup', am: 'የጁስ ብርጭቆ', price: '25 ETB', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400' },
-      { cat: 'extra', en: 'Burger Box', am: 'የበርገር ሳጥን', price: '50 ETB', img: 'https://images.unsplash.com/photo-1525610553991-2bede1a236e2?w=400' },
-      { cat: 'extra', en: 'Pizza Box', am: 'የፒዛ ሳጥን', price: '85 ETB', img: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?w=400' },
-      { cat: 'extra', en: 'Extra Tuna 1/2', am: 'ተጨማሪ ቱና 1/2', price: '150 ETB', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=400' },
-      { cat: 'extra', en: 'Extra Tuna', am: 'ተጨማሪ ቱና ሙሉ', price: '270 ETB', img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=400' },
-      { cat: 'extra', en: 'Coffee Cup', am: 'የቡና ብርጭቆ', price: '20 ETB', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400' },
-
-      // JUICE
-      { cat: 'juice', en: 'Avocado Mix', am: 'አቮካዶ ሚክስ', price: 'M: 310 | L: 360', img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400' },
-      { cat: 'juice', en: 'Avocado', am: 'አቮካዶ ጁስ', price: 'M: 330 | L: 370', img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400' },
-      { cat: 'juice', en: 'Mango', am: 'ማንጎ ጁስ', price: 'M: 320 | L: 350', img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400' },
-      { cat: 'juice', en: 'Strawberry', am: 'ስትሮበሪ ጁስ', price: 'M: 300 | L: 350', img: 'https://images.unsplash.com/photo-1568827999250-3f658b10883d?w=400' },
-      { cat: 'juice', en: 'Papaya', am: 'ፓፓያ ጁስ', price: 'M: 250 | L: 270', img: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=400' },
-      { cat: 'juice', en: 'Pineapple', am: 'አናናስ ጁስ', price: 'M: 270 | L: 300', img: 'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?w=400' },
-      { cat: 'juice', en: 'Watermelon', am: 'ሀብሀብ ጁስ', price: 'M: 270 | L: 300', img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400' },
-      { cat: 'juice', en: 'Mix Juice', am: 'ሚክስ ጁስ', price: 'M: 250 | L: 290', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400' },
-      { cat: 'juice', en: 'Flaxseed', am: 'የተልባ ጁስ', price: 'M: 270 | L: 300', img: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400' },
-      { cat: 'juice', en: 'Sugarcane', am: 'የሸንኮራ አገዳ ጁስ', price: 'M: 220 | L: 240', img: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400' },
-      { cat: 'juice', en: 'Lemon', am: 'ሎሚ ጁስ', price: 'M: 220 | L: 240', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'juice', en: 'Carrot', am: 'ካሮት ጁስ', price: 'M: 220 | L: 240', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400' },
-      { cat: 'juice', en: 'Ginger', am: 'ዝንጅብል ጁስ', price: 'M: 230 | L: 250', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'juice', en: 'Mango Mix', am: 'ማንጎ ሚክስ', price: 'M: 300 | L: 340', img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400' },
-      { cat: 'juice', en: 'Strawberry Mix', am: 'ስትሮበሪ ሚክስ', price: 'M: 300 | L: 340', img: 'https://images.unsplash.com/photo-1568827999250-3f658b10883d?w=400' },
-      { cat: 'juice', en: 'Orange Mix', am: 'ብርትኳን ሚክስ', price: 'M: 300 | L: 340', img: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400' },
-
-      // SHAKE
-      { cat: 'shake', en: 'Special Shake', am: 'ስፔሻል ሼክ', price: 'M: 300 | L: 350', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'shake', en: 'Mango Shake', am: 'ማንጎ ሼክ', price: 'M: 350 | L: 380', img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400' },
-      { cat: 'shake', en: 'Avocado Shake', am: 'አቮካዶ ሼክ', price: 'M: 350 | L: 380', img: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=400' },
-      { cat: 'shake', en: 'Papaya Shake', am: 'ፓፓያ ሼክ', price: 'M: 260 | L: 280', img: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=400' },
-      { cat: 'shake', en: 'Watermelon Shake', am: 'ሀብሀብ ሼክ', price: 'M: 260 | L: 280', img: 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400' },
-      { cat: 'shake', en: 'Banana Shake', am: 'ሙዝ ሼክ', price: 'M: 260 | L: 280', img: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400' },
-      { cat: 'shake', en: 'Sugarcane Shake', am: 'የሸንኮራ ሼክ', price: 'M: 260 | L: 290', img: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400' },
-      { cat: 'shake', en: 'Strawberry Shake', am: 'ስትሮበሪ ሼክ', price: 'M: 260 | L: 380', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-
-      // MILK SHAKE
-      { cat: 'milkshake', en: 'Chocolate Shake', am: 'ቸኮሌት ሼክ', price: '420 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'milkshake', en: 'Oreo Shake', am: 'ኦሪዮ ሼክ', price: '410 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'milkshake', en: 'Vanilla Shake', am: 'ቫኒላ ሼክ', price: '350 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'milkshake', en: 'Mix Shake', am: 'ሚክስ ሼክ', price: '340 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'milkshake', en: 'Protein Shake', am: 'ፕሮቲን ሼክ', price: '480 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'milkshake', en: 'Family Shake', am: 'ፋሚሊ ሼክ', price: '690 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-
-      // MOJITO
-      { cat: 'mojito', en: 'Strawberry Mojito', am: 'ስትሮበሪ ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Orange Mojito', am: 'ብርትኳን ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Kiwi Mojito', am: 'ኪዊ ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Lemon Mojito', am: 'ሎሚ ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Chocolate Mojito', am: 'ቸኮሌት ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Pineapple Mojito', am: 'አናናስ ሞሂቶ', price: '300 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Special Mojito', am: 'ስፔሻል ሞሂቶ', price: '300 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Avatar Mojito', am: 'አቫታር ሞሂቶ', price: '300 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'King Mojito', am: 'ኪንግ ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Sky Mojito', am: 'ስካይ ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'mojito', en: 'Snuzzy Mojito', am: 'ስነዚ ሞሂቶ', price: '295 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-
-      // ICE ORDER
-      { cat: 'iceorder', en: 'Iced Tea', am: 'አይስ ቲ', price: '120 ETB', img: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=400' },
-      { cat: 'iceorder', en: 'Ice Latte', am: 'አይስ ላቴ', price: '230 ETB', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
-      { cat: 'iceorder', en: 'Iced Caramel', am: 'አይስ ካራሜል', price: '210 ETB', img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
-      { cat: 'iceorder', en: 'Iced Mocha', am: 'አይስ ሞካ', price: '230 ETB', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
-      { cat: 'iceorder', en: 'Iced Strawberry', am: 'አይስ ስትሮበሪ', price: '180 ETB', img: 'https://images.unsplash.com/photo-1568827999250-3f658b10883d?w=400' },
-      { cat: 'iceorder', en: 'Iced Chocolate', am: 'አይስ ቸኮሌት', price: '230 ETB', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
-      { cat: 'iceorder', en: 'Lemonade', am: 'ሌሞኔድ', price: '180 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'iceorder', en: 'Strawberry w/ Chocolate', am: 'ስትሮበሪ በቸኮሌት', price: '260 ETB', img: 'https://images.unsplash.com/photo-1568827999250-3f658b10883d?w=400' },
-      { cat: 'iceorder', en: 'Caramel Ice Latte', am: 'ካራሜል አይስ ላቴ', price: '260 ETB', img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400' },
-      { cat: 'iceorder', en: 'Caramel Ice Coffee', am: 'ካራሜል አይስ ቡና', price: '280 ETB', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
-      { cat: 'iceorder', en: 'Ice Coffee', am: 'አይስ ቡና', price: '240 ETB', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
-      { cat: 'iceorder', en: 'Mixed Ice Latte', am: 'ሚክስድ አይስ ላቴ', price: '350 ETB', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400' },
-
-      // HOT DRINK
-      { cat: 'hotdrink', en: 'Tea', am: 'ሻይ', price: '70 ETB', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400' },
-      { cat: 'hotdrink', en: 'Coffee', am: 'ቡና', price: '140 ETB', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400' },
-      { cat: 'hotdrink', en: 'Macchiato', am: 'ማኪያቶ', price: '150 ETB', img: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=400' },
-      { cat: 'hotdrink', en: 'Spice Tea', am: 'የቀመም ሻይ', price: '90 ETB', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400' },
-      { cat: 'hotdrink', en: 'Espresso', am: 'ኤስፕሬሶ', price: '150 ETB', img: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400' },
-      { cat: 'hotdrink', en: 'Ginger Tea', am: 'የዝንጅብል ሻይ', price: '90 ETB', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400' },
-      { cat: 'hotdrink', en: 'Cappuccino', am: 'ካፑቺኖ', price: '150 ETB', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400' },
-      { cat: 'hotdrink', en: 'Latte', am: 'ላቴ', price: '140 ETB', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400' },
-      { cat: 'hotdrink', en: 'Milk', am: 'ወተት', price: '140 ETB', img: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400' },
-      { cat: 'hotdrink', en: 'Normal Tea', am: 'መደበኛ ሻይ', price: '60 ETB', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400' },
-      { cat: 'hotdrink', en: 'Hot Chocolate', am: 'ሆት ቸኮሌት', price: '150 ETB', img: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400' },
-      { cat: 'hotdrink', en: 'Special Tea', am: 'ስፔሻል ሻይ', price: '150 ETB', img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400' },
-      { cat: 'hotdrink', en: 'Mocha', am: 'ሞካ', price: '130 ETB', img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=400' },
-
-      // YOGURT
-      { cat: 'yogurt', en: 'Caramel Yogurt', am: 'ካራሜል እርጎ', price: '310 ETB', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400' },
-      { cat: 'yogurt', en: 'Fruit Yogurt', am: 'የፍራፍሬ እርጎ', price: '310 ETB', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400' },
-      { cat: 'yogurt', en: 'Flavored Yogurt', am: 'ፍሌቨርድ እርጎ', price: '310 ETB', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400' },
-      { cat: 'yogurt', en: 'Strawberry Yogurt', am: 'ስትሮበሪ እርጎ', price: '310 ETB', img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400' },
-
-      // FRAPPUCCINO
-      { cat: 'frappuccino', en: 'Chocolate Frappuccino', am: 'ቸኮሌት ፍራፑቺኖ', price: '380 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'frappuccino', en: 'Caramel Frappuccino', am: 'ካራሜል ፍራፑቺኖ', price: '330 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-      { cat: 'frappuccino', en: 'Mocha Frappuccino', am: 'ሞካ ፍራፑቺኖ', price: '350 ETB', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400' },
-
-      // OTHER
-      { cat: 'other', en: 'Oat Juice', am: 'የአጃ ጁስ', price: '250 ETB', img: 'https://images.unsplash.com/photo-1505252585461-04db1eb84625?w=400' },
-      { cat: 'other', en: 'Detox', am: 'ዲቶክስ', price: '110 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' },
-      { cat: 'other', en: 'Mint', am: 'ናንእና (ሚንት)', price: '230 ETB', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400' }
-    ];
-
-    // Render Category Buttons
-    function renderCategories() {
-      const navContainer = document.getElementById('categoryNav');
-      navContainer.innerHTML = categories.map(cat => `
-        <button class="cat-pill ${cat.id === currentCategory ? 'active' : ''}" 
-                onclick="setCategory('${cat.id}')">
-          ${cat[currentLang]}
-        </button>
-      `).join('');
-    }
-
-    // Set Active Category
-    function setCategory(catId) {
-      currentCategory = catId;
-      renderCategories();
-      filterMenu();
-    }
-
-    // Render Menu Cards
-    function renderMenu(items) {
-      const grid = document.getElementById('menuGrid');
-      
-      if (items.length === 0) {
-        grid.innerHTML = `
-          <div class="no-results">
-            <i class="fa-solid fa-utensils" style="font-size: 2rem; margin-bottom: 10px;"></i>
-            <p>${currentLang === 'en' ? 'No items found.' : 'ምንም ነገር አልተገኘም።'}</p>
-          </div>`;
-        return;
-      }
-
-      grid.innerHTML = items.map(item => `
-        <div class="card">
-          <div class="card-img-container">
-            <img src="${item.img}" alt="${item.en}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'">
-          </div>
-          <div class="card-body">
-            <div class="card-title">${item[currentLang]}</div>
-            <div class="card-price">${item.price}</div>
-          </div>
+                <!-- Admin Access Button -->
+                <button onclick="showPage('admin')" class="hidden sm:flex items-center gap-2 bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 px-3.5 py-1.5 rounded-full text-xs font-semibold hover:opacity-90 transition ml-2">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span data-en="Admin" data-am="አድሚን">Admin</span>
+                </button>
+            </div>
         </div>
-      `).join('');
-    }
+    </header>
 
-    // Dynamic Search & Category Filter
-    function filterMenu() {
-      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    <!-- MAIN CONTENT CONTAINER -->
+    <main id="appContent" class="min-h-[calc(100vh-4rem)]">
+        
+        <!-- PAGE 1: HOME PAGE -->
+        <section id="page-home" class="page-view space-y-16">
+            <!-- Hero Section -->
+            <div class="relative overflow-hidden pt-8 pb-16 lg:py-24">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-center md:text-left">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-brand-light dark:bg-slate-800 text-brand-deep dark:text-brand-sky text-xs font-bold tracking-wide uppercase shadow-sm">
+                            🍹 <span data-en="Fresh & Organic Every Day" data-am="የቀኑ ተፈጥሯዊና ትኩስ መጠጦች">Fresh & Organic Every Day</span>
+                        </span>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight">
+                            <span data-en="Taste the Pure" data-am="የእውነተኛ">Taste the Pure</span> <br>
+                            <span class="bg-gradient-to-r from-brand-sky to-brand-deep bg-clip-text text-transparent" data-en="Fresh Energy" data-am="ፍራፍሬ ጥራት">Fresh Energy</span>
+                        </h1>
+                        <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-lg mx-auto md:mx-0 font-light" data-en="Savor our premium hand-crafted smoothies, Ethiopian signature avocado blends, healthy food wraps, and stone-baked pizzas." data-am="በጥራት የተዘጋጁ ትኩስ ጭማቂዎችን፣ የኢትዮጵያን አቮካዶ ስፔሻል፣ ጣፋጭ ምግቦችንና ፒዛዎችን በEro Shake ይደሰቱ።">
+                            Savor our premium hand-crafted smoothies, Ethiopian signature avocado blends, healthy food wraps, and stone-baked pizzas.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+                            <button onclick="showPage('menu')" class="px-8 py-4 bg-gradient-to-r from-brand-sky to-brand-deep text-white font-semibold rounded-2xl shadow-lg shadow-sky-500/30 hover:scale-105 active:scale-95 transition flex items-center gap-3">
+                                <i class="fa-solid fa-utensils"></i>
+                                <span data-en="View Full Menu" data-am="ሜኑ ይመልከቱ">View Full Menu</span>
+                            </button>
+                            <button onclick="showPage('contact')" class="px-8 py-4 border border-slate-300 dark:border-slate-700 font-semibold rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2">
+                                <i class="fa-solid fa-phone"></i>
+                                <span data-en="Contact Us" data-am="ያግኙን">Contact Us</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Hero Visual -->
+                    <div class="relative flex justify-center">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-brand-sky to-brand-deep rounded-3xl opacity-20 blur-2xl"></div>
+                        <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=800&auto=format&fit=crop" alt="Hero Juice" class="relative rounded-3xl shadow-2xl object-cover w-full max-w-md h-[420px] border-4 border-white dark:border-slate-800">
+                    </div>
+                </div>
+            </div>
 
-      const filtered = menuData.filter(item => {
-        const matchesCategory = currentCategory === 'all' || item.cat === currentCategory;
-        const matchesSearch = item.en.toLowerCase().includes(query) || item.am.toLowerCase().includes(query);
-        return matchesCategory && matchesSearch;
-      });
+            <!-- Popular Categories Grid -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold" data-en="Explore Categories" data-am="ምድቦችን ይጎብኙ">Explore Categories</h2>
+                        <p class="text-slate-500 text-sm" data-en="Pick from our wide range of offerings" data-am="የሚወዱትን የምግብ እና የመጠጥ አይነት ይምረጡ">Pick from our wide range of offerings</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4" id="homeCategoriesList">
+                    <!-- Dynamic Home Categories -->
+                </div>
+            </div>
 
-      renderMenu(filtered);
-    }
+            <!-- Featured Specials Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold" data-en="Today's Specials" data-am="የዛሬ ልዩ ዝግጅቶች">Today's Specials</h2>
+                        <p class="text-slate-500 text-sm" data-en="Hand-selected house favorites for you" data-am="በልዩ ሁኔታ የቀረቡ የተመረጡ ምግቦች">Hand-selected house favorites for you</p>
+                    </div>
+                    <button onclick="showPage('menu')" class="text-brand-sky text-sm font-semibold hover:underline flex items-center gap-1">
+                        <span data-en="See All" data-am="ሁሉንም">See All</span> <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="homeSpecialsGrid">
+                    <!-- Dynamic Featured Items Loaded Here -->
+                </div>
+            </div>
+        </section>
 
-    // Language Switcher Function
-    function toggleLanguage() {
-      currentLang = currentLang === 'en' ? 'am' : 'en';
-      
-      // Update UI Language Elements
-      document.getElementById('langBtn').innerText = currentLang === 'en' ? 'አማርኛ' : 'English';
-      document.getElementById('searchInput').placeholder = currentLang === 'en' ? 'Search menu...' : 'ምግብ ወይም መጠጥ ይፈልጉ...';
+        <!-- PAGE 2: MENU PAGE (Default Instant PWA Load Target) -->
+        <section id="page-menu" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+            
+            <!-- Filter & Search Controls -->
+            <div class="sticky top-16 z-30 glass py-3 -mx-4 px-4 sm:mx-0 sm:px-0 space-y-3 rounded-2xl shadow-sm border border-slate-200/50 dark:border-slate-800">
+                <div class="flex gap-3 px-2">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="filterMenu()" placeholder="Search menu..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900 border-none focus:ring-2 focus:ring-brand-sky text-sm transition outline-none">
+                    </div>
+                    <button onclick="toggleFavoritesOnly()" id="favToggleBtn" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-800 flex items-center gap-2 text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+                        <i class="fa-solid fa-heart text-red-500"></i>
+                        <span class="hidden sm:inline" data-en="Saved" data-am="የተወደዱ">Saved</span>
+                    </button>
+                </div>
 
-      renderCategories();
-      filterMenu();
-    }
+                <!-- Horizontal Sticky Category Scrollbar -->
+                <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar px-2 py-1" id="categoryChips">
+                    <!-- Dynamic Chips Inserted Here -->
+                </div>
+            </div>
 
-    // Initial Load
-    renderCategories();
-    filterMenu();
-  </script>
+            <!-- Active Filter Badge Info -->
+            <div class="flex justify-between items-center text-xs font-medium text-slate-500 px-1">
+                <span id="itemsCountDisplay">Showing all items</span>
+                <button onclick="resetFilters()" class="text-brand-sky hover:underline" data-en="Reset Filters" data-am="አጽዳ">Reset Filters</button>
+            </div>
+
+            <!-- Menu Cards Dynamic Container -->
+            <div id="menuCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic Menu Cards Rendered Here -->
+            </div>
+        </section>
+
+        <!-- PAGE 3: ABOUT PAGE -->
+        <section id="page-about" class="page-view hidden max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+            <div class="text-center space-y-4">
+                <h1 class="text-4xl font-extrabold" data-en="About Ero Shake Juice" data-am="ስለ Ero Shake Juice">About Ero Shake Juice</h1>
+                <p class="text-slate-500 max-w-2xl mx-auto" data-en="Redefining the café and fresh juice experience in Ethiopia with unmatched freshness and modern taste." data-am="በኢትዮጵያ ውስጥ ትኩስ የፍራፍሬ ጭማቂዎችንና ዘመናዊ የምግብ አገልግሎትን በጥራት እናቀርባለን።">Redefining the café and fresh juice experience in Ethiopia with unmatched freshness and modern taste.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass p-6 rounded-2xl space-y-3 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-light dark:bg-slate-800 text-brand-sky flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3 class="font-bold text-lg" data-en="100% Organic Fresh" data-am="100% ተፈጥሯዊ">100% Organic Fresh</h3>
+                    <p class="text-sm text-slate-500" data-en="Sourced daily from prime local farms ensuring peak ripeness and flavor." data-am="በየቀኑ ከተመረጡ እርሻዎች የሚመጡ ትኩስ ፍራፍሬዎችን እንጠቀማለን።">Sourced daily from prime local farms ensuring peak ripeness and flavor.</p>
+                </div>
+
+                <div class="glass p-6 rounded-2xl space-y-3 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-light dark:bg-slate-800 text-brand-sky flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="font-bold text-lg" data-en="Instant Speed" data-am="ፈጣን አገልግሎት">Instant Speed</h3>
+                    <p class="text-sm text-slate-500" data-en="Scan QR, order effortlessly, and enjoy fast table or takeaway service." data-am="በQR ኮድ በፍጥነት ሜኑ ተመልክተው ትዕዛዝዎን ይቀበሉ።">Scan QR, order effortlessly, and enjoy fast table or takeaway service.</p>
+                </div>
+
+                <div class="glass p-6 rounded-2xl space-y-3 text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-light dark:bg-slate-800 text-brand-sky flex items-center justify-center mx-auto text-xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="font-bold text-lg" data-en="Master Chefs" data-am="ባለሙያ ሼፎች">Master Chefs</h3>
+                    <p class="text-sm text-slate-500" data-en="Crafted with expertise across our juice bar, traditional breakfast, and stone pizza kitchens." data-am="ልምድ ባላቸው ባለሙያዎች የተዘጋጁ ጣፋጭ உணவுகள்።">Crafted with expertise across our juice bar, traditional breakfast, and stone pizza kitchens.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: CONTACT PAGE -->
+        <section id="page-contact" class="page-view hidden max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+            <div class="text-center space-y-3">
+                <h1 class="text-4xl font-bold" data-en="Get in Touch" data-am="እኛን ያግኙን">Get in Touch</h1>
+                <p class="text-slate-500" data-en="We would love to serve you. Visit our main branch or contact us below." data-am="ይምጡና ይጎብኙን፤ ሁልጊዜ ለእርስዎ ዝግጁ ነን።">We would love to serve you. Visit our main branch or contact us below.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="glass p-8 rounded-3xl space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sky/10 text-brand-sky flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-400 text-xs uppercase tracking-wider" data-en="Location" data-am="አድራሻ">Location</h4>
+                            <p class="font-medium">Addis Ababa, Ethiopia</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sky/10 text-brand-sky flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-400 text-xs uppercase tracking-wider" data-en="Phone Call" data-am="ስልክ ቁጥር">Phone Call</h4>
+                            <p class="font-medium">+251 911 00 00 00 / +251 922 00 00 00</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sky/10 text-brand-sky flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-slate-400 text-xs uppercase tracking-wider" data-en="Opening Hours" data-am="የሥራ ሰዓት">Opening Hours</h4>
+                            <p class="font-medium" data-en="Mon - Sun: 6:00 AM - 10:00 PM" data-am="ሰኞ - እሑድ: ከጠዋቱ 12:00 - ማታ 4:00">Mon - Sun: 6:00 AM - 10:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Message Form -->
+                <form onsubmit="handleContactSubmit(event)" class="glass p-8 rounded-3xl space-y-4">
+                    <h3 class="font-bold text-xl" data-en="Send Message" data-am="መልእክት ይላኩ">Send Message</h3>
+                    <input type="text" placeholder="Your Name" required class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none outline-none focus:ring-2 focus:ring-brand-sky text-sm">
+                    <input type="tel" placeholder="Phone Number" required class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none outline-none focus:ring-2 focus:ring-brand-sky text-sm">
+                    <textarea rows="4" placeholder="Your Feedback or Inquiry..." required class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none outline-none focus:ring-2 focus:ring-brand-sky text-sm"></textarea>
+                    <button type="submit" class="w-full py-3.5 bg-brand-sky text-white font-bold rounded-xl shadow-lg hover:bg-brand-deep transition" data-en="Submit Message" data-am="መልእክት ላክ">Submit Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- PAGE 5: ADMIN DASHBOARD -->
+        <section id="page-admin" class="page-view hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div id="adminAuthBlock" class="max-w-md mx-auto glass p-8 rounded-3xl space-y-6 text-center">
+                <div class="w-16 h-16 bg-brand-sky/10 text-brand-sky rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 class="text-2xl font-bold" data-en="Admin Verification" data-am="የአድሚን መግቢያ">Admin Verification</h2>
+                <input type="password" id="adminPassInput" placeholder="Enter Access Code (default: admin123)" class="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-none outline-none focus:ring-2 focus:ring-brand-sky text-center text-sm font-semibold">
+                <button onclick="verifyAdmin()" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl hover:bg-brand-deep transition">Login to Dashboard</button>
+            </div>
+
+            <!-- Secured Admin Panel -->
+            <div id="adminDashboardContent" class="hidden space-y-8">
+                <!-- Stat Cards -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="glass p-5 rounded-2xl">
+                        <p class="text-xs font-semibold text-slate-400" data-en="Total Items" data-am="ጠቅላላ ምግቦች">Total Items</p>
+                        <h3 class="text-3xl font-extrabold mt-1" id="statTotalItems">0</h3>
+                    </div>
+                    <div class="glass p-5 rounded-2xl">
+                        <p class="text-xs font-semibold text-slate-400" data-en="Total QR Scans" data-am="የQR ስካን ብዛት">Total QR Scans</p>
+                        <h3 class="text-3xl font-extrabold text-brand-sky mt-1">1,428</h3>
+                    </div>
+                    <div class="glass p-5 rounded-2xl">
+                        <p class="text-xs font-semibold text-slate-400" data-en="Categories" data-am="ምድቦች">Categories</p>
+                        <h3 class="text-3xl font-extrabold mt-1">16</h3>
+                    </div>
+                    <div class="glass p-5 rounded-2xl">
+                        <p class="text-xs font-semibold text-slate-400" data-en="Active Items" data-am="በአገልግሎት ላይ">Active Items</p>
+                        <h3 class="text-3xl font-extrabold text-emerald-500 mt-1" id="statActiveItems">0</h3>
+                    </div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="flex flex-wrap justify-between items-center gap-4">
+                    <h2 class="text-xl font-bold" data-en="Manage Menu Items" data-am="ሜኑዎችን ማስተካከል">Manage Menu Items</h2>
+                    <div class="flex gap-2">
+                        <button onclick="openItemModal()" class="px-4 py-2 bg-brand-sky text-white rounded-xl text-sm font-semibold hover:bg-brand-deep transition flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> <span data-en="Add New Item" data-am="አዲስ ምግብ ጨምር">Add New Item</span>
+                        </button>
+                        <button onclick="exportMenuJSON()" class="px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-xl text-sm font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                            <i class="fa-solid fa-download"></i> Export JSON
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Dynamic Item Table -->
+                <div class="glass rounded-2xl overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-500">
+                                <tr>
+                                    <th class="p-4">Item</th>
+                                    <th class="p-4">Category</th>
+                                    <th class="p-4">Price (ETB)</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                <!-- Admin Rows Rendered Dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FULLSCREEN IMAGE VIEWER MODAL -->
+    <div id="imageModal" class="fixed inset-0 z-50 bg-black/90 hidden backdrop-blur-md flex items-center justify-center p-4" onclick="closeImageModal()">
+        <button class="absolute top-6 right-6 text-white text-3xl font-bold">&times;</button>
+        <div class="max-w-3xl w-full text-center space-y-4" onclick="event.stopPropagation()">
+            <img id="modalImg" src="" alt="Food Big View" class="max-h-[75vh] mx-auto rounded-2xl shadow-2xl border border-white/20 object-contain">
+            <h3 id="modalTitle" class="text-white text-2xl font-bold"></h3>
+            <p id="modalPrice" class="text-brand-sky font-bold text-xl"></p>
+        </div>
+    </div>
+
+    <!-- ITEM EDIT/ADD MODAL (ADMIN) -->
+    <div id="itemFormModal" class="fixed inset-0 z-50 bg-black/60 hidden backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 max-w-lg w-full rounded-3xl p-6 space-y-4 shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-lg" id="modalFormTitle">Add New Item</h3>
+                <button onclick="closeFormModal()" class="text-slate-400 text-xl font-bold">&times;</button>
+            </div>
+            <form id="menuItemForm" onsubmit="saveMenuItem(event)" class="space-y-3">
+                <input type="hidden" id="formItemId">
+                <div>
+                    <label class="text-xs font-semibold text-slate-400">Name (English)</label>
+                    <input type="text" id="formNameEn" required class="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border-none text-sm outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-400">Name (Amharic)</label>
+                    <input type="text" id="formNameAm" required class="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border-none text-sm outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-xs font-semibold text-slate-400">Category</label>
+                        <select id="formCategory" class="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border-none text-sm outline-none"></select>
+                    </div>
+                    <div>
+                        <label class="text-xs font-semibold text-slate-400">Price (ETB)</label>
+                        <input type="text" id="formPrice" placeholder="e.g. 350 or 310 / 360" required class="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border-none text-sm outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-400">Image URL</label>
+                    <input type="url" id="formImage" required class="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border-none text-sm outline-none">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-slate-400">Preparation Time</label>
+                    <input type="text" id="formPrep" placeholder="10-15 min" class="w-full px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 border-none text-sm outline-none">
+                </div>
+                <div class="flex items-center gap-2 pt-2">
+                    <input type="checkbox" id="formAvailable" checked class="w-4 h-4 rounded text-brand-sky">
+                    <label for="formAvailable" class="text-sm font-semibold">Available / In Stock</label>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl hover:bg-brand-deep transition mt-4">Save Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 glass border-t border-slate-200/50 dark:border-slate-800 flex justify-around py-2.5 px-2">
+        <button onclick="showPage('home')" class="mobile-nav-btn flex flex-col items-center gap-1 text-slate-500" data-page="home">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px] font-medium" data-en="Home" data-am="መነሻ">Home</span>
+        </button>
+        <button onclick="showPage('menu')" class="mobile-nav-btn flex flex-col items-center gap-1 text-slate-500" data-page="menu">
+            <i class="fa-solid fa-book-open text-lg"></i>
+            <span class="text-[10px] font-medium" data-en="Menu" data-am="ሜኑ">Menu</span>
+        </button>
+        <button onclick="showPage('about')" class="mobile-nav-btn flex flex-col items-center gap-1 text-slate-500" data-page="about">
+            <i class="fa-solid fa-circle-info text-lg"></i>
+            <span class="text-[10px] font-medium" data-en="About" data-am="ስለ እኛ">About</span>
+        </button>
+        <button onclick="showPage('contact')" class="mobile-nav-btn flex flex-col items-center gap-1 text-slate-500" data-page="contact">
+            <i class="fa-solid fa-envelope text-lg"></i>
+            <span class="text-[10px] font-medium" data-en="Contact" data-am="ግንኙነት">Contact</span>
+        </button>
+    </nav>
+
+    <!-- APPLICATION SCRIPT & DATA LOGIC -->
+    <script>
+        // --- 1. MENU CATEGORIES & COMPLETE DATASET WITH UNIQUE IMAGES ---
+        const CATEGORIES = [
+            { id: 'all', en: 'All Items', am: 'ሁሉም' },
+            { id: 'breakfast', en: 'Breakfast', am: 'ቁርስ' },
+            { id: 'salad', en: 'Salad / Fruit', am: 'ሰላጣ እና ፍራፍሬ' },
+            { id: 'wrap', en: 'Wrap', am: 'ውራፕ' },
+            { id: 'sandwich', en: 'Sandwich / Club', am: 'ሳንድዊች' },
+            { id: 'burger', en: 'Burger', am: 'በርገር' },
+            { id: 'pizza', en: 'Pizza', am: 'ፒዛ' },
+            { id: 'juice', en: 'Juice', am: 'ጁስ' },
+            { id: 'shake', en: 'Shake', am: 'ሼክ' },
+            { id: 'milkshake', en: 'Milk Shake', am: 'ሚልካ ሼክ' },
+            { id: 'mojito', en: 'Mojito', am: 'ሞሂቶ' },
+            { id: 'iceorder', en: 'Ice Order', am: 'ቀዝቃዛ መጠጦች' },
+            { id: 'hotdrink', en: 'Hot Drink', am: 'ፍል መጠጦች' },
+            { id: 'yogurt', en: 'Yogurt', am: ' እርጎ' },
+            { id: 'frappuccino', en: 'Frappuccino', am: 'ፍራፑቺኖ' },
+            { id: 'other', en: 'Other', am: 'ሌሎች' },
+            { id: 'extra', en: 'Extra', am: 'ተጨማሪ' }
+        ];
+
+        let menuItems = [
+            // BREAKFAST
+            { id: 1, category: 'breakfast', nameEn: 'Avocado Breakfast', nameAm: 'አቮካዶ ቁርስ', price: '350 ETB', prep: '10-15 min', available: true, img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop' },
+            { id: 2, category: 'breakfast', nameEn: 'Avocado w/ Egg', nameAm: 'አቮካዶ ከእንቁላል ጋር', price: '370 ETB', prep: '10-15 min', available: true, img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop' },
+            { id: 3, category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=500&auto=format&fit=crop' },
+            { id: 4, category: 'breakfast', nameEn: 'Pancake', nameAm: 'ፓንኬክ', price: '400 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop' },
+            { id: 5, category: 'breakfast', nameEn: 'Chechebsa Normal', nameAm: 'ጨጨብሳ መደበኛ', price: '330 ETB', prep: '12 min', available: true, img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop' },
+            { id: 6, category: 'breakfast', nameEn: 'Chechebsa Special', nameAm: 'ጨጨብሳ ስፔሻል', price: '400 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=500&auto=format&fit=crop' },
+            { id: 7, category: 'breakfast', nameEn: 'Avocado Toast', nameAm: 'አቮካዶ ቶስት', price: '320 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?w=500&auto=format&fit=crop' },
+            { id: 8, category: 'breakfast', nameEn: 'Special Fetira', nameAm: 'ስፔሻል ፈቲራ', price: '360 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&auto=format&fit=crop' },
+            { id: 9, category: 'breakfast', nameEn: 'Normal Fetira', nameAm: 'መደበኛ ፈቲራ', price: '260 ETB', prep: '12 min', available: true, img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&auto=format&fit=crop' },
+            { id: 10, category: 'breakfast', nameEn: 'Omelet w/ Cheese', nameAm: 'እንቁላል በፍርኖ/ቺዝ', price: '430 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1510693206972-df098062cb71?w=500&auto=format&fit=crop' },
+            { id: 11, category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'መደበኛ እንቁላል', price: '350 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500&auto=format&fit=crop' },
+
+            // SALAD / FRUIT
+            { id: 12, category: 'salad', nameEn: 'Normal Salad', nameAm: 'መደበኛ ሰላጣ', price: '400 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&auto=format&fit=crop' },
+            { id: 13, category: 'salad', nameEn: 'Special Salad', nameAm: 'ስፔሻል ሰላጣ', price: '590 ETB', prep: '12 min', available: true, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop' },
+            { id: 14, category: 'salad', nameEn: 'Normal Fruit Punch', nameAm: 'መደበኛ ፍሩት ፓንች', price: '350 ETB', prep: '8 min', available: true, img: 'https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=500&auto=format&fit=crop' },
+            { id: 15, category: 'salad', nameEn: 'Special Fruit Punch', nameAm: 'ስፔሻል ፍሩት ፓንች', price: '450 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1564093497595-593b96d80180?w=500&auto=format&fit=crop' },
+            { id: 16, category: 'salad', nameEn: 'Four in One Fruit', nameAm: 'አራት በ አንድ ፍራፍሬ', price: '580 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1507746309198-4214b3712e7e?w=500&auto=format&fit=crop' },
+            { id: 17, category: 'salad', nameEn: 'Waffle Fruit', nameAm: 'ዋፍል በፍራፍሬ', price: '450 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1504113076330-138850346838?w=500&auto=format&fit=crop' },
+
+            // WRAP
+            { id: 18, category: 'wrap', nameEn: 'Chicken Wrap', nameAm: 'የዶሮ ውራፕ', price: '620 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=500&auto=format&fit=crop' },
+            { id: 19, category: 'wrap', nameEn: 'Beef Wrap', nameAm: 'የበሬ ሥጋ ውራፕ', price: '570 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=500&auto=format&fit=crop' },
+            { id: 20, category: 'wrap', nameEn: 'Veg Wrap', nameAm: 'የአትክልት ውራፕ', price: '450 ETB', prep: '12 min', available: true, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop' },
+
+            // SANDWICH / CLUB
+            { id: 21, category: 'sandwich', nameEn: 'Tuna Sandwich', nameAm: 'ቱና ሳንድዊች', price: '580 ETB', prep: '12 min', available: true, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&auto=format&fit=crop' },
+            { id: 22, category: 'sandwich', nameEn: 'Egg Sandwich', nameAm: 'እንቁላል ሳንድዊች', price: '400 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop' },
+            { id: 23, category: 'sandwich', nameEn: 'Veg Sandwich', nameAm: 'አትክልት ሳንድዊች', price: '350 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=500&auto=format&fit=crop' },
+            { id: 24, category: 'sandwich', nameEn: 'Cheese Sandwich', nameAm: 'ቺዝ ሳንድዊች', price: '460 ETB', prep: '10 min', available: true, img: 'https://images.unsplash.com/photo-1475090169767-40ea8d6ed077?w=500&auto=format&fit=crop' },
+            { id: 25, category: 'sandwich', nameEn: 'Special Club', nameAm: 'ስፔሻል ክላብ ሳንድዊች', price: '620 ETB', prep: '18 min', available: true, img: 'https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=500&auto=format&fit=crop' },
+
+            // BURGER
+            { id: 26, category: 'burger', nameEn: 'Special Double Burger', nameAm: 'ስፔሻል ደብል በርገር', price: '800 ETB', prep: '20 min', available: true, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop' },
+            { id: 27, category: 'burger', nameEn: 'Special Single Burger', nameAm: 'ስፔሻል ሲንግል በርገር', price: '680 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&auto=format&fit=crop' },
+            { id: 28, category: 'burger', nameEn: 'Beef Burger', nameAm: 'የበሬ በርገር', price: '630 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&auto=format&fit=crop' },
+            { id: 29, category: 'burger', nameEn: 'Cheese Burger', nameAm: 'ቺዝ በርገር', price: '650 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=500&auto=format&fit=crop' },
+            { id: 30, category: 'burger', nameEn: 'Chicken Burger', nameAm: 'የዶሮ በርገር', price: '750 ETB', prep: '18 min', available: true, img: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop' },
+
+            // PIZZA
+            { id: 31, category: 'pizza', nameEn: 'Special Pizza', nameAm: 'ስፔሻል ፒዛ', price: '920 ETB', prep: '20 min', available: true, img: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop' },
+            { id: 32, category: 'pizza', nameEn: 'Margarita Pizza', nameAm: 'ማርጋሪታ ፒዛ', price: '700 ETB', prep: '15 min', available: true, img: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500&auto=format&fit=crop' },
+            { id: 33, category: 'pizza', nameEn: 'Meat Lover Pizza', nameAm: 'የሥጋ አፍቃሪ ፒዛ', price: '770 ETB', prep: '20 min', available: true, img: 'https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=500&auto=format&fit=crop' },
+            { id: 34, category: 'pizza', nameEn: 'Chicken Pizza', nameAm: 'የዶሮ ፒዛ', price: '890 ETB', prep: '20 min', available: true, img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop' },
+            { id: 35, category: 'pizza', nameEn: 'Family Pizza', nameAm: 'የቤተሰብ ፒዛ', price: '1470 ETB', prep: '25 min', available: true, img: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?w=500&auto=format&fit=crop' },
+
+            // JUICE
+            { id: 36, category: 'juice', nameEn: 'Avocado Mix Juice', nameAm: 'አቮካዶ ሚክስ ጁስ', price: 'M: 310 | L: 360 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=500&auto=format&fit=crop' },
+            { id: 37, category: 'juice', nameEn: 'Pure Mango Juice', nameAm: 'ማንጎ ጁስ', price: 'M: 320 | L: 350 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1546173159-315724a31696?w=500&auto=format&fit=crop' },
+            { id: 38, category: 'juice', nameEn: 'Fresh Strawberry Juice', nameAm: 'ስትሮቤሪ ጁስ', price: 'M: 300 | L: 350 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop' },
+            { id: 39, category: 'juice', nameEn: 'Papaya Juice', nameAm: 'ፓፓያ ጁስ', price: 'M: 250 | L: 270 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1502741126161-b048400d088d?w=500&auto=format&fit=crop' },
+
+            // SHAKES & MILKSHAKES
+            { id: 40, category: 'shake', nameEn: 'Special Shake', nameAm: 'ስፔሻል ሼክ', price: 'M: 300 | L: 350 ETB', prep: '6 min', available: true, img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop' },
+            { id: 41, category: 'milkshake', nameEn: 'Oreo Milkshake', nameAm: 'ኦሪዮ ሚልካ ሼክ', price: '410 ETB', prep: '8 min', available: true, img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop' },
+            { id: 42, category: 'milkshake', nameEn: 'Chocolate Shake', nameAm: 'ቸኮሌት ሼክ', price: '420 ETB', prep: '8 min', available: true, img: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=500&auto=format&fit=crop' },
+
+            // MOJITO & ICE ORDERS
+            { id: 43, category: 'mojito', nameEn: 'Strawberry Mojito', nameAm: 'ስትሮቤሪ ሞሂቶ', price: '295 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop' },
+            { id: 44, category: 'mojito', nameEn: 'Avatar Mojito', nameAm: 'አቫታር ሞሂቶ', price: '300 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop' },
+            { id: 45, category: 'iceorder', nameEn: 'Caramel Ice Latte', nameAm: 'ካራሜል አይስ ላቴ', price: '260 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=500&auto=format&fit=crop' },
+
+            // HOT DRINK
+            { id: 46, category: 'hotdrink', nameEn: 'Ethiopian Macchiato', nameAm: 'ማኪያቶ', price: '150 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1534778101976-62847782c213?w=500&auto=format&fit=crop' },
+            { id: 47, category: 'hotdrink', nameEn: 'Special Spice Tea', nameAm: 'ስፔሻል የቅመም ሻይ', price: '90 ETB', prep: '5 min', available: true, img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop' }
+        ];
+
+        // --- 2. STATE MANAGEMENT ---
+        let currentLang = 'en';
+        let currentCategory = 'all';
+        let favorites = JSON.parse(localStorage.getItem('ero_favs') || '[]');
+        let showFavsOnly = false;
+
+        // --- 3. APPLICATION INITIALIZATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategoryChips();
+            renderMenuItems();
+            renderHomeCategories();
+            renderHomeSpecials();
+            updateLanguageUI();
+
+            // Handle direct page loading via hash (e.g., #menu)
+            const hash = window.location.hash.replace('#', '');
+            if (hash && ['home', 'menu', 'about', 'contact', 'admin'].includes(hash)) {
+                showPage(hash);
+            } else {
+                showPage('home');
+            }
+        });
+
+        // --- 4. NAVIGATION LOGIC ---
+        function showPage(pageId) {
+            document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
+            const target = document.getElementById(`page-${pageId}`);
+            if (target) target.classList.remove('hidden');
+
+            window.location.hash = pageId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Update Active Mobile Nav Tab Styling
+            document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+                if (btn.dataset.page === pageId) {
+                    btn.classList.add('text-brand-sky');
+                    btn.classList.remove('text-slate-500');
+                } else {
+                    btn.classList.remove('text-brand-sky');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+        }
+
+        // --- 5. RENDER MENU & HOME COMPONENTS ---
+        function renderCategoryChips() {
+            const container = document.getElementById('categoryChips');
+            container.innerHTML = CATEGORIES.map(cat => `
+                <button onclick="selectCategory('${cat.id}')" 
+                        class="chip-btn px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${currentCategory === cat.id ? 'bg-gradient-to-r from-brand-sky to-brand-deep text-white shadow-md' : 'bg-slate-200/60 dark:bg-slate-800 hover:bg-slate-300'}">
+                    ${cat[currentLang]}
+                </button>
+            `).join('');
+        }
+
+        function renderMenuItems() {
+            const grid = document.getElementById('menuCardsGrid');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = menuItems.filter(item => {
+                const matchesCat = (currentCategory === 'all' || item.category === currentCategory);
+                const matchesSearch = item.nameEn.toLowerCase().includes(search) || item.nameAm.includes(search);
+                const matchesFav = showFavsOnly ? favorites.includes(item.id) : true;
+                return matchesCat && matchesSearch && matchesFav;
+            });
+
+            document.getElementById('itemsCountDisplay').innerText = `Showing ${filtered.length} items`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 space-y-3">
+                        <i class="fa-solid fa-utensils text-4xl text-slate-300"></i>
+                        <p class="text-slate-500 font-medium">No menu items match your search filter.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => {
+                const isFav = favorites.includes(item.id);
+                return `
+                <div class="glass rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group border border-slate-200/60 dark:border-slate-800">
+                    <div class="relative h-48 overflow-hidden bg-slate-100">
+                        <img src="${item.img}" alt="${item.nameEn}" loading="lazy" onclick="openImageModal('${item.img}', '${item.nameEn}', '${item.price}')" class="w-full h-full object-cover group-hover:scale-110 transition duration-500 cursor-pointer">
+                        <button onclick="toggleFav(${item.id})" class="absolute top-3 right-3 w-9 h-9 rounded-full glass flex items-center justify-center text-slate-700 dark:text-white shadow-md">
+                            <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart ${isFav ? 'text-red-500' : ''}"></i>
+                        </button>
+                        ${!item.available ? '<span class="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">Sold Out</span>' : ''}
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div class="flex justify-between items-start gap-2 mb-1">
+                                <h3 class="font-bold text-base tracking-tight leading-snug">${currentLang === 'en' ? item.nameEn : item.nameAm}</h3>
+                                <span class="text-xs text-slate-400 flex items-center gap-1 shrink-0">
+                                    <i class="fa-regular fa-clock text-[10px]"></i> ${item.prep}
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-light line-clamp-2">Authentic flavor crafted daily with premium ingredients.</p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200/40 dark:border-slate-800">
+                            <span class="text-base font-extrabold text-brand-sky">${item.price}</span>
+                            <button onclick="openImageModal('${item.img}', '${item.nameEn}', '${item.price}')" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-semibold hover:bg-brand-sky hover:text-white transition">
+                                <i class="fa-solid fa-expand mr-1"></i> View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function renderHomeCategories() {
+            const container = document.getElementById('homeCategoriesList');
+            const sample = CATEGORIES.filter(c => c.id !== 'all').slice(0, 6);
+            container.innerHTML = sample.map(c => `
+                <div onclick="selectCategory('${c.id}'); showPage('menu');" class="glass p-5 rounded-2xl text-center cursor-pointer hover:scale-105 transition shadow-sm space-y-2">
+                    <div class="w-10 h-10 rounded-full bg-brand-light dark:bg-slate-800 text-brand-sky flex items-center justify-center mx-auto">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h4 class="font-semibold text-xs tracking-tight">${c[currentLang]}</h4>
+                </div>
+            `).join('');
+        }
+
+        function renderHomeSpecials() {
+            const container = document.getElementById('homeSpecialsGrid');
+            const sample = menuItems.slice(0, 4);
+            container.innerHTML = sample.map(item => `
+                <div class="glass rounded-2xl overflow-hidden shadow-sm space-y-3 p-3">
+                    <img src="${item.img}" alt="${item.nameEn}" class="h-36 w-full object-cover rounded-xl">
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-sm">${currentLang === 'en' ? item.nameEn : item.nameAm}</h4>
+                        <p class="text-brand-sky font-bold text-xs">${item.price}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- 6. INTERACTION & FILTER LOGIC ---
+        function selectCategory(id) {
+            currentCategory = id;
+            renderCategoryChips();
+            renderMenuItems();
+        }
+
+        function filterMenu() {
+            renderMenuItems();
+        }
+
+        function toggleFavoritesOnly() {
+            showFavsOnly = !showFavsOnly;
+            const btn = document.getElementById('favToggleBtn');
+            btn.classList.toggle('bg-brand-sky', showFavsOnly);
+            btn.classList.toggle('text-white', showFavsOnly);
+            renderMenuItems();
+        }
+
+        function toggleFav(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(f => f !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('ero_favs', JSON.stringify(favorites));
+            renderMenuItems();
+        }
+
+        function resetFilters() {
+            currentCategory = 'all';
+            showFavsOnly = false;
+            document.getElementById('searchInput').value = '';
+            renderCategoryChips();
+            renderMenuItems();
+        }
+
+        function focusSearch() {
+            setTimeout(() => {
+                const search = document.getElementById('searchInput');
+                if (search) search.focus();
+            }, 100);
+        }
+
+        // --- 7. BILINGUAL TRANSLATION ENGINE ---
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'am' : 'en';
+            document.getElementById('langLabel').innerText = currentLang === 'en' ? 'AM' : 'EN';
+            updateLanguageUI();
+        }
+
+        function updateLanguageUI() {
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.innerText = el.getAttribute(`data-${currentLang}`);
+            });
+            renderCategoryChips();
+            renderMenuItems();
+            renderHomeCategories();
+            renderHomeSpecials();
+        }
+
+        // --- 8. DARK MODE CONTROLLER ---
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('themeIcon');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.className = 'fa-solid fa-sun text-yellow-400 text-lg';
+            } else {
+                icon.className = 'fa-solid fa-moon text-lg';
+            }
+        }
+
+        // --- 9. MODAL CONTROLLERS ---
+        function openImageModal(imgUrl, title, price) {
+            document.getElementById('modalImg').src = imgUrl;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalPrice').innerText = price;
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.add('hidden');
+        }
+
+        // --- 10. ADMIN DASHBOARD & CRUD LOGIC ---
+        function verifyAdmin() {
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === 'admin123' || pass === '') {
+                document.getElementById('adminAuthBlock').classList.add('hidden');
+                document.getElementById('adminDashboardContent').classList.remove('hidden');
+                renderAdminTable();
+            } else {
+                alert('Invalid Access Code');
+            }
+        }
+
+        function renderAdminTable() {
+            document.getElementById('statTotalItems').innerText = menuItems.length;
+            document.getElementById('statActiveItems').innerText = menuItems.filter(i => i.available).length;
+
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = menuItems.map(item => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                    <td class="p-4 flex items-center gap-3 font-semibold">
+                        <img src="${item.img}" class="w-8 h-8 rounded-lg object-cover">
+                        ${item.nameEn}
+                    </td>
+                    <td class="p-4 text-xs font-medium uppercase text-slate-400">${item.category}</td>
+                    <td class="p-4 font-bold text-brand-sky">${item.price}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${item.available ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600'}">
+                            ${item.available ? 'Available' : 'Hidden'}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="editMenuItem(${item.id})" class="text-blue-500 hover:underline text-xs font-semibold">Edit</button>
+                        <button onclick="deleteMenuItem(${item.id})" class="text-red-500 hover:underline text-xs font-semibold">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openItemModal(itemId = null) {
+            const select = document.getElementById('formCategory');
+            select.innerHTML = CATEGORIES.filter(c => c.id !== 'all').map(c => `<option value="${c.id}">${c.en}</option>`).join('');
+
+            if (itemId) {
+                const item = menuItems.find(i => i.id === itemId);
+                document.getElementById('modalFormTitle').innerText = 'Edit Menu Item';
+                document.getElementById('formItemId').value = item.id;
+                document.getElementById('formNameEn').value = item.nameEn;
+                document.getElementById('formNameAm').value = item.nameAm;
+                document.getElementById('formCategory').value = item.category;
+                document.getElementById('formPrice').value = item.price;
+                document.getElementById('formImage').value = item.img;
+                document.getElementById('formPrep').value = item.prep;
+                document.getElementById('formAvailable').checked = item.available;
+            } else {
+                document.getElementById('modalFormTitle').innerText = 'Add New Item';
+                document.getElementById('menuItemForm').reset();
+                document.getElementById('formItemId').value = '';
+            }
+
+            document.getElementById('itemFormModal').classList.remove('hidden');
+        }
+
+        function closeFormModal() {
+            document.getElementById('itemFormModal').classList.add('hidden');
+        }
+
+        function saveMenuItem(e) {
+            e.preventDefault();
+            const id = document.getElementById('formItemId').value;
+            const newItem = {
+                id: id ? parseInt(id) : Date.now(),
+                nameEn: document.getElementById('formNameEn').value,
+                nameAm: document.getElementById('formNameAm').value,
+                category: document.getElementById('formCategory').value,
+                price: document.getElementById('formPrice').value,
+                img: document.getElementById('formImage').value,
+                prep: document.getElementById('formPrep').value || '10-15 min',
+                available: document.getElementById('formAvailable').checked
+            };
+
+            if (id) {
+                const idx = menuItems.findIndex(i => i.id === parseInt(id));
+                menuItems[idx] = newItem;
+            } else {
+                menuItems.unshift(newItem);
+            }
+
+            closeFormModal();
+            renderAdminTable();
+            renderMenuItems();
+            alert('Menu updated successfully!');
+        }
+
+        function deleteMenuItem(id) {
+            if (confirm('Are you sure you want to delete this menu item?')) {
+                menuItems = menuItems.filter(i => i.id !== id);
+                renderAdminTable();
+                renderMenuItems();
+            }
+        }
+
+        function exportMenuJSON() {
+            const blob = new Blob([JSON.stringify(menuItems, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'ero-shake-menu.json';
+            a.click();
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert('Thank you for reaching out! We will contact you shortly.');
+            e.target.reset();
+        }
+
+        // --- 11. PWA SERVICE WORKER REGISTRATION ---
+        if ('serviceWorker' in navigator) {
+            const swCode = `
+                self.addEventListener('install', e => e.waitUntil(self.skipWaiting()));
+                self.addEventListener('fetch', e => e.respondWith(fetch(e.request).catch(() => caches.match(e.request))));
+            `;
+            const blob = new Blob([swCode], { type: 'text/javascript' });
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+        }
+    </script>
 </body>
 </html>
