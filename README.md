@@ -1,431 +1,302 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="am">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital QR Menu</title>
-    <style>
-        :root {
-            --primary-color: #D32F2F;
-            --bg-color: #F8F9FA;
-            --card-bg: #FFFFFF;
-            --text-color: #212121;
-            --subtext-color: #666666;
-            --border-color: #EEEEEE;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eroshake Juice - Digital Menu</title>
+  <style>
+    :root {
+      --primary-blue: #0284c7;     /* Bright Blue */
+      --dark-blue: #0c4a6e;        /* Dark Navy Blue */
+      --light-blue: #f0f9ff;       /* Very Light Blue Tint */
+      --accent-blue: #38bdf8;      /* Accent Ice Blue */
+      --bg-color: #f8fafc;         /* Clean Soft White Background */
+      --card-bg: #ffffff;         /* Pure White Cards */
+      --text-dark: #0f172a;       /* Dark Text */
+      --text-muted: #64748b;      /* Muted Subtitles */
+      --border-color: #e2e8f0;    /* Light Border */
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 30px;
-        }
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      padding-bottom: 2rem;
+    }
 
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 25px 15px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    /* Header & Navigation */
+    header {
+      background-color: var(--card-bg);
+      padding: 1.25rem 1rem 1rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--light-blue);
+      box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.08);
+    }
 
-        header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 600px;
+      margin: 0 auto 1.2rem auto;
+    }
 
-        header p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+      letter-spacing: -0.5px;
+    }
 
-        .search-container {
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    .lang-btn {
+      background-color: var(--light-blue);
+      color: var(--primary-blue);
+      border: 1px solid #bae6fd;
+      padding: 0.4rem 0.9rem;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
 
-        .search-box {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
+    .lang-btn:hover {
+      background-color: var(--primary-blue);
+      color: white;
+    }
 
-        .search-box:focus {
-            border-color: var(--primary-color);
-        }
+    /* Category Buttons */
+    .category-tabs {
+      display: flex;
+      justify-content: flex-start;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.25rem;
+      max-width: 600px;
+      margin: 0 auto;
+      scrollbar-width: none; /* Hide scrollbar Firefox */
+    }
+    
+    .category-tabs::-webkit-scrollbar {
+      display: none; /* Hide scrollbar Chrome/Safari */
+    }
 
-        .categories-container {
-            display: flex;
-            overflow-x: auto;
-            padding: 10px 15px;
-            gap: 10px;
-            max-width: 800px;
-            margin: 0 auto;
-            scrollbar-width: none;
-        }
+    .tab-btn {
+      background: var(--light-blue);
+      border: 1px solid #bae6fd;
+      color: var(--dark-blue);
+      padding: 0.5rem 1.1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
 
-        .categories-container::-webkit-scrollbar {
-            display: none;
-        }
+    .tab-btn.active, .tab-btn:hover {
+      background-color: var(--primary-blue);
+      color: #ffffff;
+      border-color: var(--primary-blue);
+      box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+    }
 
-        .cat-btn {
-            background-color: white;
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            white-space: nowrap;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-color);
-            transition: all 0.3s ease;
-        }
+    /* Menu Container */
+    .menu-container {
+      max-width: 600px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
 
-        .cat-btn.active, .cat-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
+    .section-title {
+      font-size: 1.25rem;
+      color: var(--dark-blue);
+      margin-bottom: 1rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 3px solid var(--accent-blue);
+      display: inline-block;
+    }
 
-        .menu-container {
-            max-width: 800px;
-            margin: 15px auto;
-            padding: 0 15px;
-        }
+    /* Menu Item Card */
+    .menu-item {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 0.85rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-        .category-title {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 5px;
-            margin: 25px 0 15px 0;
-            font-size: 1.3rem;
-        }
+    .menu-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(2, 132, 199, 0.08);
+    }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-        }
+    .item-img {
+      width: 85px;
+      height: 85px;
+      border-radius: 10px;
+      object-fit: cover;
+      background-color: var(--light-blue);
+    }
 
-        .menu-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
-        }
+    .item-info {
+      flex: 1;
+    }
 
-        .item-info h3 {
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
+    .item-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.25rem;
+    }
 
-        .item-info p {
-            font-size: 0.85rem;
-            color: var(--subtext-color);
-        }
+    .item-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
 
-        .item-price {
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 1.05rem;
-            white-space: nowrap;
-            margin-left: 10px;
-        }
+    .item-price {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
 
-        .no-result {
-            text-align: center;
-            padding: 40px;
-            color: var(--subtext-color);
-            display: none;
-        }
-    </style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>🍽️ MENU / ሜኑ</h1>
-        <p>Delicious Food & Drinks / ጣፋጭ ምግቦች እና መጠጦች</p>
-    </header>
+  <header>
+    <div class="header-top">
+      <div class="brand-name">Eroshake Juice</div>
+      <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">English</button>
+    </div>
+    
+    <div class="category-tabs">
+      <button class="tab-btn active" data-cat="all" onclick="filterMenu('all')">ሁሉም</button>
+      <button class="tab-btn" data-cat="juices" onclick="filterMenu('juices')">ጁሶች</button>
+      <button class="tab-btn" data-cat="shakes" onclick="filterMenu('shakes')">ሼኮች</button>
+      <button class="tab-btn" data-cat="snacks" onclick="filterMenu('snacks')">ስናኮች</button>
+    </div>
+  </header>
 
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="ምግብ ወይም መጠጥ ይፈልጉ / Search menu..." onkeyup="filterMenu()">
+  <div class="menu-container">
+    
+    <!-- Juices Section -->
+    <div class="menu-category" id="juices">
+      <h2 class="section-title" data-en="Fresh Juices" data-am="ትኩስ ጁሶች">ትኩስ ጁሶች</h2>
+      
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=200" alt="Avocado Juice" class="item-img">
+        <div class="item-info">
+          <div class="item-name" data-en="Special Avocado Juice" data-am="ስፔሻል የአቮካዶ ጁስ">ስፔሻል የአቮካዶ ጁስ</div>
+          <div class="item-desc" data-en="Fresh avocado layered with vimto & honey" data-am="በቪምቶ እና በማር ያሸበረቀ ትኩስ አቮካዶ">በቪምቶ እና በማር ያሸበረቀ ትኩስ አቮካዶ</div>
+          <div class="item-price">120 ETB</div>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=200" alt="Mango Juice" class="item-img">
+        <div class="item-info">
+          <div class="item-name" data-en="Mango Spris Juice" data-am="የማንጎ ስፕሪስ ጁስ">የማንጎ ስፕሪስ ጁስ</div>
+          <div class="item-desc" data-en="Pure mango blended with papaya and lime" data-am="ከትኩስ ፓፓያ እና ሎሚ ጋር የተቀላቀለ ማንጎ">ከትኩስ ፓፓያ እና ሎሚ ጋር የተቀላቀለ ማንጎ</div>
+          <div class="item-price">110 ETB</div>
+        </div>
+      </div>
     </div>
 
-    <div class="categories-container" id="categoryButtons">
-        <button class="cat-btn active" onclick="filterCategory('all')">ሁሉም (All)</button>
-        <button class="cat-btn" onclick="filterCategory('Breakfast')">ቁርስ (Breakfast)</button>
-        <button class="cat-btn" onclick="filterCategory('SaladFruit')">ሰላጣ (Salad & Fruit)</button>
-        <button class="cat-btn" onclick="filterCategory('Wrap')">ራፕ (Wrap)</button>
-        <button class="cat-btn" onclick="filterCategory('Sandwich')">ሳንድዊች (Sandwich)</button>
-        <button class="cat-btn" onclick="filterCategory('Burger')">በርገር (Burger)</button>
-        <button class="cat-btn" onclick="filterCategory('Pizza')">ፒዛ (Pizza)</button>
-        <button class="cat-btn" onclick="filterCategory('Juice')">ጁስ (Juice)</button>
-        <button class="cat-btn" onclick="filterCategory('Shake')">ሼክ (Shake)</button>
-        <button class="cat-btn" onclick="filterCategory('Mojito')">ሞሂቶ (Mojito)</button>
-        <button class="cat-btn" onclick="filterCategory('IceOrder')">አይስ (Ice Order)</button>
-        <button class="cat-btn" onclick="filterCategory('HotDrink')">የፍል መጠጥ (Hot Drink)</button>
-        <button class="cat-btn" onclick="filterCategory('YogurtFrappe')">እርጎ & ፍራፑቺኖ</button>
-        <button class="cat-btn" onclick="filterCategory('Extra')">ተጨማሪዎች (Extra)</button>
+    <!-- Shakes Section -->
+    <div class="menu-category" id="shakes">
+      <h2 class="section-title" data-en="Special Shakes" data-am="ስፔሻል ሼኮች">ስፔሻል ሼኮች</h2>
+      
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=200" alt="Chocolate Shake" class="item-img">
+        <div class="item-info">
+          <div class="item-name" data-en="Oreo Milkshake" data-am="ኦሪዮ ሚልክሼክ">ኦሪዮ ሚልክሼክ</div>
+          <div class="item-desc" data-en="Creamy vanilla ice cream blended with Oreo" data-am="ከቫኒላ አይስክሬም እና ኦሪዮ ብስክሌት ጋር የተመታ">ከቫኒላ አይስክሬም እና ኦሪዮ ብስክሌት ጋር የተመታ</div>
+          <div class="item-price">180 ETB</div>
+        </div>
+      </div>
     </div>
 
-    <div class="menu-container" id="menuContainer">
-        <!-- Javascript የመረጃ ዝርዝሩን እዚህ ይጭነዋል -->
+    <!-- Snacks Section -->
+    <div class="menu-category" id="snacks">
+      <h2 class="section-title" data-en="Snacks & Burgers" data-am="ስናክ እና በርገር">ስናክ እና በርገር</h2>
+      
+      <div class="menu-item">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200" alt="Special Burger" class="item-img">
+        <div class="item-info">
+          <div class="item-name" data-en="Eroshake Beef Burger" data-am="ኢሮሼክ የስጋ በርገር">ኢሮሼክ የስጋ በርገር</div>
+          <div class="item-desc" data-en="Juicy beef patty with cheese, lettuce & fries" data-am="የስጋ ፓቲ ከቺዝ፣ ሰላጣ እና ድንች ጥብስ ጋር">የስጋ ፓቲ ከቺዝ፣ ሰላጣ እና ድንች ጥብስ ጋር</div>
+          <div class="item-price">260 ETB</div>
+        </div>
+      </div>
     </div>
 
-    <div id="noResult" class="no-result">
-        የፈለጉት ምግብ ወይም መጠጥ አልተገኘም።
-    </div>
+  </div>
 
-    <script>
-        const menuData = [
-            // Breakfast
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Avocado", am: "አቮካዶ", price: "350 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Avocado w/ Egg", am: "አቮካዶ ከእንቁላል ጋር", price: "370 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Waffle", am: "ዋፍል", price: "400 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Pancake", am: "ፓንኬክ", price: "400 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Chechebsa Normal", am: "ቸቸብሳ መደበኛ", price: "330 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Chechebsa Special", am: "ቸቸብሳ ስፔሻል", price: "400 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Avocado Toast", am: "አቮካዶ ቶስት", price: "320 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Special Fetira", am: "ስፔሻል ፈቲራ", price: "360 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Normal Fetira", am: "መደበኛ ፈቲራ", price: "260 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Omelet w/ Cheese", am: "ኡምሌት በቺዝ", price: "430 ETB" },
-            { cat: "Breakfast", catName: "Breakfast / የቁርስ ምግቦች", en: "Normal Omelet", am: "መደበኛ ኡምሌት", price: "350 ETB" },
+  <script>
+    let currentLang = 'am';
 
-            // Salad / Fruit
-            { cat: "SaladFruit", catName: "Salad & Fruit / ሰላጣ እና ፍራፍሬ", en: "Normal Salad", am: "መደበኛ ሰላጣ", price: "400 ETB" },
-            { cat: "SaladFruit", catName: "Salad & Fruit / ሰላጣ እና ፍራፍሬ", en: "Special Salad", am: "ስፔሻል ሰላጣ", price: "590 ETB" },
-            { cat: "SaladFruit", catName: "Salad & Fruit / ሰላጣ እና ፍራፍሬ", en: "Normal Fruit Punch", am: "መደበኛ ፍሩት ፓንች", price: "350 ETB" },
-            { cat: "SaladFruit", catName: "Salad & Fruit / ሰላጣ እና ፍራፍሬ", en: "Special Fruit Punch", am: "ስፔሻል ፍሩት ፓንች", price: "450 ETB" },
-            { cat: "SaladFruit", catName: "Salad & Fruit / ሰላጣ እና ፍራፍሬ", en: "Four in One", am: "ፎር ኢን ዋን (4 in 1)", price: "580 ETB" },
-            { cat: "SaladFruit", catName: "Salad & Fruit / ሰላጣ እና ፍራፍሬ", en: "Waffle Fruit", am: "ዋፍል ፍሩት", price: "450 ETB" },
+    function toggleLanguage() {
+      currentLang = currentLang === 'am' ? 'en' : 'am';
+      const langBtn = document.getElementById('langBtn');
+      
+      langBtn.textContent = currentLang === 'am' ? 'English' : 'አማርኛ';
 
-            // Wrap
-            { cat: "Wrap", catName: "Wrap / ራፕ", en: "Chicken Wrap", am: "የዶሮ ራፕ", price: "620 ETB" },
-            { cat: "Wrap", catName: "Wrap / ራፕ", en: "Beef Wrap", am: "የሬስ ራፕ", price: "570 ETB" },
-            { cat: "Wrap", catName: "Wrap / ራፕ", en: "Veg Wrap", am: "የትክልት ራፕ", price: "450 ETB" },
+      // Update elements with data attributes
+      const elements = document.querySelectorAll('[data-en]');
+      elements.forEach(el => {
+        el.textContent = el.getAttribute(`data-${currentLang}`);
+      });
 
-            // Sandwich / Club
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Tuna Sandwich", am: "ቱና ሳንድዊች", price: "580 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Egg Sandwich", am: "የእንቁላል ሳንድዊች", price: "400 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Veg Sandwich", am: "የትክልት ሳንድዊች", price: "350 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Cheese Sandwich", am: "የቺዝ ሳንድዊች", price: "460 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Special Club", am: "ስፔሻል ክላብ", price: "620 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Beef Club", am: "የሬስ ክላብ", price: "550 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Chicken Club", am: "የዶሮ ክላብ", price: "590 ETB" },
-            { cat: "Sandwich", catName: "Sandwich & Club / ሳንድዊች እና ክላብ", en: "Egg w/ Cheese", am: "እንቁላል ከቺዝ ጋር", price: "500 ETB" },
+      // Update Category Tab Names
+      const catBtns = document.querySelectorAll('.tab-btn');
+      const catTexts = {
+        am: { all: 'ሁሉም', juices: 'ጁሶች', shakes: 'ሼኮች', snacks: 'ስናኮች' },
+        en: { all: 'All', juices: 'Juices', shakes: 'Shakes', snacks: 'Snacks' }
+      };
 
-            // Burger
-            { cat: "Burger", catName: "Burger / በርገር", en: "Special Double Burger", am: "ስፔሻል ዳብል በርገር", price: "800 ETB" },
-            { cat: "Burger", catName: "Burger / በርገር", en: "Special Single Burger", am: "ስፔሻል ሲንግል በርገር", price: "680 ETB" },
-            { cat: "Burger", catName: "Burger / በርገር", en: "Beef Burger", am: "የሬስ በርገር", price: "630 ETB" },
-            { cat: "Burger", catName: "Burger / በርገር", en: "Cheese Burger", am: "ቺዝ በርገር", price: "650 ETB" },
-            { cat: "Burger", catName: "Burger / በርገር", en: "Chicken Burger", am: "የዶሮ በርገር", price: "750 ETB" },
+      catBtns.forEach(btn => {
+        const cat = btn.getAttribute('data-cat');
+        btn.textContent = catTexts[currentLang][cat];
+      });
+    }
 
-            // Pizza
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Tuna w/ Cheese Pizza", am: "ቱና በቺዝ ፒዛ", price: "770 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Margarita Pizza", am: "ማርጋሪታ ፒዛ", price: "700 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Meat Lover Pizza", am: "ሚት ላቨር ፒዛ", price: "770 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Special Pizza", am: "ስፔሻል ፒዛ", price: "920 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Chicken Pizza", am: "የዶሮ ፒዛ", price: "890 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Veg Pizza", am: "የትክልት ፒዛ", price: "550 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Tuna w/ Veg Pizza", am: "ቱና ከትክልት ጋር ፒዛ", price: "690 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Fasting Tuna Pizza", am: "የጾም ቱና ፒዛ", price: "650 ETB" },
-            { cat: "Pizza", catName: "Pizza / ፒዛ", en: "Family Pizza", am: "ፋሚሊ ፒዛ", price: "1470 ETB" },
+    function filterMenu(category) {
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      // Highlight selected tab
+      event.target.classList.add('active');
 
-            // Juice
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Avocado Mix", am: "አቮካዶ ሚክስ", price: "M: 310 | L: 360 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Avocado", am: "አቮካዶ", price: "M: 330 | L: 370 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Mango", am: "ማንጎ", price: "M: 320 | L: 350 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Strawberry", am: "ስትሮበሪ", price: "M: 300 | L: 350 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Papaya", am: "ፓፓያ", price: "M: 250 | L: 270 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Pineapple", am: "አናናስ", price: "M: 270 | L: 300 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Watermelon", am: "ሀብሀብ", price: "M: 270 | L: 300 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Mix", am: "ሚክስ", price: "M: 250 | L: 290 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Flaxseed", am: "ተልባ", price: "M: 270 | L: 300 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Sugarcane", am: "አገዳ", price: "M: 220 | L: 240 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Lemon", am: "ሎሚ", price: "M: 220 | L: 240 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Carrot", am: "ካሮት", price: "M: 220 | L: 240 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Ginger", am: "ዝንጅብል", price: "M: 230 | L: 250 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Mango Mix", am: "ማንጎ ሚክስ", price: "M: 300 | L: 340 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Strawberry Mix", am: "ስትሮበሪ ሚክስ", price: "M: 300 | L: 340 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Orange Mix", am: "ብርቱካን ሚክስ", price: "M: 300 | L: 340 ETB" },
-            { cat: "Juice", catName: "Juice / ጁስ", en: "Oat Juice", am: "የኦት (አጃ) ጁስ", price: "250 ETB" },
-
-            // Shake
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Special Shake", am: "ስፔሻል ሼክ", price: "M: 300 | L: 350 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Mango Shake", am: "ማንጎ ሼክ", price: "M: 350 | L: 380 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Avocado Shake", am: "አቮካዶ ሼክ", price: "M: 350 | L: 380 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Papaya Shake", am: "ፓፓያ ሼክ", price: "M: 260 | L: 280 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Watermelon Shake", am: "ሀብሀብ ሼክ", price: "M: 260 | L: 280 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Banana Shake", am: "ሙዝ ሼክ", price: "M: 260 | L: 280 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Sugarcane Shake", am: "አገዳ ሼክ", price: "M: 260 | L: 290 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Strawberry Shake", am: "ስትሮበሪ ሼክ", price: "M: 260 | L: 380 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Chocolate Shake", am: "ቸኮሌት ሼክ", price: "420 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Oreo Shake", am: "ኦሪዮ ሼክ", price: "410 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Vanilla Shake", am: "ቫኒላ ሼክ", price: "350 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Mix Shake", am: "ሚክስ ሼክ", price: "340 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Protein Shake", am: "ፕሮቲን ሼክ", price: "480 ETB" },
-            { cat: "Shake", catName: "Shake / ሼክ", en: "Family Shake", am: "ፋሚሊ ሼክ", price: "690 ETB" },
-
-            // Mojito
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Strawberry Mojito", am: "ስትሮበሪ ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Orange Mojito", am: "ብርቱካን ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Kiwi Mojito", am: "ኪዊ ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Lemon Mojito", am: "ሎሚ ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Chocolate Mojito", am: "ቸኮሌት ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Pineapple Mojito", am: "አናናስ ሞሂቶ", price: "300 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Special Mojito", am: "ስፔሻል ሞሂቶ", price: "300 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Avatar Mojito", am: "አቫታር ሞሂቶ", price: "300 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "King Mojito", am: "ኪንግ ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Sky Mojito", am: "ስካይ ሞሂቶ", price: "295 ETB" },
-            { cat: "Mojito", catName: "Mojito / ሞሂቶ", en: "Snuzzy Mojito", am: "ስነዚ ሞሂቶ", price: "295 ETB" },
-
-            // Ice Order
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Iced Tea", am: "አይስ ቲ", price: "120 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Ice Latte", am: "አይስ ላቴ", price: "230 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Iced Caramel", am: "አይስ ካራሜል", price: "210 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Iced Mocha", am: "አይስ ሞካ", price: "230 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Iced Strawberry", am: "አይስ ስትሮበሪ", price: "180 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Iced Chocolate", am: "አይስ ቸኮሌት", price: "230 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Lemonade", am: "ለሞኔድ", price: "180 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Strawberry w/ Chocolate", am: "ስትሮበሪ በቸኮሌት", price: "260 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Caramel Ice Latte", am: "ካራሜል አይስ ላቴ", price: "260 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Caramel Ice Coffee", am: "ካራሜል አይስ ኮፊ", price: "280 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Ice Coffee", am: "አይስ ኮፊ", price: "240 ETB" },
-            { cat: "IceOrder", catName: "Ice Drinks / የቀዝቃዛ መጠጦች", en: "Mixed Ice Latte", am: "ሚክስድ አይስ ላቴ", price: "350 ETB" },
-
-            // Hot Drink
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Tea", am: "ሻይ", price: "70 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Coffee", am: "ቡና", price: "140 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Macchiato", am: "ማኪያቶ", price: "150 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Spice", am: "ስፓይስ", price: "90 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Espresso", am: "ኤስፕሬሶ", price: "150 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Ginger Tea", am: "የዝንጅብል ሻይ", price: "90 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Cappuccino", am: "ካፑቺኖ", price: "150 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Latte", am: "ላቴ", price: "140 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Milk", am: "ወተት", price: "140 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Hot Chocolate", am: "ሆት ቸኮሌት", price: "150 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Special Tea", am: "ስፔሻል ሻይ", price: "150 ETB" },
-            { cat: "HotDrink", catName: "Hot Drinks / የፍል መጠጦች", en: "Mocha", am: "ሞካ", price: "130 ETB" },
-
-            // Yogurt & Frappuccino
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Caramel Yogurt", am: "ካራሜል እርጎ", price: "310 ETB" },
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Fruit Yogurt", am: "የፍራፍሬ እርጎ", price: "310 ETB" },
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Flavored Yogurt", am: "ፍሌቨርድ እርጎ", price: "310 ETB" },
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Strawberry Yogurt", am: "ስትሮበሪ እርጎ", price: "310 ETB" },
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Chocolate Frappuccino", am: "ቸኮሌት ፍራፑቺኖ", price: "380 ETB" },
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Caramel Frappuccino", am: "ካራሜል ፍራፑቺኖ", price: "330 ETB" },
-            { cat: "YogurtFrappe", catName: "Yogurt & Frappuccino", en: "Mocha Frappuccino", am: "ሞካ ፍራፑቺኖ", price: "350 ETB" },
-
-            // Extras
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Extra Cheese", am: "ተጨማሪ ቺዝ", price: "80 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Extra Bread", am: "ተጨማሪ ዳቦ", price: "40 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Extra Egg", am: "ተጨማሪ እንቁላል", price: "45 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Extra Mayonnaise", am: "ተጨማሪ ማዮኔዝ", price: "80 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Extra Tuna 1/2", am: "ተጨማሪ ቱና (ግማሽ)", price: "150 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Extra Tuna", am: "ተጨማሪ ቱና", price: "270 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Juice Cup", am: "የጁስ ኮፕ", price: "25 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Coffee Cup", am: "የቡና ኮፕ", price: "20 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Burger Box", am: "የበርገር ሳጥን", price: "50 ETB" },
-            { cat: "Extra", catName: "Extras & Packaging / ተጨማሪዎች", en: "Pizza Box", am: "የፒዛ ሳጥን", price: "85 ETB" }
-        ];
-
-        let currentCategory = 'all';
-
-        function renderMenu(items) {
-            const container = document.getElementById('menuContainer');
-            const noResult = document.getElementById('noResult');
-            container.innerHTML = '';
-
-            if (items.length === 0) {
-                noResult.style.display = 'block';
-                return;
-            } else {
-                noResult.style.display = 'none';
-            }
-
-            // Group by category
-            const grouped = {};
-            items.forEach(item => {
-                if (!grouped[item.catName]) {
-                    grouped[item.catName] = [];
-                }
-                grouped[item.catName].push(item);
-            });
-
-            for (const [catName, list] of Object.entries(grouped)) {
-                const catTitle = document.createElement('h2');
-                catTitle.className = 'category-title';
-                catTitle.innerText = catName;
-                container.appendChild(catTitle);
-
-                const grid = document.createElement('div');
-                grid.className = 'menu-grid';
-
-                list.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'menu-card';
-                    card.innerHTML = `
-                        <div class="item-info">
-                            <h3>${item.en}</h3>
-                            <p>${item.am}</p>
-                        </div>
-                        <div class="item-price">${item.price}</div>
-                    `;
-                    grid.appendChild(card);
-                });
-
-                container.appendChild(grid);
-            }
+      const categories = document.querySelectorAll('.menu-category');
+      categories.forEach(cat => {
+        if (category === 'all' || cat.id === category) {
+          cat.classList.remove('hidden');
+        } else {
+          cat.classList.add('hidden');
         }
+      });
+    }
+  </script>
 
-        function filterCategory(category) {
-            currentCategory = category;
-            
-            // Active button style
-            const buttons = document.querySelectorAll('.cat-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            document.getElementById('searchInput').value = '';
-            
-            if (category === 'all') {
-                renderMenu(menuData);
-            } else {
-                const filtered = menuData.filter(item => item.cat === category);
-                renderMenu(filtered);
-            }
-        }
-
-        function filterMenu() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = menuData.filter(item => {
-                const matchCat = (currentCategory === 'all' || item.cat === currentCategory);
-                const matchQuery = item.en.toLowerCase().includes(query) || item.am.toLowerCase().includes(query);
-                return matchCat && matchQuery;
-            });
-            renderMenu(filtered);
-        }
-
-        // Initial render
-        renderMenu(menuData);
-    </script>
 </body>
 </html>
