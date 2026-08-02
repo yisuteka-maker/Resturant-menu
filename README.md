@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ero Shake - Menu & Refreshments</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -21,6 +22,7 @@
             }
         }
     </script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .glass {
@@ -37,6 +39,7 @@
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen pb-20 md:pb-0 transition-colors duration-300">
 
+    <!-- HEADER / NAVIGATION -->
     <header class="sticky top-0 z-40 glass border-b border-slate-200/60 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('home')">
@@ -49,13 +52,14 @@
                 </div>
             </div>
 
+            <!-- DESKTOP NAV -->
             <nav class="hidden md:flex items-center gap-6 text-sm font-semibold">
                 <button onclick="showPage('home')" class="hover:text-brand-sky transition" data-en="Home" data-am="መነሻ">Home</button>
                 <button onclick="showPage('menu')" class="hover:text-brand-sky transition" data-en="Menu" data-am="ሜኑ">Menu</button>
-                <button onclick="showPage('contact')" class="hover:text-brand-sky transition" data-en="Contact" data-am="አድራሻ">Contact</button>
                 <button onclick="showPage('admin')" class="hover:text-brand-sky transition" data-en="Admin" data-am="አስተዳዳሪ">Admin</button>
             </nav>
 
+            <!-- UTILITY BUTTONS -->
             <div class="flex items-center gap-2">
                 <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-xl bg-slate-200/60 dark:bg-slate-800 text-xs font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition">
                     <span id="langLabel">AM</span>
@@ -67,9 +71,12 @@
         </div>
     </header>
 
+    <!-- MAIN CONTENT CONTAINERS -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
+        <!-- PAGE 1: HOME -->
         <section id="page-home" class="page-view space-y-10">
+            <!-- HERO -->
             <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-sky-600 to-blue-700 text-white p-8 sm:p-12 shadow-xl shadow-sky-500/10">
                 <div class="relative z-10 max-w-xl space-y-4">
                     <span class="px-3 py-1 rounded-full bg-white/20 text-xs font-bold tracking-wide uppercase backdrop-blur-md" data-en="Fresh & Delicious" data-am="ትኩስ እና ጣፋጭ">Fresh & Delicious</span>
@@ -81,22 +88,26 @@
                 </div>
             </div>
 
+            <!-- QUICK CATEGORIES -->
             <div>
                 <h3 class="text-xl font-bold mb-4" data-en="Popular Categories" data-am="ታዋቂ ምድቦች">Popular Categories</h3>
                 <div id="homeCategoriesList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
             </div>
 
+            <!-- SPECIALS GRID -->
             <div>
                 <h3 class="text-xl font-bold mb-4" data-en="Featured Items" data-am="ተመራጭ ማዕዶች">Featured Items</h3>
                 <div id="homeSpecialsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
             </div>
         </section>
 
+        <!-- PAGE 2: MENU -->
         <section id="page-menu" class="page-view hidden space-y-6">
+            <!-- SEARCH & FILTERS -->
             <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <div class="relative w-full sm:w-80">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="searchInput" oninput="renderMenuItems()" placeholder="Search menu..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sky">
+                    <input type="text" id="searchInput" oninput="filterMenu()" placeholder="Search menu..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sky">
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto">
                     <button id="favToggleBtn" onclick="toggleFavoritesOnly()" class="px-4 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-bold flex items-center gap-2 hover:bg-slate-300 dark:hover:bg-slate-800 transition">
@@ -106,55 +117,32 @@
                 </div>
             </div>
 
+            <!-- CATEGORY CHIPS -->
             <div id="categoryChips" class="flex gap-2 overflow-x-auto pb-2 scrollbar-none"></div>
 
+            <!-- ITEM COUNT DISPLAY -->
             <p id="itemsCountDisplay" class="text-xs font-semibold text-slate-400"></p>
 
+            <!-- MENU ITEMS GRID -->
             <div id="menuCardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
         </section>
 
-        <section id="page-contact" class="page-view hidden space-y-6">
-            <div class="max-w-2xl mx-auto glass p-8 rounded-3xl border border-slate-200/50 dark:border-slate-800 space-y-6">
-                <h2 class="text-2xl font-bold" data-en="Contact Us" data-am="ያግኙን">Contact Us</h2>
-                <div class="space-y-4 text-sm">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-sky-100 dark:bg-slate-800 text-brand-sky flex items-center justify-center text-lg"><i class="fa-solid fa-location-dot"></i></div>
-                        <div>
-                            <p class="font-bold">Location</p>
-                            <p class="text-slate-400">Addis Ababa, Ethiopia</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-sky-100 dark:bg-slate-800 text-brand-sky flex items-center justify-center text-lg"><i class="fa-solid fa-phone"></i></div>
-                        <div>
-                            <p class="font-bold">Phone</p>
-                            <p class="text-slate-400">+251 900 000 000</p>
-                        </div>
-                    </div>
-                </div>
-
-                <form onsubmit="handleContactSubmit(event)" class="space-y-4 pt-4 border-t border-slate-200/50 dark:border-slate-800">
-                    <input type="text" placeholder="Your Name" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sky">
-                    <textarea placeholder="Message" rows="4" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sky"></textarea>
-                    <button type="submit" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl shadow-lg hover:bg-sky-600 transition">Send Message</button>
-                </form>
-            </div>
-        </section>
-
+        <!-- PAGE 3: ADMIN -->
         <section id="page-admin" class="page-view hidden space-y-6">
+            <!-- LOGIN BLOCK -->
             <div id="adminAuthBlock" class="max-w-md mx-auto glass p-8 rounded-3xl border border-slate-200/50 dark:border-slate-800 text-center space-y-4">
                 <i class="fa-solid fa-lock text-3xl text-brand-sky"></i>
                 <h2 class="text-xl font-bold">Admin Login</h2>
-                <input type="password" id="adminPassInput" placeholder="Password (default: admin)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
+                <input type="password" id="adminPassInput" placeholder="Password (admin123)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
                 <button onclick="verifyAdmin()" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl shadow-lg hover:bg-sky-600 transition">Login</button>
             </div>
 
+            <!-- DASHBOARD CONTENT (HIDDEN UNTIL AUTH) -->
             <div id="adminDashboardContent" class="hidden space-y-6">
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                     <h2 class="text-2xl font-bold">Menu Management</h2>
                     <div class="flex items-center gap-2">
                         <button onclick="openItemModal()" class="px-4 py-2 bg-brand-sky text-white text-xs font-bold rounded-xl hover:bg-sky-600 transition"><i class="fa-solid fa-plus mr-2"></i>Add Item</button>
-                        <button onclick="resetToInitialData()" class="px-4 py-2 bg-amber-500 text-white text-xs font-bold rounded-xl hover:bg-amber-600 transition"><i class="fa-solid fa-rotate mr-2"></i>Reset Images</button>
                         <button onclick="exportMenuJSON()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-xs font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 transition"><i class="fa-solid fa-download mr-2"></i>Export JSON</button>
                     </div>
                 </div>
@@ -177,7 +165,7 @@
                                 <tr>
                                     <th class="p-4">Item</th>
                                     <th class="p-4">Category</th>
-                                    <th class="p-4">Price (ETB)</th>
+                                    <th class="p-4">Price</th>
                                     <th class="p-4">Status</th>
                                     <th class="p-4 text-right">Actions</th>
                                 </tr>
@@ -190,6 +178,7 @@
         </section>
     </main>
 
+    <!-- MOBILE NAVIGATION BOTTOM BAR -->
     <nav class="md:hidden fixed bottom-0 left-0 right-0 glass border-t border-slate-200/60 dark:border-slate-800 flex justify-around py-3 z-40">
         <button onclick="showPage('home')" class="mobile-nav-btn text-brand-sky flex flex-col items-center gap-1 text-[10px] font-bold" data-page="home">
             <i class="fa-solid fa-house text-lg"></i>
@@ -199,16 +188,13 @@
             <i class="fa-solid fa-utensils text-lg"></i>
             <span data-en="Menu" data-am="ሜኑ">Menu</span>
         </button>
-        <button onclick="showPage('contact')" class="mobile-nav-btn text-slate-500 flex flex-col items-center gap-1 text-[10px] font-bold" data-page="contact">
-            <i class="fa-solid fa-envelope text-lg"></i>
-            <span data-en="Contact" data-am="አድራሻ">Contact</span>
-        </button>
         <button onclick="showPage('admin')" class="mobile-nav-btn text-slate-500 flex flex-col items-center gap-1 text-[10px] font-bold" data-page="admin">
             <i class="fa-solid fa-user-shield text-lg"></i>
             <span data-en="Admin" data-am="አስተዳዳሪ">Admin</span>
         </button>
     </nav>
 
+    <!-- IMAGE MODAL -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4" onclick="closeImageModal()">
         <div class="relative max-w-lg w-full bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl space-y-4 p-4" onclick="event.stopPropagation()">
             <img id="modalImg" src="" class="w-full h-64 object-cover rounded-2xl">
@@ -220,6 +206,7 @@
         </div>
     </div>
 
+    <!-- ITEM FORM MODAL (ADMIN) -->
     <div id="itemFormModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="max-w-md w-full bg-white dark:bg-slate-900 rounded-3xl p-6 space-y-4 shadow-2xl">
             <h3 id="modalFormTitle" class="font-bold text-lg">Add New Item</h3>
@@ -229,7 +216,7 @@
                 <input type="text" id="formNameAm" placeholder="Name (Amharic)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <select id="formCategory" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs capitalize"></select>
                 <input type="text" id="formPrice" placeholder="Price (ETB)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
-                <input type="url" id="formImage" placeholder="Image URL" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
+                <input type="text" id="formImage" placeholder="Image Name (e.g. spacial Burger .jpg)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <input type="text" id="formPrep" placeholder="Prep Time (e.g. 10 min)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer">
                     <input type="checkbox" id="formAvailable" checked class="rounded text-brand-sky focus:ring-brand-sky">
@@ -243,11 +230,10 @@
         </div>
     </div>
 
+    <!-- JAVASCRIPT CODE -->
     <script>
-        // GitHub Repository Details
-        const GITHUB_USER = "yisuteka-make";
-        const GITHUB_REPO = "yisuteka-make";
-        const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
+        // Real-Time Update Channel
+        const menuSyncChannel = new BroadcastChannel('ero_menu_updates');
 
         const CATEGORIES = [
             { id: 'all', en: 'All Items', am: 'ሁሉም' },
@@ -269,40 +255,52 @@
             { id: 'other', en: 'Other', am: 'ሌሎች' }
         ];
 
-        const initialMenuItems = [
-            { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: GITHUB_BASE_URL + 'avocado%20.jpg', prep: '10 min', available: true },
-            { id: 'b2', category: 'breakfast', nameEn: 'Avocado w/ Egg', nameAm: 'አቮካዶ ከእንቁላል ጋር', price: '370', image: GITHUB_BASE_URL + 'avocado%20toste.jpg', prep: '10 min', available: true },
-            { id: 'b3', category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400', image: GITHUB_BASE_URL + 'waffle%20.jpg', prep: '15 min', available: true },
-            { id: 'b4', category: 'breakfast', nameEn: 'Pancake', nameAm: 'ፓንኬክ', price: '400', image: GITHUB_BASE_URL + 'pan%20cake%20.jpg', prep: '15 min', available: true },
-            { id: 'b5', category: 'breakfast', nameEn: 'Chechebsa Normal', nameAm: 'ጨጨብሳ', price: '330', image: GITHUB_BASE_URL + 'normal%20chchbsa%20.jpg', prep: '15 min', available: true },
-            { id: 'b6', category: 'breakfast', nameEn: 'Chechebsa Special', nameAm: 'ስፔሻል ጨጨብሳ', price: '400', image: GITHUB_BASE_URL + 'spacial%20chchbsa%20.jpg', prep: '15 min', available: true },
-            { id: 'b7', category: 'breakfast', nameEn: 'Avocado Toast', nameAm: 'አቮካዶ ቶስት', price: '320', image: GITHUB_BASE_URL + 'avocado%20toste.jpg', prep: '10 min', available: true },
-            { id: 'b8', category: 'breakfast', nameEn: 'Special Fetira', nameAm: 'ስፔሻል ፈቲራ', price: '360', image: GITHUB_BASE_URL + 'spacial%20fetira.jpg', prep: '15 min', available: true },
-            { id: 'b9', category: 'breakfast', nameEn: 'Normal Fetira', nameAm: 'ፈቲራ', price: '260', image: GITHUB_BASE_URL + 'normal%20fetira%20.jpg', prep: '15 min', available: true },
-            { id: 'b10', category: 'breakfast', nameEn: 'Omelet w/ Cheese', nameAm: 'ኦምሌት ከቺዝ ጋር', price: '430', image: GITHUB_BASE_URL + 'omlet%20with%20cheese%20.jpg', prep: '10 min', available: true },
-            { id: 'b11', category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'ኦምሌት', price: '350', image: GITHUB_BASE_URL + 'omlet.jpg', prep: '10 min', available: true },
-            { id: 'sl1', category: 'salad', nameEn: 'Normal Salad', nameAm: 'ሰላጣ', price: '400', image: GITHUB_BASE_URL + 'normal%20salad%20.jpg', prep: '10 min', available: true },
-            { id: 'sl2', category: 'salad', nameEn: 'Special Salad', nameAm: 'ስፔሻል ሰላጣ', price: '590', image: GITHUB_BASE_URL + 'spacial%20salad.jpg', prep: '12 min', available: true },
-            { id: 'sl3', category: 'salad', nameEn: 'Normal Fruit Punch', nameAm: 'ፍሩት ፓንች', price: '350', image: GITHUB_BASE_URL + 'normal%20fruit%20punch.jpg', prep: '10 min', available: true },
-            { id: 'sl4', category: 'salad', nameEn: 'Special Fruit Punch', nameAm: 'ስፔሻል ፍሩት ፓንች', price: '450', image: GITHUB_BASE_URL + 'special%20fruit%20punch.jpg', prep: '10 min', available: true },
-            { id: 'w1', category: 'wrap', nameEn: 'Chicken Wrap', nameAm: 'የዶሮ ውራፕ', price: '620', image: GITHUB_BASE_URL + 'beff%20wrap.jpg', prep: '15 min', available: true },
-            { id: 'w2', category: 'wrap', nameEn: 'Beef Wrap', nameAm: 'የስጋ ውራፕ', price: '570', image: GITHUB_BASE_URL + 'beff%20wrap.jpg', prep: '15 min', available: true },
-            { id: 'w3', category: 'wrap', nameEn: 'Veg Wrap', nameAm: 'የአትክልት ውራፕ', price: '450', image: GITHUB_BASE_URL + 'veg%20wrap%20.jpg', prep: '10 min', available: true },
-            { id: 'sw2', category: 'sandwich', nameEn: 'Egg Sandwich', nameAm: 'እንቁላል ሳንድዊች', price: '400', image: GITHUB_BASE_URL + 'egg%20sandwich%20.jpg', prep: '10 min', available: true },
-            { id: 'sw3', category: 'sandwich', nameEn: 'Veg Sandwich', nameAm: 'የአትክልት ሳንድዊች', price: '350', image: GITHUB_BASE_URL + 'veg%20sandwich%20.jpg', prep: '10 min', available: true },
-            { id: 'sw4', category: 'sandwich', nameEn: 'Cheese Sandwich', nameAm: 'ቺዝ ሳንድዊች', price: '460', image: GITHUB_BASE_URL + 'cheese%20sandwich%20.jpg', prep: '10 min', available: true },
-            { id: 'sw5', category: 'sandwich', nameEn: 'Special Club', nameAm: 'ስፔሻል ክለብ ሳንድዊች', price: '620', image: GITHUB_BASE_URL + 'spacial%20club.jpg', prep: '15 min', available: true },
-            { id: 'sw6', category: 'sandwich', nameEn: 'Beef Club', nameAm: 'ቢፍ ክለብ ሳንድዊች', price: '550', image: GITHUB_BASE_URL + 'beef%20club%20.jpg', prep: '15 min', available: true },
-            { id: 'sw7', category: 'sandwich', nameEn: 'Chicken Club', nameAm: 'ቺከን ክለብ ሳንድዊች', price: '590', image: GITHUB_BASE_URL + 'chicken%20club.jpg', prep: '15 min', available: true },
-            { id: 'sw8', category: 'sandwich', nameEn: 'Egg w/ Cheese', nameAm: 'እንቁላል ከቺዝ ጋር', price: '500', image: GITHUB_BASE_URL + 'egg%20with%20cheese.jpg', prep: '10 min', available: true },
-            { id: 'bg1', category: 'burger', nameEn: 'Special Double Burger', nameAm: 'ስፔሻል ዳብል በርገር', price: '800', image: GITHUB_BASE_URL + 'spacial%20Burger%20.jpg', prep: '20 min', available: true },
-            { id: 'bg2', category: 'burger', nameEn: 'Special Single Burger', nameAm: 'ስፔሻል ሲንግል በርገር', price: '680', image: GITHUB_BASE_URL + 'spacial%20single%20Burger%20.jpg', prep: '15 min', available: true },
-            { id: 'bg3', category: 'burger', nameEn: 'Beef Burger', nameAm: 'ቢፍ በርገር', price: '630', image: GITHUB_BASE_URL + 'beef%20burger%20.jpg', prep: '15 min', available: true },
-            { id: 'bg4', category: 'burger', nameEn: 'Cheese Burger', nameAm: 'ቺዝ በርገር', price: '650', image: GITHUB_BASE_URL + 'cheese%20burger%20.jpg', prep: '15 min', available: true },
-            { id: 'bg5', category: 'burger', nameEn: 'Chicken Burger', nameAm: 'ቺከን በርገር', price: '750', image: GITHUB_BASE_URL + 'chicken%20burger%20.jpg', prep: '15 min', available: true },
-            { id: 'ot1', category: 'other', nameEn: 'Oat Juice', nameAm: 'የአሜካራ/ኦት ጁስ', price: '250', image: GITHUB_BASE_URL + 'oat%20juice%20.jpg', prep: '5 min', available: true },
-            { id: 'ot2', category: 'other', nameEn: 'Detox', nameAm: 'ዲቶክስ', price: '110', image: GITHUB_BASE_URL + 'detox.jpg', prep: '5 min', available: true },
-            { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: GITHUB_BASE_URL + 'mint.jpg', prep: '5 min', available: true }
+        let initialMenuItems = [
+            // BREAKFAST
+            { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: 'avocado .jpg', prep: '10 min', available: true },
+            { id: 'b2', category: 'breakfast', nameEn: 'Avocado w/ Egg', nameAm: 'አቮካዶ ከእንቁላል ጋር', price: '370', image: 'avocado toste.jpg', prep: '10 min', available: true },
+            { id: 'b3', category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400', image: 'waffle .jpg', prep: '15 min', available: true },
+            { id: 'b4', category: 'breakfast', nameEn: 'Pancake', nameAm: 'ፓንኬክ', price: '400', image: 'pan cake .jpg', prep: '15 min', available: true },
+            { id: 'b5', category: 'breakfast', nameEn: 'Chechebsa Normal', nameAm: 'ጨጨብሳ', price: '330', image: 'normal chchbsa .jpg', prep: '15 min', available: true },
+            { id: 'b6', category: 'breakfast', nameEn: 'Chechebsa Special', nameAm: 'ስፔሻል ጨጨብሳ', price: '400', image: 'spacial chchbsa .jpg', prep: '15 min', available: true },
+            { id: 'b7', category: 'breakfast', nameEn: 'Avocado Toast', nameAm: 'አቮካዶ ቶስት', price: '320', image: 'avocado toste.jpg', prep: '10 min', available: true },
+            { id: 'b8', category: 'breakfast', nameEn: 'Special Fetira', nameAm: 'ስፔሻል ፈቲራ', price: '360', image: 'spacial fetira.jpg', prep: '15 min', available: true },
+            { id: 'b9', category: 'breakfast', nameEn: 'Normal Fetira', nameAm: 'ፈቲራ', price: '260', image: 'normal fetira .jpg', prep: '15 min', available: true },
+            { id: 'b10', category: 'breakfast', nameEn: 'Omelet w/ Cheese', nameAm: 'ኦምሌት ከቺዝ ጋር', price: '430', image: 'omlet with cheese .jpg', prep: '10 min', available: true },
+            { id: 'b11', category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'ኦምሌት', price: '350', image: 'omlet.jpg', prep: '10 min', available: true },
+
+            // SALAD / FRUIT
+            { id: 'sl1', category: 'salad', nameEn: 'Normal Salad', nameAm: 'ሰላጣ', price: '400', image: 'normal salad .jpg', prep: '10 min', available: true },
+            { id: 'sl2', category: 'salad', nameEn: 'Special Salad', nameAm: 'ስፔሻል ሰላጣ', price: '590', image: 'spacial salad.jpg', prep: '12 min', available: true },
+            { id: 'sl3', category: 'salad', nameEn: 'Normal Fruit Punch', nameAm: 'ፍሩት ፓንች', price: '350', image: 'normal fruit punch.jpg', prep: '10 min', available: true },
+            { id: 'sl4', category: 'salad', nameEn: 'Special Fruit Punch', nameAm: 'ስፔሻል ፍሩት ፓንች', price: '450', image: 'special fruit punch.jpg', prep: '10 min', available: true },
+
+            // WRAP
+            { id: 'w1', category: 'wrap', nameEn: 'Chicken Wrap', nameAm: 'የዶሮ ውራፕ', price: '620', image: 'beff wrap.jpg', prep: '15 min', available: true },
+            { id: 'w2', category: 'wrap', nameEn: 'Beef Wrap', nameAm: 'የስጋ ውራፕ', price: '570', image: 'beff wrap.jpg', prep: '15 min', available: true },
+            { id: 'w3', category: 'wrap', nameEn: 'Veg Wrap', nameAm: 'የአትክልት ውራፕ', price: '450', image: 'veg wrap .jpg', prep: '10 min', available: true },
+
+            // SANDWICH / CLUB
+            { id: 'sw1', category: 'sandwich', nameEn: 'Tuna Sandwich', nameAm: 'ቱና ሳንድዊች', price: '580', image: 'veg sandwich .jpg', prep: '12 min', available: true },
+            { id: 'sw2', category: 'sandwich', nameEn: 'Egg Sandwich', nameAm: 'እንቁላል ሳንድዊች', price: '400', image: 'egg sandwich .jpg', prep: '10 min', available: true },
+            { id: 'sw3', category: 'sandwich', nameEn: 'Veg Sandwich', nameAm: 'የአትክልት ሳንድዊች', price: '350', image: 'veg sandwich .jpg', prep: '10 min', available: true },
+            { id: 'sw4', category: 'sandwich', nameEn: 'Cheese Sandwich', nameAm: 'ቺዝ ሳንድዊች', price: '460', image: 'cheese sandwich .jpg', prep: '10 min', available: true },
+            { id: 'sw5', category: 'sandwich', nameEn: 'Special Club', nameAm: 'ስፔሻል ክለብ ሳንድዊች', price: '620', image: 'spacial club.jpg', prep: '15 min', available: true },
+            { id: 'sw6', category: 'sandwich', nameEn: 'Beef Club', nameAm: 'ቢፍ ክለብ ሳንድዊች', price: '550', image: 'beef club .jpg', prep: '15 min', available: true },
+            { id: 'sw7', category: 'sandwich', nameEn: 'Chicken Club', nameAm: 'ቺከን ክለብ ሳንድዊች', price: '590', image: 'chicken club.jpg', prep: '15 min', available: true },
+            { id: 'sw8', category: 'sandwich', nameEn: 'Egg w/ Cheese', nameAm: 'እንቁላል ከቺዝ ጋር', price: '500', image: 'egg with cheese.jpg', prep: '10 min', available: true },
+
+            // BURGER
+            { id: 'bg1', category: 'burger', nameEn: 'Special Double Burger', nameAm: 'ስፔሻል ዳብል በርገር', price: '800', image: 'spacial Burger .jpg', prep: '20 min', available: true },
+            { id: 'bg2', category: 'burger', nameEn: 'Special Single Burger', nameAm: 'ስፔሻል ሲንግል በርገር', price: '680', image: 'spacial single Burger .jpg', prep: '15 min', available: true },
+            { id: 'bg3', category: 'burger', nameEn: 'Beef Burger', nameAm: 'ቢፍ በርገር', price: '630', image: 'beef burger .jpg', prep: '15 min', available: true },
+            { id: 'bg4', category: 'burger', nameEn: 'Cheese Burger', nameAm: 'ቺዝ በርገር', price: '650', image: 'cheese burger .jpg', prep: '15 min', available: true },
+            { id: 'bg5', category: 'burger', nameEn: 'Chicken Burger', nameAm: 'ቺከን በርገር', price: '750', image: 'chicken burger .jpg', prep: '15 min', available: true },
+
+            // OTHER
+            { id: 'ot1', category: 'other', nameEn: 'Oat Juice', nameAm: 'የአሜካራ/ኦት ጁስ', price: '250', image: 'oat juice .jpg', prep: '5 min', available: true },
+            { id: 'ot2', category: 'other', nameEn: 'Detox', nameAm: 'ዲቶክስ', price: '110', image: 'detox.jpg', prep: '5 min', available: true },
+            { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: 'mint.jpg', prep: '5 min', available: true }
         ];
 
         let menuItems = JSON.parse(localStorage.getItem('ero_menu_items')) || initialMenuItems;
@@ -310,28 +308,10 @@
         let currentLang = localStorage.getItem('ero_lang') || 'en';
         let favorites = JSON.parse(localStorage.getItem('ero_favorites')) || [];
         let showFavsOnly = false;
-
-        function saveState() {
-            localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
-        }
-
-        function resetToInitialData() {
-            if(confirm("ምስሎቹ እንዲተካኩ Local Storage ሪሴት ይደረግ? (Reset cached data?)")) {
-                localStorage.removeItem('ero_menu_items');
-                menuItems = [...initialMenuItems];
-                saveState();
-                renderAdminTable();
-                renderMenuItems();
-                renderHomeSpecials();
-                alert("ምስሎችና ዳታዎች በስኬት ታድሰዋል!");
-            }
-        }
+        let isAdminLoggedIn = false;
 
         function escAttr(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/'/g, '&#39;')
-                .replace(/"/g, '&quot;');
+            return String(str).replace(/&/g, '&amp;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -342,8 +322,18 @@
             renderMenuItems();
             applyLanguage();
             updateStats();
-            populateCategoryDropdown();
         });
+
+        // Listen for Real-Time Admin Updates from other tabs/screens
+        menuSyncChannel.onmessage = (event) => {
+            if (event.data && event.data.type === 'UPDATE_MENU') {
+                menuItems = event.data.items;
+                localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
+                renderMenuItems();
+                renderHomeSpecials();
+                if (isAdminLoggedIn) renderAdminTable();
+            }
+        };
 
         function showPage(pageId) {
             document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
@@ -368,12 +358,6 @@
                     ${cat[currentLang]}
                 </button>
             `).join('');
-        }
-
-        function selectCategory(catId) {
-            activeCategory = catId;
-            renderCategoryChips();
-            renderMenuItems();
         }
 
         function renderHomeCategories() {
@@ -431,7 +415,7 @@
             return `
                 <div class="glass rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group border border-slate-200/50 dark:border-slate-800 min-w-0">
                     <div class="relative overflow-hidden cursor-pointer aspect-[4/3]" onclick="openImageModal('${escAttr(item.image)}', '${escAttr(name)}', '${escAttr(item.price)}')">
-                        <img src="${item.image}" alt="${name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop'">
+                        <img src="${item.image}" alt="${name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         <button onclick="event.stopPropagation(); toggleFavorite('${escAttr(item.id)}')" class="absolute top-3 right-3 w-9 h-9 rounded-full glass flex items-center justify-center text-slate-400 hover:text-red-500 transition shadow-md">
                             <i class="${isFav ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart"></i>
                         </button>
@@ -447,7 +431,7 @@
                         <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200/40 dark:border-slate-800 min-w-0">
                             <div class="min-w-0">
                                 <span class="text-xs text-slate-400 font-medium">Price</span>
-                                <p class="text-brand-sky font-extrabold text-base">${item.price} ETB</p>
+                                <p class="text-brand-sky font-extrabold text-base leading-tight break-words">${item.price} <span class="text-[10px] font-normal text-slate-500">ETB</span></p>
                             </div>
                         </div>
                     </div>
@@ -455,31 +439,36 @@
             `;
         }
 
-        function toggleFavorite(id) {
-            if (favorites.includes(id)) {
-                favorites = favorites.filter(fId => fId !== id);
+        function selectCategory(catId) {
+            activeCategory = catId;
+            renderCategoryChips();
+            renderMenuItems();
+        }
+
+        function filterMenu() { renderMenuItems(); }
+
+        function toggleFavoritesOnly() {
+            showFavsOnly = !showFavsOnly;
+            const btn = document.getElementById('favToggleBtn');
+            if (btn) btn.classList.toggle('bg-red-50', showFavsOnly);
+            renderMenuItems();
+        }
+
+        function toggleFavorite(itemId) {
+            if (favorites.includes(itemId)) {
+                favorites = favorites.filter(id => id !== itemId);
             } else {
-                favorites.push(id);
+                favorites.push(itemId);
             }
             localStorage.setItem('ero_favorites', JSON.stringify(favorites));
             renderMenuItems();
             renderHomeSpecials();
         }
 
-        function toggleFavoritesOnly() {
-            showFavsOnly = !showFavsOnly;
-            const btn = document.getElementById('favToggleBtn');
-            btn.classList.toggle('bg-brand-sky', showFavsOnly);
-            btn.classList.toggle('text-white', showFavsOnly);
-            renderMenuItems();
-        }
-
         function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            showFavsOnly = false;
             activeCategory = 'all';
-            const btn = document.getElementById('favToggleBtn');
-            btn.classList.remove('bg-brand-sky', 'text-white');
+            showFavsOnly = false;
+            document.getElementById('searchInput').value = '';
             renderCategoryChips();
             renderMenuItems();
         }
@@ -487,38 +476,43 @@
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'am' : 'en';
             localStorage.setItem('ero_lang', currentLang);
+            document.getElementById('langLabel').innerText = currentLang === 'en' ? 'AM' : 'EN';
             applyLanguage();
             renderCategoryChips();
             renderHomeCategories();
             renderHomeSpecials();
             renderMenuItems();
+            if (isAdminLoggedIn) renderAdminTable();
         }
 
         function applyLanguage() {
-            document.getElementById('langLabel').innerText = currentLang === 'en' ? 'AM' : 'EN';
             document.querySelectorAll('[data-en]').forEach(el => {
-                el.innerText = currentLang === 'am' ? el.dataset.am : el.dataset.en;
+                if (el.dataset[currentLang]) {
+                    el.innerText = el.dataset[currentLang];
+                }
             });
-        }
-
-        function initTheme() {
-            if (localStorage.getItem('ero_theme') === 'dark' || (!('ero_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                document.getElementById('themeIcon').className = 'fa-solid fa-sun text-amber-400 text-lg';
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.getElementById('themeIcon').className = 'fa-solid fa-moon text-lg';
-            }
         }
 
         function toggleDarkMode() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('ero_theme', isDark ? 'dark' : 'light');
-            document.getElementById('themeIcon').className = isDark ? 'fa-solid fa-sun text-amber-400 text-lg' : 'fa-solid fa-moon text-lg';
+            updateThemeIcon(isDark);
         }
 
-        function openImageModal(img, title, price) {
-            document.getElementById('modalImg').src = img;
+        function initTheme() {
+            const savedTheme = localStorage.getItem('ero_theme');
+            const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) document.documentElement.classList.add('dark');
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (icon) icon.className = isDark ? 'fa-solid fa-sun text-lg text-amber-400' : 'fa-solid fa-moon text-lg';
+        }
+
+        function openImageModal(imgUrl, title, price) {
+            document.getElementById('modalImg').src = imgUrl;
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = price + ' ETB';
             document.getElementById('imageModal').classList.remove('hidden');
@@ -530,74 +524,14 @@
 
         function verifyAdmin() {
             const pass = document.getElementById('adminPassInput').value;
-            if (pass === 'admin' || pass === '1234') {
+            if (pass === 'admin123' || pass === 'ero2026') {
+                isAdminLoggedIn = true;
                 document.getElementById('adminAuthBlock').classList.add('hidden');
                 document.getElementById('adminDashboardContent').classList.remove('hidden');
                 renderAdminTable();
+                populateCategorySelect();
             } else {
-                alert('የተሳሳተ የይለፍ ቃል (Incorrect password)');
-            }
-        }
-
-        function renderAdminTable() {
-            const tbody = document.getElementById('adminTableBody');
-            if (!tbody) return;
-
-            tbody.innerHTML = menuItems.map(item => `
-                <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition">
-                    <td class="p-4 flex items-center gap-3">
-                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop'">
-                        <div>
-                            <p class="font-bold text-xs">${item.nameEn}</p>
-                            <p class="text-[10px] text-slate-400">${item.nameAm}</p>
-                        </div>
-                    </td>
-                    <td class="p-4 text-xs font-semibold capitalize">${item.category}</td>
-                    <td class="p-4">
-                        <input type="text" value="${item.price}" onchange="updateItemPrice('${item.id}', this.value)" class="w-20 p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-brand-sky">
-                    </td>
-                    <td class="p-4">
-                        <button onclick="toggleAvailability('${item.id}')" class="px-2.5 py-1 rounded-full text-[10px] font-bold ${item.available ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600' : 'bg-red-100 dark:bg-red-950 text-red-500'}">
-                            ${item.available ? 'In Stock' : 'Out of Stock'}
-                        </button>
-                    </td>
-                    <td class="p-4 text-right space-x-2">
-                        <button onclick="editItem('${item.id}')" class="text-brand-sky hover:underline text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button onclick="deleteItem('${item.id}')" class="text-red-500 hover:underline text-xs"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-
-            updateStats();
-        }
-
-        function updateItemPrice(id, newPrice) {
-            const item = menuItems.find(i => i.id === id);
-            if (item) {
-                item.price = newPrice;
-                saveState();
-                renderMenuItems();
-                renderHomeSpecials();
-            }
-        }
-
-        function toggleAvailability(id) {
-            const item = menuItems.find(i => i.id === id);
-            if (item) {
-                item.available = !item.available;
-                saveState();
-                renderAdminTable();
-                renderMenuItems();
-            }
-        }
-
-        function deleteItem(id) {
-            if (confirm('Are you sure you want to delete this item?')) {
-                menuItems = menuItems.filter(i => i.id !== id);
-                saveState();
-                renderAdminTable();
-                renderMenuItems();
-                renderHomeSpecials();
+                alert('Incorrect password!');
             }
         }
 
@@ -606,70 +540,108 @@
             document.getElementById('statActiveItems').innerText = menuItems.filter(i => i.available).length;
         }
 
-        function populateCategoryDropdown() {
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = menuItems.map(item => `
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
+                    <td class="p-4 font-semibold flex items-center gap-3">
+                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover flex-shrink-0">
+                        <div class="min-w-0">
+                            <p class="break-words">${item.nameEn}</p>
+                            <p class="text-xs text-slate-400 font-normal break-words">${item.nameAm}</p>
+                        </div>
+                    </td>
+                    <td class="p-4 capitalize text-slate-500">${item.category}</td>
+                    <td class="p-4 font-bold text-brand-sky whitespace-nowrap">${item.price} ETB</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${item.available ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600' : 'bg-red-100 dark:bg-red-900/40 text-red-600'}">
+                            ${item.available ? 'Active' : 'Out of Stock'}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right space-x-2 whitespace-nowrap">
+                        <button onclick="editMenuItem('${escAttr(item.id)}')" class="p-2 text-slate-400 hover:text-brand-sky transition"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deleteMenuItem('${escAttr(item.id)}')" class="p-2 text-slate-400 hover:text-red-500 transition"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+            updateStats();
+        }
+
+        function populateCategorySelect() {
             const select = document.getElementById('formCategory');
             if (!select) return;
-            select.innerHTML = CATEGORIES.filter(c => c.id !== 'all').map(c => `
-                <option value="${c.id}">${c.en} (${c.am})</option>
-            `).join('');
+            select.innerHTML = CATEGORIES.filter(c => c.id !== 'all').map(c => `<option value="${c.id}">${c.en}</option>`).join('');
         }
 
         function openItemModal(itemId = null) {
-            const modal = document.getElementById('itemFormModal');
-            document.getElementById('menuItemForm').reset();
-            document.getElementById('formItemId').value = '';
-            document.getElementById('modalFormTitle').innerText = itemId ? 'Edit Item' : 'Add New Item';
-
+            populateCategorySelect();
             if (itemId) {
                 const item = menuItems.find(i => i.id === itemId);
-                if (item) {
-                    document.getElementById('formItemId').value = item.id;
-                    document.getElementById('formNameEn').value = item.nameEn;
-                    document.getElementById('formNameAm').value = item.nameAm;
-                    document.getElementById('formCategory').value = item.category;
-                    document.getElementById('formPrice').value = item.price;
-                    document.getElementById('formImage').value = item.image;
-                    document.getElementById('formPrep').value = item.prep || '';
-                    document.getElementById('formAvailable').checked = item.available;
-                }
+                document.getElementById('modalFormTitle').innerText = 'Edit Item';
+                document.getElementById('formItemId').value = item.id;
+                document.getElementById('formNameEn').value = item.nameEn;
+                document.getElementById('formNameAm').value = item.nameAm;
+                document.getElementById('formCategory').value = item.category;
+                document.getElementById('formPrice').value = item.price;
+                document.getElementById('formImage').value = item.image;
+                document.getElementById('formPrep').value = item.prep || '';
+                document.getElementById('formAvailable').checked = item.available;
+            } else {
+                document.getElementById('modalFormTitle').innerText = 'Add New Item';
+                document.getElementById('menuItemForm').reset();
+                document.getElementById('formItemId').value = '';
             }
-            modal.classList.remove('hidden');
+            document.getElementById('itemFormModal').classList.remove('hidden');
         }
 
         function closeFormModal() {
             document.getElementById('itemFormModal').classList.add('hidden');
         }
 
-        function editItem(id) {
-            openItemModal(id);
-        }
-
         function saveMenuItem(event) {
             event.preventDefault();
-            const id = document.getElementById('formItemId').value || 'item_' + Date.now();
+            const id = document.getElementById('formItemId').value;
             const newItem = {
-                id: id,
+                id: id || 'item_' + Date.now(),
+                category: document.getElementById('formCategory').value,
                 nameEn: document.getElementById('formNameEn').value,
                 nameAm: document.getElementById('formNameAm').value,
-                category: document.getElementById('formCategory').value,
                 price: document.getElementById('formPrice').value,
                 image: document.getElementById('formImage').value,
                 prep: document.getElementById('formPrep').value || '10-15 min',
                 available: document.getElementById('formAvailable').checked
             };
 
-            const index = menuItems.findIndex(i => i.id === id);
-            if (index > -1) {
+            if (id) {
+                const index = menuItems.findIndex(i => i.id === id);
                 menuItems[index] = newItem;
             } else {
                 menuItems.push(newItem);
             }
 
-            saveState();
-            closeFormModal();
-            renderAdminTable();
+            // Save and Sync in Real-Time
+            localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
+            menuSyncChannel.postMessage({ type: 'UPDATE_MENU', items: menuItems });
+
             renderMenuItems();
             renderHomeSpecials();
+            renderAdminTable();
+            closeFormModal();
+        }
+
+        function editMenuItem(id) { openItemModal(id); }
+
+        function deleteMenuItem(id) {
+            if (confirm('Are you sure you want to delete this menu item?')) {
+                menuItems = menuItems.filter(i => i.id !== id);
+                localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
+                menuSyncChannel.postMessage({ type: 'UPDATE_MENU', items: menuItems });
+
+                renderMenuItems();
+                renderHomeSpecials();
+                renderAdminTable();
+            }
         }
 
         function exportMenuJSON() {
@@ -680,12 +652,6 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-        }
-
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            alert('መልዕክትዎ በስኬት ተልኳል! እናመሰግናለን። (Message sent successfully!)');
-            event.target.reset();
         }
     </script>
 </body>
