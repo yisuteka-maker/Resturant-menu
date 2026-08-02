@@ -96,7 +96,7 @@
             <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
                 <div class="relative w-full sm:w-80">
                     <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="searchInput" oninput="filterMenu()" placeholder="Search menu..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sky">
+                    <input type="text" id="searchInput" oninput="renderMenuItems()" placeholder="Search menu..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sky">
                 </div>
                 <div class="flex items-center gap-2 w-full sm:w-auto">
                     <button id="favToggleBtn" onclick="toggleFavoritesOnly()" class="px-4 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-bold flex items-center gap-2 hover:bg-slate-300 dark:hover:bg-slate-800 transition">
@@ -145,7 +145,7 @@
             <div id="adminAuthBlock" class="max-w-md mx-auto glass p-8 rounded-3xl border border-slate-200/50 dark:border-slate-800 text-center space-y-4">
                 <i class="fa-solid fa-lock text-3xl text-brand-sky"></i>
                 <h2 class="text-xl font-bold">Admin Login</h2>
-                <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
+                <input type="password" id="adminPassInput" placeholder="Password (default: admin)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
                 <button onclick="verifyAdmin()" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl shadow-lg hover:bg-sky-600 transition">Login</button>
             </div>
 
@@ -176,7 +176,7 @@
                                 <tr>
                                     <th class="p-4">Item</th>
                                     <th class="p-4">Category</th>
-                                    <th class="p-4">Price</th>
+                                    <th class="p-4">Price (ETB)</th>
                                     <th class="p-4">Status</th>
                                     <th class="p-4 text-right">Actions</th>
                                 </tr>
@@ -243,7 +243,10 @@
     </div>
 
     <script>
-        const GITHUB_BASE_URL = "https://raw.githubusercontent.com/USERNAME/REPOSITORY/main/";
+        // እባክዎን እነዚህን በራስዎ የ GitHub አካውንት እና Repository ስም ይተኩ
+        const GITHUB_USER = "YOUR_GITHUB_USERNAME";
+        const GITHUB_REPO = "YOUR_REPOSITORY_NAME";
+        const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
 
         const CATEGORIES = [
             { id: 'all', en: 'All Items', am: 'ሁሉም' },
@@ -277,16 +280,13 @@
             { id: 'b9', category: 'breakfast', nameEn: 'Normal Fetira', nameAm: 'ፈቲራ', price: '260', image: GITHUB_BASE_URL + 'normal%20fetira%20.jpg', prep: '15 min', available: true },
             { id: 'b10', category: 'breakfast', nameEn: 'Omelet w/ Cheese', nameAm: 'ኦምሌት ከቺዝ ጋር', price: '430', image: GITHUB_BASE_URL + 'omlet%20with%20cheese%20.jpg', prep: '10 min', available: true },
             { id: 'b11', category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'ኦምሌት', price: '350', image: GITHUB_BASE_URL + 'omlet.jpg', prep: '10 min', available: true },
-
             { id: 'sl1', category: 'salad', nameEn: 'Normal Salad', nameAm: 'ሰላጣ', price: '400', image: GITHUB_BASE_URL + 'normal%20salad%20.jpg', prep: '10 min', available: true },
             { id: 'sl2', category: 'salad', nameEn: 'Special Salad', nameAm: 'ስፔሻል ሰላጣ', price: '590', image: GITHUB_BASE_URL + 'spacial%20salad.jpg', prep: '12 min', available: true },
             { id: 'sl3', category: 'salad', nameEn: 'Normal Fruit Punch', nameAm: 'ፍሩት ፓንች', price: '350', image: GITHUB_BASE_URL + 'normal%20fruit%20punch.jpg', prep: '10 min', available: true },
             { id: 'sl4', category: 'salad', nameEn: 'Special Fruit Punch', nameAm: 'ስፔሻል ፍሩት ፓንች', price: '450', image: GITHUB_BASE_URL + 'special%20fruit%20punch.jpg', prep: '10 min', available: true },
-
             { id: 'w1', category: 'wrap', nameEn: 'Chicken Wrap', nameAm: 'የዶሮ ውራፕ', price: '620', image: GITHUB_BASE_URL + 'beff%20wrap.jpg', prep: '15 min', available: true },
             { id: 'w2', category: 'wrap', nameEn: 'Beef Wrap', nameAm: 'የስጋ ውራፕ', price: '570', image: GITHUB_BASE_URL + 'beff%20wrap.jpg', prep: '15 min', available: true },
             { id: 'w3', category: 'wrap', nameEn: 'Veg Wrap', nameAm: 'የአትክልት ውራፕ', price: '450', image: GITHUB_BASE_URL + 'veg%20wrap%20.jpg', prep: '10 min', available: true },
-
             { id: 'sw2', category: 'sandwich', nameEn: 'Egg Sandwich', nameAm: 'እንቁላል ሳንድዊች', price: '400', image: GITHUB_BASE_URL + 'egg%20sandwich%20.jpg', prep: '10 min', available: true },
             { id: 'sw3', category: 'sandwich', nameEn: 'Veg Sandwich', nameAm: 'የአትክልት ሳንድዊች', price: '350', image: GITHUB_BASE_URL + 'veg%20sandwich%20.jpg', prep: '10 min', available: true },
             { id: 'sw4', category: 'sandwich', nameEn: 'Cheese Sandwich', nameAm: 'ቺዝ ሳንድዊች', price: '460', image: GITHUB_BASE_URL + 'cheese%20sandwich%20.jpg', prep: '10 min', available: true },
@@ -294,13 +294,11 @@
             { id: 'sw6', category: 'sandwich', nameEn: 'Beef Club', nameAm: 'ቢፍ ክለብ ሳንድዊች', price: '550', image: GITHUB_BASE_URL + 'beef%20club%20.jpg', prep: '15 min', available: true },
             { id: 'sw7', category: 'sandwich', nameEn: 'Chicken Club', nameAm: 'ቺከን ክለብ ሳንድዊች', price: '590', image: GITHUB_BASE_URL + 'chicken%20club.jpg', prep: '15 min', available: true },
             { id: 'sw8', category: 'sandwich', nameEn: 'Egg w/ Cheese', nameAm: 'እንቁላል ከቺዝ ጋር', price: '500', image: GITHUB_BASE_URL + 'egg%20with%20cheese.jpg', prep: '10 min', available: true },
-
             { id: 'bg1', category: 'burger', nameEn: 'Special Double Burger', nameAm: 'ስፔሻል ዳብል በርገር', price: '800', image: GITHUB_BASE_URL + 'spacial%20Burger%20.jpg', prep: '20 min', available: true },
             { id: 'bg2', category: 'burger', nameEn: 'Special Single Burger', nameAm: 'ስፔሻል ሲንግል በርገር', price: '680', image: GITHUB_BASE_URL + 'spacial%20single%20Burger%20.jpg', prep: '15 min', available: true },
             { id: 'bg3', category: 'burger', nameEn: 'Beef Burger', nameAm: 'ቢፍ በርገር', price: '630', image: GITHUB_BASE_URL + 'beef%20burger%20.jpg', prep: '15 min', available: true },
             { id: 'bg4', category: 'burger', nameEn: 'Cheese Burger', nameAm: 'ቺዝ በርገር', price: '650', image: GITHUB_BASE_URL + 'cheese%20burger%20.jpg', prep: '15 min', available: true },
             { id: 'bg5', category: 'burger', nameEn: 'Chicken Burger', nameAm: 'ቺከን በርገር', price: '750', image: GITHUB_BASE_URL + 'chicken%20burger%20.jpg', prep: '15 min', available: true },
-
             { id: 'ot1', category: 'other', nameEn: 'Oat Juice', nameAm: 'የአሜካራ/ኦት ጁስ', price: '250', image: GITHUB_BASE_URL + 'oat%20juice%20.jpg', prep: '5 min', available: true },
             { id: 'ot2', category: 'other', nameEn: 'Detox', nameAm: 'ዲቶክስ', price: '110', image: GITHUB_BASE_URL + 'detox.jpg', prep: '5 min', available: true },
             { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: GITHUB_BASE_URL + 'mint.jpg', prep: '5 min', available: true }
@@ -311,7 +309,10 @@
         let currentLang = localStorage.getItem('ero_lang') || 'en';
         let favorites = JSON.parse(localStorage.getItem('ero_favorites')) || [];
         let showFavsOnly = false;
-        let isAdminLoggedIn = false;
+
+        function saveState() {
+            localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
+        }
 
         function escAttr(str) {
             return String(str)
@@ -328,6 +329,7 @@
             renderMenuItems();
             applyLanguage();
             updateStats();
+            populateCategoryDropdown();
         });
 
         function showPage(pageId) {
@@ -353,6 +355,12 @@
                     ${cat[currentLang]}
                 </button>
             `).join('');
+        }
+
+        function selectCategory(catId) {
+            activeCategory = catId;
+            renderCategoryChips();
+            renderMenuItems();
         }
 
         function renderHomeCategories() {
@@ -426,7 +434,7 @@
                         <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-200/40 dark:border-slate-800 min-w-0">
                             <div class="min-w-0">
                                 <span class="text-xs text-slate-400 font-medium">Price</span>
-                                <p class="text-brand-sky font-extrabold text-base leading-tight break-words">${item.price} <span class="text-[10px] font-normal text-slate-500">ETB</span></p>
+                                <p class="text-brand-sky font-extrabold text-base">${item.price} ETB</p>
                             </div>
                         </div>
                     </div>
@@ -434,38 +442,31 @@
             `;
         }
 
-        function selectCategory(catId) {
-            activeCategory = catId;
-            renderCategoryChips();
-            renderMenuItems();
-        }
-
-        function filterMenu() {
-            renderMenuItems();
-        }
-
-        function toggleFavoritesOnly() {
-            showFavsOnly = !showFavsOnly;
-            const btn = document.getElementById('favToggleBtn');
-            if (btn) btn.classList.toggle('bg-red-50', showFavsOnly);
-            renderMenuItems();
-        }
-
-        function toggleFavorite(itemId) {
-            if (favorites.includes(itemId)) {
-                favorites = favorites.filter(id => id !== itemId);
+        function toggleFavorite(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(fId => fId !== id);
             } else {
-                favorites.push(itemId);
+                favorites.push(id);
             }
             localStorage.setItem('ero_favorites', JSON.stringify(favorites));
             renderMenuItems();
             renderHomeSpecials();
         }
 
+        function toggleFavoritesOnly() {
+            showFavsOnly = !showFavsOnly;
+            const btn = document.getElementById('favToggleBtn');
+            btn.classList.toggle('bg-brand-sky', showFavsOnly);
+            btn.classList.toggle('text-white', showFavsOnly);
+            renderMenuItems();
+        }
+
         function resetFilters() {
-            activeCategory = 'all';
-            showFavsOnly = false;
             document.getElementById('searchInput').value = '';
+            showFavsOnly = false;
+            activeCategory = 'all';
+            const btn = document.getElementById('favToggleBtn');
+            btn.classList.remove('bg-brand-sky', 'text-white');
             renderCategoryChips();
             renderMenuItems();
         }
@@ -473,43 +474,38 @@
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'am' : 'en';
             localStorage.setItem('ero_lang', currentLang);
-            document.getElementById('langLabel').innerText = currentLang === 'en' ? 'AM' : 'EN';
             applyLanguage();
             renderCategoryChips();
             renderHomeCategories();
             renderHomeSpecials();
             renderMenuItems();
-            if (isAdminLoggedIn) renderAdminTable();
         }
 
         function applyLanguage() {
+            document.getElementById('langLabel').innerText = currentLang === 'en' ? 'AM' : 'EN';
             document.querySelectorAll('[data-en]').forEach(el => {
-                if (el.dataset[currentLang]) {
-                    el.innerText = el.dataset[currentLang];
-                }
+                el.innerText = currentLang === 'am' ? el.dataset.am : el.dataset.en;
             });
+        }
+
+        function initTheme() {
+            if (localStorage.getItem('ero_theme') === 'dark' || (!('ero_theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-sun text-amber-400 text-lg';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('themeIcon').className = 'fa-solid fa-moon text-lg';
+            }
         }
 
         function toggleDarkMode() {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('ero_theme', isDark ? 'dark' : 'light');
-            updateThemeIcon(isDark);
+            document.getElementById('themeIcon').className = isDark ? 'fa-solid fa-sun text-amber-400 text-lg' : 'fa-solid fa-moon text-lg';
         }
 
-        function initTheme() {
-            const savedTheme = localStorage.getItem('ero_theme');
-            const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            if (isDark) document.documentElement.classList.add('dark');
-            updateThemeIcon(isDark);
-        }
-
-        function updateThemeIcon(isDark) {
-            const icon = document.getElementById('themeIcon');
-            if (icon) icon.className = isDark ? 'fa-solid fa-sun text-lg text-amber-400' : 'fa-solid fa-moon text-lg';
-        }
-
-        function openImageModal(imgUrl, title, price) {
-            document.getElementById('modalImg').src = imgUrl;
+        function openImageModal(img, title, price) {
+            document.getElementById('modalImg').src = img;
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalPrice').innerText = price + ' ETB';
             document.getElementById('imageModal').classList.remove('hidden');
@@ -521,14 +517,74 @@
 
         function verifyAdmin() {
             const pass = document.getElementById('adminPassInput').value;
-            if (pass === 'yisu@1234') {
-                isAdminLoggedIn = true;
+            if (pass === 'admin' || pass === '1234') {
                 document.getElementById('adminAuthBlock').classList.add('hidden');
                 document.getElementById('adminDashboardContent').classList.remove('hidden');
                 renderAdminTable();
-                populateCategorySelect();
             } else {
-                alert('Incorrect password!');
+                alert('የተሳሳተ የይለፍ ቃል (Incorrect password)');
+            }
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            if (!tbody) return;
+
+            tbody.innerHTML = menuItems.map(item => `
+                <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition">
+                    <td class="p-4 flex items-center gap-3">
+                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover">
+                        <div>
+                            <p class="font-bold text-xs">${item.nameEn}</p>
+                            <p class="text-[10px] text-slate-400">${item.nameAm}</p>
+                        </div>
+                    </td>
+                    <td class="p-4 text-xs font-semibold capitalize">${item.category}</td>
+                    <td class="p-4">
+                        <input type="text" value="${item.price}" onchange="updateItemPrice('${item.id}', this.value)" class="w-20 p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-brand-sky">
+                    </td>
+                    <td class="p-4">
+                        <button onclick="toggleAvailability('${item.id}')" class="px-2.5 py-1 rounded-full text-[10px] font-bold ${item.available ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600' : 'bg-red-100 dark:bg-red-950 text-red-500'}">
+                            ${item.available ? 'In Stock' : 'Out of Stock'}
+                        </button>
+                    </td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="editItem('${item.id}')" class="text-brand-sky hover:underline text-xs"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button onclick="deleteItem('${item.id}')" class="text-red-500 hover:underline text-xs"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+
+            updateStats();
+        }
+
+        function updateItemPrice(id, newPrice) {
+            const item = menuItems.find(i => i.id === id);
+            if (item) {
+                item.price = newPrice;
+                saveState();
+                renderMenuItems();
+                renderHomeSpecials();
+            }
+        }
+
+        function toggleAvailability(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (item) {
+                item.available = !item.available;
+                saveState();
+                renderAdminTable();
+                renderMenuItems();
+            }
+        }
+
+        function deleteItem(id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                menuItems = menuItems.filter(i => i.id !== id);
+                saveState();
+                renderAdminTable();
+                renderMenuItems();
+                renderHomeSpecials();
             }
         }
 
@@ -537,105 +593,70 @@
             document.getElementById('statActiveItems').innerText = menuItems.filter(i => i.available).length;
         }
 
-        function renderAdminTable() {
-            const tbody = document.getElementById('adminTableBody');
-            if (!tbody) return;
-            tbody.innerHTML = menuItems.map(item => `
-                <tr class="hover:bg-slate-50 dark:hover:bg-slate-900/50 transition">
-                    <td class="p-4 font-semibold flex items-center gap-3">
-                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover flex-shrink-0">
-                        <div class="min-w-0">
-                            <p class="break-words">${item.nameEn}</p>
-                            <p class="text-xs text-slate-400 font-normal break-words">${item.nameAm}</p>
-                        </div>
-                    </td>
-                    <td class="p-4 capitalize text-slate-500">${item.category}</td>
-                    <td class="p-4 font-bold text-brand-sky whitespace-nowrap">${item.price} ETB</td>
-                    <td class="p-4">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${item.available ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600' : 'bg-red-100 dark:bg-red-900/40 text-red-600'}">
-                            ${item.available ? 'Active' : 'Out of Stock'}
-                        </span>
-                    </td>
-                    <td class="p-4 text-right space-x-2 whitespace-nowrap">
-                        <button onclick="editMenuItem('${escAttr(item.id)}')" class="p-2 text-slate-400 hover:text-brand-sky transition"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteMenuItem('${escAttr(item.id)}')" class="p-2 text-slate-400 hover:text-red-500 transition"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-            updateStats();
-        }
-
-        function populateCategorySelect() {
+        function populateCategoryDropdown() {
             const select = document.getElementById('formCategory');
             if (!select) return;
-            select.innerHTML = CATEGORIES.filter(c => c.id !== 'all').map(c => `<option value="${c.id}">${c.en}</option>`).join('');
+            select.innerHTML = CATEGORIES.filter(c => c.id !== 'all').map(c => `
+                <option value="${c.id}">${c.en} (${c.am})</option>
+            `).join('');
         }
 
         function openItemModal(itemId = null) {
-            populateCategorySelect();
+            const modal = document.getElementById('itemFormModal');
+            document.getElementById('menuItemForm').reset();
+            document.getElementById('formItemId').value = '';
+            document.getElementById('modalFormTitle').innerText = itemId ? 'Edit Item' : 'Add New Item';
+
             if (itemId) {
                 const item = menuItems.find(i => i.id === itemId);
-                document.getElementById('modalFormTitle').innerText = 'Edit Item';
-                document.getElementById('formItemId').value = item.id;
-                document.getElementById('formNameEn').value = item.nameEn;
-                document.getElementById('formNameAm').value = item.nameAm;
-                document.getElementById('formCategory').value = item.category;
-                document.getElementById('formPrice').value = item.price;
-                document.getElementById('formImage').value = item.image;
-                document.getElementById('formPrep').value = item.prep || '';
-                document.getElementById('formAvailable').checked = item.available;
-            } else {
-                document.getElementById('modalFormTitle').innerText = 'Add New Item';
-                document.getElementById('menuItemForm').reset();
-                document.getElementById('formItemId').value = '';
+                if (item) {
+                    document.getElementById('formItemId').value = item.id;
+                    document.getElementById('formNameEn').value = item.nameEn;
+                    document.getElementById('formNameAm').value = item.nameAm;
+                    document.getElementById('formCategory').value = item.category;
+                    document.getElementById('formPrice').value = item.price;
+                    document.getElementById('formImage').value = item.image;
+                    document.getElementById('formPrep').value = item.prep || '';
+                    document.getElementById('formAvailable').checked = item.available;
+                }
             }
-            document.getElementById('itemFormModal').classList.remove('hidden');
+            modal.classList.remove('hidden');
         }
 
         function closeFormModal() {
             document.getElementById('itemFormModal').classList.add('hidden');
         }
 
+        function editItem(id) {
+            openItemModal(id);
+        }
+
         function saveMenuItem(event) {
             event.preventDefault();
-            const id = document.getElementById('formItemId').value;
+            const id = document.getElementById('formItemId').value || 'item_' + Date.now();
             const newItem = {
-                id: id || 'item_' + Date.now(),
-                category: document.getElementById('formCategory').value,
+                id: id,
                 nameEn: document.getElementById('formNameEn').value,
                 nameAm: document.getElementById('formNameAm').value,
+                category: document.getElementById('formCategory').value,
                 price: document.getElementById('formPrice').value,
                 image: document.getElementById('formImage').value,
                 prep: document.getElementById('formPrep').value || '10-15 min',
                 available: document.getElementById('formAvailable').checked
             };
 
-            if (id) {
-                const index = menuItems.findIndex(i => i.id === id);
+            const index = menuItems.findIndex(i => i.id === id);
+            if (index > -1) {
                 menuItems[index] = newItem;
             } else {
                 menuItems.push(newItem);
             }
 
-            localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
+            saveState();
+            closeFormModal();
+            renderAdminTable();
             renderMenuItems();
             renderHomeSpecials();
-            renderAdminTable();
-            closeFormModal();
-        }
-
-        function editMenuItem(id) {
-            openItemModal(id);
-        }
-
-        function deleteMenuItem(id) {
-            if (confirm('Are you sure you want to delete this menu item?')) {
-                menuItems = menuItems.filter(i => i.id !== id);
-                localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
-                renderMenuItems();
-                renderHomeSpecials();
-                renderAdminTable();
-            }
         }
 
         function exportMenuJSON() {
@@ -648,10 +669,10 @@
             downloadAnchor.remove();
         }
 
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            alert(currentLang === 'am' ? 'መልእክትዎ በትክክል ተልኳል! እናመሰግናለን።' : 'Thank you! Your message has been sent.');
-            e.target.reset();
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            alert('መልዕክትዎ በስኬት ተልኳል! እናመሰግናለን። (Message sent successfully!)');
+            event.target.reset();
         }
     </script>
 </body>
