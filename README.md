@@ -163,7 +163,7 @@
             <div id="adminAuthBlock" class="max-w-md mx-auto glass p-8 rounded-3xl border border-slate-200/50 dark:border-slate-800 text-center space-y-4">
                 <i class="fa-solid fa-lock text-3xl text-brand-sky"></i>
                 <h2 class="text-xl font-bold">Admin Login</h2>
-                <input type="password" id="adminPassInput" placeholder="Password (admin123)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
+                <input type="password" id="adminPassInput" placeholder="Password" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
                 <button onclick="verifyAdmin()" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl shadow-lg hover:bg-sky-600 transition">Login</button>
             </div>
 
@@ -289,10 +289,10 @@
 
         let initialMenuItems = [
             // BREAKFAST
-            { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: 'https://images.pexels.com/photos/106877/pexels-photo-106877.jpeg?auto=compress&cs=tinysrgb&w=500&h=400&fit=crop', prep: '10 min', available: true },
+            { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: './avocado .jpg', prep: '10 min', available: true },
             { id: 'b2', category: 'breakfast', nameEn: 'Avocado w/ Egg', nameAm: 'አቮካዶ ከእንቁላል ጋር', price: '370', image: 'https://images.pexels.com/photos/8335331/pexels-photo-8335331.jpeg?auto=compress&cs=tinysrgb&w=500&h=400&fit=crop', prep: '10 min', available: true },
-            { id: 'b3', category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400', image: 'https://images.pexels.com/photos/33985068/pexels-photo-33985068.jpeg?auto=compress&cs=tinysrgb&w=500&h=400&fit=crop', prep: '15 min', available: true },
-            { id: 'b4', category: 'breakfast', nameEn: 'Pancake', nameAm: 'ፓንኬክ', price: '400', image: '', prep: '15 min', available: true },
+            { id: 'b3', category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400', image: './waffle .jpg', prep: '15 min', available: true },
+            { id: 'b4', category: 'breakfast', nameEn: 'Pancake', nameAm: 'ፓንኬክ', price: '400', image: './pan cake .jpg', prep: '15 min', available: true },
             { id: 'b5', category: 'breakfast', nameEn: 'Chechebsa Normal', nameAm: 'ጨጨብሳ', price: '330', image: './normal chchbsa .jpg', prep: '15 min', available: true },
             { id: 'b6', category: 'breakfast', nameEn: 'Chechebsa Special', nameAm: 'ስፔሻል ጨጨብሳ', price: '400', image: './spacial chchbsa .jpg', prep: '15 min', available: true },
             { id: 'b7', category: 'breakfast', nameEn: 'Avocado Toast', nameAm: 'አቮካዶ ቶስት', price: '320', image: './avocado toste.jpg', prep: '10 min', available: true },
@@ -302,8 +302,8 @@
             { id: 'b11', category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'ኦምሌት', price: '350', image: './omlet.jpg', prep: '10 min', available: true },
 
             // SALAD / FRUIT
-            { id: 'sl1', category: 'salad', nameEn: 'Normal Salad', nameAm: 'ሰላጣ', price: '400', image: '', prep: '10 min', available: true },
-            { id: 'sl2', category: 'salad', nameEn: 'Special Salad', nameAm: 'ስፔሻል ሰላጣ', price: '590', image: '', prep: '12 min', available: true },
+            { id: 'sl1', category: 'salad', nameEn: 'Normal Salad', nameAm: 'ሰላጣ', price: '400', image: './normal salad .jpg', prep: '10 min', available: true },
+            { id: 'sl2', category: 'salad', nameEn: 'Special Salad', nameAm: 'ስፔሻል ሰላጣ', price: '590', image: './spacial salad.jpg', prep: '12 min', available: true },
             { id: 'sl3', category: 'salad', nameEn: 'Normal Fruit Punch', nameAm: 'ፍሩት ፓንች', price: '350', image: './normal fruit punch.jpg', prep: '10 min', available: true },
             { id: 'sl4', category: 'salad', nameEn: 'Special Fruit Punch', nameAm: 'ስፔሻል ፍሩት ፓንች', price: '450', image: './special fruit punch.jpg', prep: '10 min', available: true },
             { id: 'sl5', category: 'salad', nameEn: 'Four in One', nameAm: 'ፎር ኢን ዋን', price: '580', image: '', prep: '12 min', available: true },
@@ -322,14 +322,14 @@
             { id: 'sw5', category: 'sandwich', nameEn: 'Special Club', nameAm: 'ስፔሻል ክለብ ሳንድዊች', price: '620', image: './spacial club.jpg', prep: '15 min', available: true },
             { id: 'sw6', category: 'sandwich', nameEn: 'Beef Club', nameAm: 'ቢፍ ክለብ ሳንድዊች', price: '550', image: './beef club .jpg', prep: '15 min', available: true },
             { id: 'sw7', category: 'sandwich', nameEn: 'Chicken Club', nameAm: 'ቺከን ክለብ ሳንድዊች', price: '590', image: './chicken club.jpg', prep: '15 min', available: true },
-            { id: 'sw8', category: 'sandwich', nameEn: 'Egg w/ Cheese', nameAm: 'እንቁላል ከቺዝ ጋር', price: '500', image: '', prep: '10 min', available: true },
+            { id: 'sw8', category: 'sandwich', nameEn: 'Egg w/ Cheese', nameAm: 'እንቁላል ከቺዝ ጋር', price: '500', image: './egg with cheese.jpg', prep: '10 min', available: true },
 
             // BURGER
-            { id: 'bg1', category: 'burger', nameEn: 'Special Double Burger', nameAm: 'ስፔሻል ዳብል በርገር', price: '800', image: '', prep: '20 min', available: true },
-            { id: 'bg2', category: 'burger', nameEn: 'Special Single Burger', nameAm: 'ስፔሻል ሲንግል በርገር', price: '680', image: '', prep: '15 min', available: true },
-            { id: 'bg3', category: 'burger', nameEn: 'Beef Burger', nameAm: 'ቢፍ በርገር', price: '630', image: '', prep: '15 min', available: true },
-            { id: 'bg4', category: 'burger', nameEn: 'Cheese Burger', nameAm: 'ቺዝ በርገር', price: '650', image: '', prep: '15 min', available: true },
-            { id: 'bg5', category: 'burger', nameEn: 'Chicken Burger', nameAm: 'ቺከን በርገር', price: '750', image: '', prep: '15 min', available: true },
+            { id: 'bg1', category: 'burger', nameEn: 'Special Double Burger', nameAm: 'ስፔሻል ዳብል በርገር', price: '800', image: './spacial Burger .jpg', prep: '20 min', available: true },
+            { id: 'bg2', category: 'burger', nameEn: 'Special Single Burger', nameAm: 'ስፔሻል ሲንግል በርገር', price: '680', image: './spacial single Burger .jpg', prep: '15 min', available: true },
+            { id: 'bg3', category: 'burger', nameEn: 'Beef Burger', nameAm: 'ቢፍ በርገር', price: '630', image: './beef burger .jpg', prep: '15 min', available: true },
+            { id: 'bg4', category: 'burger', nameEn: 'Cheese Burger', nameAm: 'ቺዝ በርገር', price: '650', image: './cheese burger .jpg', prep: '15 min', available: true },
+            { id: 'bg5', category: 'burger', nameEn: 'Chicken Burger', nameAm: 'ቺከን በርገር', price: '750', image: './chicken burger .jpg', prep: '15 min', available: true },
 
             // PIZZA
             { id: 'pz1', category: 'pizza', nameEn: 'Tuna w/ Cheese Pizza', nameAm: 'ቱና ከቺዝ ፒዛ', price: '770', image: '', prep: '20 min', available: true },
@@ -443,9 +443,9 @@
             { id: 'fp3', category: 'frappuccino', nameEn: 'Mocha Frappuccino', nameAm: 'ሞካ ፍራፑቺኖ', price: '350', image: '', prep: '8 min', available: true },
 
             // OTHER
-            { id: 'ot1', category: 'other', nameEn: 'Oat Juice', nameAm: 'የአሜካራ/ኦት ጁስ', price: '250', image: '', prep: '5 min', available: true },
-            { id: 'ot2', category: 'other', nameEn: 'Detox', nameAm: 'ዲቶክስ', price: '110', image: '', prep: '5 min', available: true },
-            { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: '', prep: '5 min', available: true }
+            { id: 'ot1', category: 'other', nameEn: 'Oat Juice', nameAm: 'የአሜካራ/ኦት ጁስ', price: '250', image: './oat juice .jpg', prep: '5 min', available: true },
+            { id: 'ot2', category: 'other', nameEn: 'Detox', nameAm: 'ዲቶክስ', price: '110', image: './detox.jpg', prep: '5 min', available: true },
+            { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: './mint.jpg', prep: '5 min', available: true }
         ];
 
         // --- 2. STATE MANAGEMENT ---
@@ -672,7 +672,7 @@
         // --- 10. ADMIN DASHBOARD & MANAGEMENT ---
         function verifyAdmin() {
             const pass = document.getElementById('adminPassInput').value;
-            if (pass === 'admin123' || pass === 'ero2026') {
+            if (pass === 'Yisu@1234') {
                 isAdminLoggedIn = true;
                 document.getElementById('adminAuthBlock').classList.add('hidden');
                 document.getElementById('adminDashboardContent').classList.remove('hidden');
