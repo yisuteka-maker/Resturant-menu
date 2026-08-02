@@ -216,7 +216,7 @@
                 <input type="text" id="formNameAm" placeholder="Name (Amharic)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <select id="formCategory" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs capitalize"></select>
                 <input type="text" id="formPrice" placeholder="Price (ETB)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
-                <input type="text" id="formImage" placeholder="Image Name (e.g. spacial Burger .jpg)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
+                <input type="text" id="formImage" placeholder="Image File (e.g. spacial Burger .jpg)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <input type="text" id="formPrep" placeholder="Prep Time (e.g. 10 min)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer">
                     <input type="checkbox" id="formAvailable" checked class="rounded text-brand-sky focus:ring-brand-sky">
@@ -232,7 +232,6 @@
 
     <!-- JAVASCRIPT CODE -->
     <script>
-        // Real-Time Update Channel
         const menuSyncChannel = new BroadcastChannel('ero_menu_updates');
 
         const CATEGORIES = [
@@ -255,19 +254,19 @@
             { id: 'other', en: 'Other', am: 'ሌሎች' }
         ];
 
-        let initialMenuItems = [
+        // Exact filenames as uploaded on GitHub Repo
+        const initialMenuItems = [
             // BREAKFAST
             { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: 'avocado .jpg', prep: '10 min', available: true },
-            { id: 'b2', category: 'breakfast', nameEn: 'Avocado w/ Egg', nameAm: 'አቮካዶ ከእንቁላል ጋር', price: '370', image: 'avocado toste.jpg', prep: '10 min', available: true },
+            { id: 'b2', category: 'breakfast', nameEn: 'Avocado Toast w/ Egg', nameAm: 'አቮካዶ ቶስት ከእንቁላል ጋር', price: '370', image: 'avocado toste.jpg', prep: '10 min', available: true },
             { id: 'b3', category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400', image: 'waffle .jpg', prep: '15 min', available: true },
             { id: 'b4', category: 'breakfast', nameEn: 'Pancake', nameAm: 'ፓንኬክ', price: '400', image: 'pan cake .jpg', prep: '15 min', available: true },
             { id: 'b5', category: 'breakfast', nameEn: 'Chechebsa Normal', nameAm: 'ጨጨብሳ', price: '330', image: 'normal chchbsa .jpg', prep: '15 min', available: true },
             { id: 'b6', category: 'breakfast', nameEn: 'Chechebsa Special', nameAm: 'ስፔሻል ጨጨብሳ', price: '400', image: 'spacial chchbsa .jpg', prep: '15 min', available: true },
-            { id: 'b7', category: 'breakfast', nameEn: 'Avocado Toast', nameAm: 'አቮካዶ ቶስት', price: '320', image: 'avocado toste.jpg', prep: '10 min', available: true },
-            { id: 'b8', category: 'breakfast', nameEn: 'Special Fetira', nameAm: 'ስፔሻል ፈቲራ', price: '360', image: 'spacial fetira.jpg', prep: '15 min', available: true },
-            { id: 'b9', category: 'breakfast', nameEn: 'Normal Fetira', nameAm: 'ፈቲራ', price: '260', image: 'normal fetira .jpg', prep: '15 min', available: true },
-            { id: 'b10', category: 'breakfast', nameEn: 'Omelet w/ Cheese', nameAm: 'ኦምሌት ከቺዝ ጋር', price: '430', image: 'omlet with cheese .jpg', prep: '10 min', available: true },
-            { id: 'b11', category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'ኦምሌት', price: '350', image: 'omlet.jpg', prep: '10 min', available: true },
+            { id: 'b7', category: 'breakfast', nameEn: 'Special Fetira', nameAm: 'ስፔሻል ፈቲራ', price: '360', image: 'spacial fetira.jpg', prep: '15 min', available: true },
+            { id: 'b8', category: 'breakfast', nameEn: 'Normal Fetira', nameAm: 'ፈቲራ', price: '260', image: 'normal fetira .jpg', prep: '15 min', available: true },
+            { id: 'b9', category: 'breakfast', nameEn: 'Omelet w/ Cheese', nameAm: 'ኦምሌት ከቺዝ ጋር', price: '430', image: 'omlet with cheese .jpg', prep: '10 min', available: true },
+            { id: 'b10', category: 'breakfast', nameEn: 'Normal Omelet', nameAm: 'ኦምሌት', price: '350', image: 'omlet.jpg', prep: '10 min', available: true },
 
             // SALAD / FRUIT
             { id: 'sl1', category: 'salad', nameEn: 'Normal Salad', nameAm: 'ሰላጣ', price: '400', image: 'normal salad .jpg', prep: '10 min', available: true },
@@ -303,6 +302,13 @@
             { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: 'mint.jpg', prep: '5 min', available: true }
         ];
 
+        // VERSION CONTROL: Force clear old browser localStorage photos
+        const DATA_VERSION = 'v3_github_photos_fixed';
+        if (localStorage.getItem('ero_menu_version') !== DATA_VERSION) {
+            localStorage.setItem('ero_menu_items', JSON.stringify(initialMenuItems));
+            localStorage.setItem('ero_menu_version', DATA_VERSION);
+        }
+
         let menuItems = JSON.parse(localStorage.getItem('ero_menu_items')) || initialMenuItems;
         let activeCategory = 'all';
         let currentLang = localStorage.getItem('ero_lang') || 'en';
@@ -324,7 +330,7 @@
             updateStats();
         });
 
-        // Listen for Real-Time Admin Updates from other tabs/screens
+        // Real-Time Syncing between Admin & Users
         menuSyncChannel.onmessage = (event) => {
             if (event.data && event.data.type === 'UPDATE_MENU') {
                 menuItems = event.data.items;
@@ -620,7 +626,6 @@
                 menuItems.push(newItem);
             }
 
-            // Save and Sync in Real-Time
             localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
             menuSyncChannel.postMessage({ type: 'UPDATE_MENU', items: menuItems });
 
