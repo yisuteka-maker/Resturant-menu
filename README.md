@@ -154,6 +154,7 @@
                     <h2 class="text-2xl font-bold">Menu Management</h2>
                     <div class="flex items-center gap-2">
                         <button onclick="openItemModal()" class="px-4 py-2 bg-brand-sky text-white text-xs font-bold rounded-xl hover:bg-sky-600 transition"><i class="fa-solid fa-plus mr-2"></i>Add Item</button>
+                        <button onclick="resetToInitialData()" class="px-4 py-2 bg-amber-500 text-white text-xs font-bold rounded-xl hover:bg-amber-600 transition"><i class="fa-solid fa-rotate mr-2"></i>Reset Images</button>
                         <button onclick="exportMenuJSON()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 text-xs font-bold rounded-xl hover:bg-slate-300 dark:hover:bg-slate-700 transition"><i class="fa-solid fa-download mr-2"></i>Export JSON</button>
                     </div>
                 </div>
@@ -243,9 +244,9 @@
     </div>
 
     <script>
-        // እባክዎን እነዚህን በራስዎ የ GitHub አካውንት እና Repository ስም ይተኩ
-        const GITHUB_USER = "YOUR_GITHUB_USERNAME";
-        const GITHUB_REPO = "YOUR_REPOSITORY_NAME";
+        // GitHub Repository Details
+        const GITHUB_USER = "yisuteka-make";
+        const GITHUB_REPO = "yisuteka-make";
         const GITHUB_BASE_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/`;
 
         const CATEGORIES = [
@@ -268,7 +269,7 @@
             { id: 'other', en: 'Other', am: 'ሌሎች' }
         ];
 
-        let initialMenuItems = [
+        const initialMenuItems = [
             { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: GITHUB_BASE_URL + 'avocado%20.jpg', prep: '10 min', available: true },
             { id: 'b2', category: 'breakfast', nameEn: 'Avocado w/ Egg', nameAm: 'አቮካዶ ከእንቁላል ጋር', price: '370', image: GITHUB_BASE_URL + 'avocado%20toste.jpg', prep: '10 min', available: true },
             { id: 'b3', category: 'breakfast', nameEn: 'Waffle', nameAm: 'ዋፍል', price: '400', image: GITHUB_BASE_URL + 'waffle%20.jpg', prep: '15 min', available: true },
@@ -312,6 +313,18 @@
 
         function saveState() {
             localStorage.setItem('ero_menu_items', JSON.stringify(menuItems));
+        }
+
+        function resetToInitialData() {
+            if(confirm("ምስሎቹ እንዲተካኩ Local Storage ሪሴት ይደረግ? (Reset cached data?)")) {
+                localStorage.removeItem('ero_menu_items');
+                menuItems = [...initialMenuItems];
+                saveState();
+                renderAdminTable();
+                renderMenuItems();
+                renderHomeSpecials();
+                alert("ምስሎችና ዳታዎች በስኬት ታድሰዋል!");
+            }
         }
 
         function escAttr(str) {
@@ -418,7 +431,7 @@
             return `
                 <div class="glass rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group border border-slate-200/50 dark:border-slate-800 min-w-0">
                     <div class="relative overflow-hidden cursor-pointer aspect-[4/3]" onclick="openImageModal('${escAttr(item.image)}', '${escAttr(name)}', '${escAttr(item.price)}')">
-                        <img src="${item.image}" alt="${name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="${item.image}" alt="${name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop'">
                         <button onclick="event.stopPropagation(); toggleFavorite('${escAttr(item.id)}')" class="absolute top-3 right-3 w-9 h-9 rounded-full glass flex items-center justify-center text-slate-400 hover:text-red-500 transition shadow-md">
                             <i class="${isFav ? 'fa-solid text-red-500' : 'fa-regular'} fa-heart"></i>
                         </button>
@@ -533,7 +546,7 @@
             tbody.innerHTML = menuItems.map(item => `
                 <tr class="hover:bg-slate-100/50 dark:hover:bg-slate-900/50 transition">
                     <td class="p-4 flex items-center gap-3">
-                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover">
+                        <img src="${item.image}" class="w-10 h-10 rounded-xl object-cover" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&auto=format&fit=crop'">
                         <div>
                             <p class="font-bold text-xs">${item.nameEn}</p>
                             <p class="text-[10px] text-slate-400">${item.nameAm}</p>
