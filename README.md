@@ -128,11 +128,11 @@
 
         <!-- PAGE 3: ADMIN -->
         <section id="page-admin" class="page-view hidden space-y-6">
-            <!-- LOGIN BLOCK -->
+            <!-- LOGIN BLOCK (PASSWORD HIDDEN FROM PLACEHOLDER) -->
             <div id="adminAuthBlock" class="max-w-md mx-auto glass p-8 rounded-3xl border border-slate-200/50 dark:border-slate-800 text-center space-y-4">
                 <i class="fa-solid fa-lock text-3xl text-brand-sky"></i>
                 <h2 class="text-xl font-bold">Admin Login</h2>
-                <input type="password" id="adminPassInput" placeholder="Password (yisu@123)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
+                <input type="password" id="adminPassInput" placeholder="Enter Password" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-sky">
                 <button onclick="verifyAdmin()" class="w-full py-3 bg-brand-sky text-white font-bold rounded-xl shadow-lg hover:bg-sky-600 transition">Login</button>
             </div>
 
@@ -214,7 +214,7 @@
                 <input type="text" id="formNameEn" placeholder="Name (English)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <input type="text" id="formNameAm" placeholder="Name (Amharic)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <select id="formCategory" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs capitalize"></select>
-                <input type="text" id="formPrice" placeholder="Price (ETB)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
+                <input type="text" id="formPrice" placeholder="Price (e.g. 350 or S: 310 | L: 360)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <input type="text" id="formImage" placeholder="Image File (e.g. spacial Burger .jpg)" required class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <input type="text" id="formPrep" placeholder="Prep Time (e.g. 10 min)" class="w-full p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs">
                 <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer">
@@ -253,7 +253,7 @@
             { id: 'other', en: 'Other', am: 'ሌሎች' }
         ];
 
-        // FULL INITIAL MENU ITEMS ARRAY INCLUDING ALL MISSING ITEMS
+        // FULL INITIAL MENU ITEMS ARRAY WITH STREAMLINED JUICE & SHAKE L/S PRICING
         const initialMenuItems = [
             // BREAKFAST
             { id: 'b1', category: 'breakfast', nameEn: 'Avocado', nameAm: 'አቮካዶ', price: '350', image: 'avocado .jpg', prep: '10 min', available: true },
@@ -320,57 +320,33 @@
             { id: 'ex9', category: 'extra', nameEn: 'Extra Tuna', nameAm: 'ተጨማሪ ቱና', price: '270', image: 'veg sandwich .jpg', prep: '2 min', available: true },
             { id: 'ex10', category: 'extra', nameEn: 'Coffee Cup', nameAm: 'የቡና ብርጭቆ', price: '20', image: 'mint.jpg', prep: '1 min', available: true },
 
-            // JUICE
-            { id: 'j1', category: 'juice', nameEn: 'Avocado Mix Medium', nameAm: 'አቮካዶ ሚክስ መካከለኛ', price: '310', image: 'avocado .jpg', prep: '5 min', available: true },
-            { id: 'j2', category: 'juice', nameEn: 'Avocado Mix Large', nameAm: 'አቮካዶ ሚክስ ትልቅ', price: '360', image: 'avocado .jpg', prep: '5 min', available: true },
-            { id: 'j3', category: 'juice', nameEn: 'Avocado Medium', nameAm: 'አቮካዶ ጁስ መካከለኛ', price: '330', image: 'avocado .jpg', prep: '5 min', available: true },
-            { id: 'j4', category: 'juice', nameEn: 'Avocado Large', nameAm: 'አቮካዶ ጁስ ትልቅ', price: '370', image: 'avocado .jpg', prep: '5 min', available: true },
-            { id: 'j5', category: 'juice', nameEn: 'Mango Medium', nameAm: 'ማንጎ ጁስ መካከለኛ', price: '320', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j6', category: 'juice', nameEn: 'Mango Large', nameAm: 'ማንጎ ጁስ ትልቅ', price: '350', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j7', category: 'juice', nameEn: 'Strawberry Medium', nameAm: 'ስትሮውበሪ ጁስ መካከለኛ', price: '300', image: 'special fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j8', category: 'juice', nameEn: 'Strawberry Large', nameAm: 'ስትሮውበሪ ጁስ ትልቅ', price: '350', image: 'special fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j9', category: 'juice', nameEn: 'Papaya Medium', nameAm: 'ፓፓያ ጁስ መካከለኛ', price: '250', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j10', category: 'juice', nameEn: 'Papaya Large', nameAm: 'ፓፓያ ጁስ ትልቅ', price: '270', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j11', category: 'juice', nameEn: 'Pineapple Medium', nameAm: 'ፓይናፕል ጁስ መካከለኛ', price: '270', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j12', category: 'juice', nameEn: 'Pineapple Large', nameAm: 'ፓይናፕል ጁስ ትልቅ', price: '300', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j13', category: 'juice', nameEn: 'Watermelon Medium', nameAm: 'ሀብሀብ ጁስ መካከለኛ', price: '270', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j14', category: 'juice', nameEn: 'Watermelon Large', nameAm: 'ሀብሀብ ጁስ ትልቅ', price: '300', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j15', category: 'juice', nameEn: 'Mix Medium', nameAm: 'ሚክስ ጁስ መካከለኛ', price: '250', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j16', category: 'juice', nameEn: 'Mix Large', nameAm: 'ሚክስ ጁስ ትልቅ', price: '290', image: 'special fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j17', category: 'juice', nameEn: 'Flaxseed Medium', nameAm: 'የተልባ ጁስ መካከለኛ', price: '270', image: 'oat juice .jpg', prep: '5 min', available: true },
-            { id: 'j18', category: 'juice', nameEn: 'Flaxseed Large', nameAm: 'የተልባ ጁስ ትልቅ', price: '300', image: 'oat juice .jpg', prep: '5 min', available: true },
-            { id: 'j19', category: 'juice', nameEn: 'Sugarcane Medium', nameAm: 'የሸንኮራ ጁስ መካከለኛ', price: '220', image: 'detox.jpg', prep: '5 min', available: true },
-            { id: 'j20', category: 'juice', nameEn: 'Sugarcane Large', nameAm: 'የሸንኮራ ጁስ ትልቅ', price: '240', image: 'detox.jpg', prep: '5 min', available: true },
-            { id: 'j21', category: 'juice', nameEn: 'Lemon Medium', nameAm: 'ሎሚ ጁስ መካከለኛ', price: '220', image: 'detox.jpg', prep: '5 min', available: true },
-            { id: 'j22', category: 'juice', nameEn: 'Lemon Large', nameAm: 'ሎሚ ጁስ ትልቅ', price: '240', image: 'detox.jpg', prep: '5 min', available: true },
-            { id: 'j23', category: 'juice', nameEn: 'Carrot Medium', nameAm: 'ካሮት ጁስ መካከለኛ', price: '220', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j24', category: 'juice', nameEn: 'Carrot Large', nameAm: 'ካሮት ጁስ ትልቅ', price: '240', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j25', category: 'juice', nameEn: 'Ginger Medium', nameAm: 'ጅንጅብል ጁስ መካከለኛ', price: '230', image: 'detox.jpg', prep: '5 min', available: true },
-            { id: 'j26', category: 'juice', nameEn: 'Ginger Large', nameAm: 'ጅንጅብል ጁስ ትልቅ', price: '250', image: 'detox.jpg', prep: '5 min', available: true },
-            { id: 'j27', category: 'juice', nameEn: 'Mango Mix Medium', nameAm: 'ማንጎ ሚክስ መካከለኛ', price: '300', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j28', category: 'juice', nameEn: 'Mango Mix Large', nameAm: 'ማንጎ ሚክስ ትልቅ', price: '340', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j29', category: 'juice', nameEn: 'Strawberry Mix Medium', nameAm: 'ስትሮውበሪ ሚክስ መካከለኛ', price: '300', image: 'special fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j30', category: 'juice', nameEn: 'Strawberry Mix Large', nameAm: 'ስትሮውበሪ ሚክስ ትልቅ', price: '340', image: 'special fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j31', category: 'juice', nameEn: 'Orange Mix Medium', nameAm: 'ብርቱካን ሚክስ መካከለኛ', price: '300', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
-            { id: 'j32', category: 'juice', nameEn: 'Orange Mix Large', nameAm: 'ብርቱካን ሚክስ ትልቅ', price: '340', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            // JUICE (CONSOLIDATED INTO S / L PRICING)
+            { id: 'j1', category: 'juice', nameEn: 'Avocado Mix', nameAm: 'አቮካዶ ሚክስ', price: 'S: 310 | L: 360', image: 'avocado .jpg', prep: '5 min', available: true },
+            { id: 'j2', category: 'juice', nameEn: 'Avocado Juice', nameAm: 'አቮካዶ ጁስ', price: 'S: 330 | L: 370', image: 'avocado .jpg', prep: '5 min', available: true },
+            { id: 'j3', category: 'juice', nameEn: 'Mango Juice', nameAm: 'ማንጎ ጁስ', price: 'S: 320 | L: 350', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j4', category: 'juice', nameEn: 'Strawberry Juice', nameAm: 'ስትሮውበሪ ጁስ', price: 'S: 300 | L: 350', image: 'special fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j5', category: 'juice', nameEn: 'Papaya Juice', nameAm: 'ፓፓያ ጁስ', price: 'S: 250 | L: 270', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j6', category: 'juice', nameEn: 'Pineapple Juice', nameAm: 'ፓይናፕል ጁስ', price: 'S: 270 | L: 300', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j7', category: 'juice', nameEn: 'Watermelon Juice', nameAm: 'ሀብሀብ ጁስ', price: 'S: 270 | L: 300', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j8', category: 'juice', nameEn: 'Mix Juice', nameAm: 'ሚክስ ጁስ', price: 'S: 250 | L: 290', image: 'special fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j9', category: 'juice', nameEn: 'Flaxseed Juice', nameAm: 'የተልባ ጁስ', price: 'S: 270 | L: 300', image: 'oat juice .jpg', prep: '5 min', available: true },
+            { id: 'j10', category: 'juice', nameEn: 'Sugarcane Juice', nameAm: 'የሸንኮራ ጁስ', price: 'S: 220 | L: 240', image: 'detox.jpg', prep: '5 min', available: true },
+            { id: 'j11', category: 'juice', nameEn: 'Lemon Juice', nameAm: 'ሎሚ ጁስ', price: 'S: 220 | L: 240', image: 'detox.jpg', prep: '5 min', available: true },
+            { id: 'j12', category: 'juice', nameEn: 'Carrot Juice', nameAm: 'ካሮት ጁስ', price: 'S: 220 | L: 240', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j13', category: 'juice', nameEn: 'Ginger Juice', nameAm: 'ጅንጅብል ጁስ', price: 'S: 230 | L: 250', image: 'detox.jpg', prep: '5 min', available: true },
+            { id: 'j14', category: 'juice', nameEn: 'Mango Mix', nameAm: 'ማንጎ ሚክስ', price: 'S: 300 | L: 340', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j15', category: 'juice', nameEn: 'Strawberry Mix', nameAm: 'ስትሮውበሪ ሚክስ', price: 'S: 300 | L: 340', image: 'special fruit punch.jpg', prep: '5 min', available: true },
+            { id: 'j16', category: 'juice', nameEn: 'Orange Mix', nameAm: 'ብርቱካን ሚክስ', price: 'S: 300 | L: 340', image: 'normal fruit punch.jpg', prep: '5 min', available: true },
 
-            // SHAKE
-            { id: 'sh1', category: 'shake', nameEn: 'Special Shake Medium', nameAm: 'ስፔሻል ሼክ መካከለኛ', price: '300', image: 'special fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh2', category: 'shake', nameEn: 'Special Shake Large', nameAm: 'ስፔሻል ሼክ ትልቅ', price: '350', image: 'special fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh3', category: 'shake', nameEn: 'Mango Shake Medium', nameAm: 'ማንጎ ሼክ መካከለኛ', price: '350', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh4', category: 'shake', nameEn: 'Mango Shake Large', nameAm: 'ማንጎ ሼክ ትልቅ', price: '380', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh5', category: 'shake', nameEn: 'Avocado Shake Medium', nameAm: 'አቮካዶ ሼክ መካከለኛ', price: '350', image: 'avocado .jpg', prep: '8 min', available: true },
-            { id: 'sh6', category: 'shake', nameEn: 'Avocado Shake Large', nameAm: 'አቮካዶ ሼክ ትልቅ', price: '380', image: 'avocado .jpg', prep: '8 min', available: true },
-            { id: 'sh7', category: 'shake', nameEn: 'Papaya Shake Medium', nameAm: 'ፓፓያ ሼክ መካከለኛ', price: '260', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh8', category: 'shake', nameEn: 'Papaya Shake Large', nameAm: 'ፓፓያ ሼክ ትልቅ', price: '280', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh9', category: 'shake', nameEn: 'Watermelon Shake Medium', nameAm: 'ሀብሀብ ሼክ መካከለኛ', price: '260', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh10', category: 'shake', nameEn: 'Watermelon Shake Large', nameAm: 'ሀብሀብ ሼክ ትልቅ', price: '280', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh11', category: 'shake', nameEn: 'Banana Shake Medium', nameAm: 'ሙዝ ሼክ መካከለኛ', price: '260', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh12', category: 'shake', nameEn: 'Banana Shake Large', nameAm: 'ሙዝ ሼክ ትልቅ', price: '280', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh13', category: 'shake', nameEn: 'Sugarcane Shake Medium', nameAm: 'የሸንኮራ ሼክ መካከለኛ', price: '260', image: 'detox.jpg', prep: '8 min', available: true },
-            { id: 'sh14', category: 'shake', nameEn: 'Sugarcane Shake Large', nameAm: 'የሸንኮራ ሼክ ትልቅ', price: '290', image: 'detox.jpg', prep: '8 min', available: true },
-            { id: 'sh15', category: 'shake', nameEn: 'Strawberry Shake Medium', nameAm: 'ስትሮውበሪ ሼክ መካከለኛ', price: '260', image: 'special fruit punch.jpg', prep: '8 min', available: true },
-            { id: 'sh16', category: 'shake', nameEn: 'Strawberry Shake Large', nameAm: 'ስትሮውበሪ ሼክ ትልቅ', price: '380', image: 'special fruit punch.jpg', prep: '8 min', available: true },
+            // SHAKE (CONSOLIDATED INTO S / L PRICING)
+            { id: 'sh1', category: 'shake', nameEn: 'Special Shake', nameAm: 'ስፔሻል ሼክ', price: 'S: 300 | L: 350', image: 'special fruit punch.jpg', prep: '8 min', available: true },
+            { id: 'sh2', category: 'shake', nameEn: 'Mango Shake', nameAm: 'ማንጎ ሼክ', price: 'S: 350 | L: 380', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
+            { id: 'sh3', category: 'shake', nameEn: 'Avocado Shake', nameAm: 'አቮካዶ ሼክ', price: 'S: 350 | L: 380', image: 'avocado .jpg', prep: '8 min', available: true },
+            { id: 'sh4', category: 'shake', nameEn: 'Papaya Shake', nameAm: 'ፓፓያ ሼክ', price: 'S: 260 | L: 280', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
+            { id: 'sh5', category: 'shake', nameEn: 'Watermelon Shake', nameAm: 'ሀብሀብ ሼክ', price: 'S: 260 | L: 280', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
+            { id: 'sh6', category: 'shake', nameEn: 'Banana Shake', nameAm: 'ሙዝ ሼክ', price: 'S: 260 | L: 280', image: 'normal fruit punch.jpg', prep: '8 min', available: true },
+            { id: 'sh7', category: 'shake', nameEn: 'Sugarcane Shake', nameAm: 'የሸንኮራ ሼክ', price: 'S: 260 | L: 290', image: 'detox.jpg', prep: '8 min', available: true },
+            { id: 'sh8', category: 'shake', nameEn: 'Strawberry Shake', nameAm: 'ስትሮውበሪ ሼክ', price: 'S: 260 | L: 380', image: 'special fruit punch.jpg', prep: '8 min', available: true },
 
             // MILK SHAKE
             { id: 'ms1', category: 'milkshake', nameEn: 'Chocolate Shake', nameAm: 'ቾኮሌት ሚልካ ሼክ', price: '420', image: 'oat juice .jpg', prep: '10 min', available: true },
@@ -438,8 +414,8 @@
             { id: 'ot3', category: 'other', nameEn: 'Mint', nameAm: 'ናና (ሚንት)', price: '230', image: 'mint.jpg', prep: '5 min', available: true }
         ];
 
-        // VERSION CONTROL SYSTEM FOR ALL UPDATED ITEMS
-        const DATA_VERSION = 'v4_full_menu_added';
+        // VERSION CONTROL SYSTEM (UPDATED TO V5 TO SYNC ALL USERS)
+        const DATA_VERSION = 'v5_juice_l_s_and_pass_hidden';
         if (localStorage.getItem('ero_menu_version') !== DATA_VERSION) {
             localStorage.setItem('ero_menu_items', JSON.stringify(initialMenuItems));
             localStorage.setItem('ero_menu_version', DATA_VERSION);
@@ -664,7 +640,6 @@
             document.getElementById('imageModal').classList.add('hidden');
         }
 
-        // UPDATED ADMIN PASSWORD VERIFICATION
         function verifyAdmin() {
             const pass = document.getElementById('adminPassInput').value;
             if (pass === 'yisu@123') {
@@ -742,7 +717,6 @@
             document.getElementById('itemFormModal').classList.add('hidden');
         }
 
-        // SAVE / UPDATE PRICE PERMANENTLY IN LOCALSTORAGE
         function saveMenuItem(event) {
             event.preventDefault();
             const id = document.getElementById('formItemId').value;
